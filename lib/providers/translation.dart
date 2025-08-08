@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:awesome_flutter_template/l10n/app_localizations.dart';
-import 'package:awesome_flutter_template/tokens/local_storage.dart';
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:awesome_dolar_price/tokens/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

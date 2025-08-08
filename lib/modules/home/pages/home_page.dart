@@ -1,5 +1,5 @@
-import 'package:awesome_flutter_template/l10n/app_localizations.dart';
-import 'package:awesome_flutter_template/tokens/app/app_routes.dart';
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 

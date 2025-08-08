@@ -1,8 +1,8 @@
-import 'package:awesome_flutter_template/l10n/app_localizations.dart';
-import 'package:awesome_flutter_template/providers/theme_mode.dart';
-import 'package:awesome_flutter_template/providers/translation.dart';
-import 'package:awesome_flutter_template/tokens/app/app_routes.dart';
-import 'package:awesome_flutter_template/tokens/app/app_theme.dart';
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:awesome_dolar_price/providers/theme_mode.dart';
+import 'package:awesome_dolar_price/providers/translation.dart';
+import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
+import 'package:awesome_dolar_price/tokens/app/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -37,7 +37,7 @@ class _MainAppState extends ConsumerState<MainApp> {
           AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
-      title: "Awesome Flutter Template",
+      title: "Awesome Dolar Price",
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

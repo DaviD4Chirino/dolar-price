@@ -1,8 +1,8 @@
-import 'package:awesome_flutter_template/extensions/double_extensions/sized_box_extension.dart';
-import 'package:awesome_flutter_template/l10n/app_localizations.dart';
-import 'package:awesome_flutter_template/modules/settings/pages/atoms/language_switcher_atom.dart';
-import 'package:awesome_flutter_template/modules/settings/pages/atoms/theme_mode_switch_atom.dart';
-import 'package:awesome_flutter_template/tokens/app/app_sizing.dart';
+import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:awesome_dolar_price/modules/settings/pages/atoms/language_switcher_atom.dart';
+import 'package:awesome_dolar_price/modules/settings/pages/atoms/theme_mode_switch_atom.dart';
+import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {

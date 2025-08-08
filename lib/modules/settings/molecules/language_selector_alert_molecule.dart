@@ -1,7 +1,7 @@
-import 'package:awesome_flutter_template/l10n/app_localizations.dart';
-import 'package:awesome_flutter_template/providers/translation.dart';
-import 'package:awesome_flutter_template/tokens/utils/atoms/locale_code_atom.dart';
-import 'package:awesome_flutter_template/tokens/utils/atoms/localized.dart';
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:awesome_dolar_price/providers/translation.dart';
+import 'package:awesome_dolar_price/tokens/utils/atoms/locale_code_atom.dart';
+import 'package:awesome_dolar_price/tokens/utils/atoms/localized.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

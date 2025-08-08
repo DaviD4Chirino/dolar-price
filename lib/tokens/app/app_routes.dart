@@ -1,5 +1,5 @@
-import 'package:awesome_flutter_template/modules/home/pages/home_page.dart';
-import 'package:awesome_flutter_template/modules/settings/pages/settings_page.dart';
+import 'package:awesome_dolar_price/modules/home/pages/home_page.dart';
+import 'package:awesome_dolar_price/modules/settings/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppRoutes {
@@ -8,7 +8,7 @@ abstract class AppRoutes {
   static final String initial = home;
 
   static final Map<String, Widget Function(BuildContext)>
-  routes = {
+      routes = {
     home: (context) => HomePage(),
     settings: (context) => SettingsPage(),
   };

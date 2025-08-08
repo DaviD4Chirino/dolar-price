@@ -1,4 +1,4 @@
-import 'package:awesome_flutter_template/tokens/local_storage.dart';
+import 'package:awesome_dolar_price/tokens/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
