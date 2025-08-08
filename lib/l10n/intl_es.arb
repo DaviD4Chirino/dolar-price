@@ -1,0 +1,13 @@
+{
+  "@@author": "DaviD4C",
+  "@@locale": "es",
+  "languageTitle": "Español",
+  "homeTitle": "Inicio",
+  "settingsTitle": "Configuración",
+  "themeModeTitle": "Cambiar Tema",
+  "changeToDarkMode": "Cambiar a modo oscuro",
+  "changeToLightMode": "Cambiar a modo claro",
+  "languageSwitcherTitle": "Idioma",
+  "languageSwitcherSubtitle": "Cambiar lenguaje",
+  "languageSelectorTitle": "Seleccionar idioma"
+}

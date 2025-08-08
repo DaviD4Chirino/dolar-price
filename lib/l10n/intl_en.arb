@@ -1,0 +1,24 @@
+{
+  "@@author": "DaviD4C",
+  "@@locale": "en",
+  "languageTitle": "English",
+  "@languageTitle": {},
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "The title of the home page."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {},
+  "themeModeTitle": "Theme mode",
+  "changeToDarkMode": "Change to dark mode",
+  "@changeToDarkMode": {},
+  "changeToLightMode": "Change to light mode",
+  "@changeToLightMode": {},
+  "@themeModeTitle": {},
+  "languageSwitcherTitle": "Language",
+  "@languageSwitcherTitle": {},
+  "languageSwitcherSubtitle": "Switch Languages",
+  "@languageSwitcherSubtitle": {},
+  "languageSelectorTitle": "Select language",
+  "@languageSelectorTitle": {}
+}

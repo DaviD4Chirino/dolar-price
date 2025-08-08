@@ -1,0 +1,15 @@
+include: package:flutter_lints/flutter.yaml
+formatter:
+  page_width: 65
+
+analyzer:
+  plugins:
+    - custom_lint
+
+linter:
+  rules:
+    - require_trailing_commas
+
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
