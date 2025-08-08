@@ -11,19 +11,23 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counter = useState(0);
-    final dolarPrice = useState<String>("Loading...");
-    AppLocalizations t = AppLocalizations.of(context);
+    final dolarPrice = useState<String>("0bs");
+    final isLoading = useState(false);
+    final t = AppLocalizations.of(context);
 
-    useEffect(
-      () {
-        getDolarPrice().then((value) {
-          dolarPrice.value = "${value.toStringAsFixed(3)}bs";
-        });
-        return null;
-      },
-      [],
-    );
+    Future fetchDolarPrice() async {
+      if (isLoading.value) return;
+
+      isLoading.value = true;
+      double remoteValue = await getDolarPrice();
+      dolarPrice.value = remoteValue.toStringAsFixed(3);
+      isLoading.value = false;
+    }
+
+    useEffect(() {
+      fetchDolarPrice();
+      return null;
+    }, const []);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,11 +41,14 @@ class HomePage extends HookWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => counter.value++,
-        child: const Icon(Icons.add),
+        onPressed: fetchDolarPrice,
+        child: const Icon(Icons.replay_rounded),
       ),
       body: Center(
-          child: Text("Dolar Price: ${dolarPrice.value}")),
+        child: isLoading.value
+            ? CircularProgressIndicator()
+            : Text("Dolar Price: ${dolarPrice.value}bs"),
+      ),
     );
   }
 }
@@ -49,6 +56,7 @@ class HomePage extends HookWidget {
 Future<double> getDolarPrice() async {
   try {
     final response = await http.get(
+      // I had no idea this api existed, i was planning on scrapping https://www.bcv.org.ve
       Uri.parse("https://open.er-api.com/v6/latest/USD"),
     );
     if (response.statusCode == 200) {
