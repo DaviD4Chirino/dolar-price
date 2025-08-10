@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
@@ -19,15 +20,18 @@ class HomePage extends HookWidget {
       if (isLoading.value) return;
 
       isLoading.value = true;
-      double remoteValue = await getDolarPrice();
+      double remoteValue = await getDolarPrice(context);
       dolarPrice.value = remoteValue.toStringAsFixed(3);
       isLoading.value = false;
     }
 
-    useEffect(() {
-      fetchDolarPrice();
-      return null;
-    }, const []);
+    useEffect(
+      () {
+        fetchDolarPrice();
+        return null;
+      },
+      const [],
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -53,20 +57,24 @@ class HomePage extends HookWidget {
   }
 }
 
-Future<double> getDolarPrice() async {
+Future<double> getDolarPrice(BuildContext context) async {
   try {
     final response = await http.get(
       // I had no idea this api existed, i was planning on scrapping https://www.bcv.org.ve
       Uri.parse("https://open.er-api.com/v6/latest/USD"),
     );
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      return json['rates']['VES'];
-    } else {
-      throw Exception('Failed to load Dolar Price');
-    }
-  } on Exception catch (e) {
-    print(e);
-    rethrow;
+    final json = jsonDecode(response.body);
+    return json['rates']['VES'];
+  } on SocketException catch (e) {
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          e.message.toString(),
+        ),
+        duration: Duration(seconds: 5),
+      ),
+    );
+    return 0;
   }
 }
