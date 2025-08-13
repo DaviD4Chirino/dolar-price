@@ -1,31 +1,43 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:awesome_dolar_price/modules/home/molecule/currency_display_molecule.dart';
+import 'package:awesome_dolar_price/providers/dolar_price.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:http/http.dart' as http;
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookWidget {
+class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final dolarPrice = useState<String>("0");
+  Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
     final t = AppLocalizations.of(context);
-    final ThemeData theme = Theme.of(context);
+
+    final dolarPriceNotifier = ref.read(dolarPriceNotifierProvider.notifier);
+
+    final dolarPriceProvider = ref.watch(dolarPriceNotifierProvider);
+    final dolarPrice = dolarPriceProvider.rates.usd;
+    var entries = dolarPriceProvider.rates.currencies.entries.map(
+      (e) => CurrencyDisplayMolecule(
+        currency: e.key,
+        value: e.value > 0.0
+            ? e.value.toStringAsFixed(3)
+            : e.value.toStringAsFixed(0),
+      ),
+    );
 
     Future fetchDolarPrice() async {
       if (isLoading.value) return;
 
       try {
         isLoading.value = true;
-        double remoteValue = await getDolarPrice(context);
-        dolarPrice.value = remoteValue.toStringAsFixed(3);
+        await dolarPriceNotifier.fetchPrices();
         isLoading.value = false;
       } on SocketException catch (e) {
         // ignore: use_build_context_synchronously
@@ -62,7 +74,7 @@ class HomePage extends HookWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(AppSpacing.sm),
+          padding: EdgeInsets.all(AppSpacing.lg),
           child: Column(
             spacing: AppSpacing.lg,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,7 +84,7 @@ class HomePage extends HookWidget {
             // rowSizes: [0.3.fr, 50.px, 1.fr],
             children: [
               SizedBox(
-                height: AppSizing.sm,
+                height: AppSizing.lg,
               ),
               Image.asset(
                 "assets/icons/logo/logo-dark.png",
@@ -82,36 +94,8 @@ class HomePage extends HookWidget {
               if (isLoading.value)
                 LinearProgressIndicator()
               else
-                Container(
-                  decoration: BoxDecoration(
-                    color: theme
-                        .colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    "${dolarPrice.value}Bs",
-                    style: theme.textTheme.headlineLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              CurrencyDisplayMolecule(
-                currency: "\$ (CAD)",
-                value: "123.00",
-              ),
-              CurrencyDisplayMolecule(
-                currency: "EURO",
-                value: "123.00",
-              ),
-              CurrencyDisplayMolecule(
-                currency: "YEN",
-                value: "123.00",
-              ),
-              CurrencyDisplayMolecule(
-                currency: "PESO",
-                value: "123.00",
-              ),
+                dolarPriceDisplay(context, dolarPrice: dolarPrice),
+              ...entries
             ],
           ),
         ),
@@ -124,50 +108,31 @@ class HomePage extends HookWidget {
       title: Text(t.homeTitle),
       actions: [
         IconButton(
-          onPressed: () =>
-              Navigator.pushNamed(context, AppRoutes.settings),
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.settings),
           icon: const Icon(Icons.settings),
         ),
       ],
     );
   }
-}
 
-Future<double> getDolarPrice(BuildContext context) async {
-  final response = await http.get(
-    // I had no idea this api existed, i was planning on scrapping https://www.bcv.org.ve
-    Uri.parse("https://open.er-api.com/v6/latest/USD"),
-  );
-  if (response.statusCode == 200) {
-    final json = jsonDecode(response.body);
-    return json['rates']['VES'];
-  }
-  throw SocketException("Could not get dolar price");
-}
-
-class CurrencyDisplayMolecule extends StatelessWidget {
-  const CurrencyDisplayMolecule({
-    super.key,
-    required this.currency,
-    required this.value,
-  });
-
-  final String currency;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget dolarPriceDisplay(BuildContext context, {required double dolarPrice}) {
     final ThemeData theme = Theme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          currency,
-          style: theme.textTheme.bodyLarge,
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSpacing.lg),
         ),
-        Text(value, style: theme.textTheme.bodyLarge),
-      ],
+      ),
+      // height: 80,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+        child: Text(
+          "${dolarPrice.toStringAsFixed(3)} Bs",
+          style: theme.textTheme.headlineLarge,
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }
