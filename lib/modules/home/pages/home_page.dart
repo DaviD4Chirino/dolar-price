@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/modules/home/molecule/currency_display_molecule.dart';
+import 'package:awesome_dolar_price/modules/home/atoms/dolar_price_display.dart';
+import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
 import 'package:awesome_dolar_price/providers/dolar_price.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
@@ -20,17 +21,6 @@ class HomePage extends HookConsumerWidget {
     final t = AppLocalizations.of(context);
 
     final dolarPriceNotifier = ref.read(dolarPriceNotifierProvider.notifier);
-
-    final dolarPriceProvider = ref.watch(dolarPriceNotifierProvider);
-    final dolarPrice = dolarPriceProvider.rates.usd;
-    var entries = dolarPriceProvider.rates.currencies.entries.map(
-      (e) => CurrencyDisplayMolecule(
-        currency: e.key,
-        value: e.value > 0.0
-            ? e.value.toStringAsFixed(3)
-            : e.value.toStringAsFixed(0),
-      ),
-    );
 
     Future fetchDolarPrice() async {
       if (isLoading.value) return;
@@ -94,8 +84,8 @@ class HomePage extends HookConsumerWidget {
               if (isLoading.value)
                 LinearProgressIndicator()
               else
-                dolarPriceDisplay(context, dolarPrice: dolarPrice),
-              ...entries
+                DolarPriceDisplay(),
+              CurrencyDisplayList(),
             ],
           ),
         ),
@@ -112,27 +102,6 @@ class HomePage extends HookConsumerWidget {
           icon: const Icon(Icons.settings),
         ),
       ],
-    );
-  }
-
-  Widget dolarPriceDisplay(BuildContext context, {required double dolarPrice}) {
-    final ThemeData theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.all(
-          Radius.circular(AppSpacing.lg),
-        ),
-      ),
-      // height: 80,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-        child: Text(
-          "${dolarPrice.toStringAsFixed(3)} Bs",
-          style: theme.textTheme.headlineLarge,
-          textAlign: TextAlign.center,
-        ),
-      ),
     );
   }
 }

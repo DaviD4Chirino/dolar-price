@@ -17,10 +17,7 @@ class CurrencyDisplayMolecule extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          currency,
-          style: theme.textTheme.bodyLarge,
-        ),
+        Text(currency, style: theme.textTheme.bodyLarge),
         Text(value, style: theme.textTheme.bodyLarge),
       ],
     );
