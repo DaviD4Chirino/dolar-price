@@ -37,10 +37,14 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
         rates["CNY"]!,
         rates["RUB"]!,
       ),
-      lastUpdateTime: DateTime.fromMillisecondsSinceEpoch(
-          responses.last["time_last_update_unix"]),
-      nextUpdateTime: DateTime.fromMillisecondsSinceEpoch(
-          responses.last["time_next_update_unix"]),
+      lastUpdateTime: DateTime.fromMicrosecondsSinceEpoch(
+        responses.last["time_last_update_unix"],
+        // isUtc: true,
+      ),
+      nextUpdateTime: DateTime.fromMicrosecondsSinceEpoch(
+        responses.last["time_next_update_unix"],
+        // isUtc: true,
+      ),
     );
   }
 }

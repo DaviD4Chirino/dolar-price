@@ -11,22 +11,32 @@ class DolarPriceDisplay extends ConsumerWidget {
     final dolarPriceProvider = ref.watch(dolarPriceNotifierProvider);
 
     final ThemeData theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.all(
-          Radius.circular(AppSpacing.lg),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppSpacing.lg),
+            ),
+          ),
+          // height: 80,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+            child: Text(
+              "${dolarPriceProvider.rates.usd.toStringAsFixed(3)} Bs",
+              style: theme.textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
-      ),
-      // height: 80,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-        child: Text(
-          "${dolarPriceProvider.rates.usd.toStringAsFixed(3)} Bs",
-          style: theme.textTheme.headlineLarge,
-          textAlign: TextAlign.center,
-        ),
-      ),
+        /* Text(
+          "Last update at ${dolarPriceProvider.lastUpdateTime.toUtc()}",
+        ) */
+        // TODO: Add a percentage comparing this price and the previous one
+      ],
     );
   }
 }
