@@ -13,26 +13,28 @@ part 'dolar_price.g.dart';
 class DolarPriceNotifier extends _$DolarPriceNotifier {
   @override
   CurrencyExchange build() {
-    return CurrencyExchange(
-      lastUpdateTime: DateTime.utc(2020),
-      nextUpdateTime: DateTime.utc(2030),
-      rates: CurrencyRates(0, 0, 0, 0),
-    );
+    return getSavedDolarPrice() ??
+        CurrencyExchange(
+          lastUpdateTime: DateTime.utc(2020),
+          nextUpdateTime: DateTime.utc(2030),
+          rates: CurrencyRates(0, 0, 0, 0),
+        );
   }
 
-  Future<void> fetchPrices() async {
+  Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
 
-    CurrencyExchange? cachePrice = getSavedDolarPrice();
-
-    if (cachePrice != null) {
-      if (!cachePrice.nextUpdateTime.isAfter(DateTime.now())) {
-        if (kDebugMode) {
-          print("Using cache value");
+    if (!forceUpdate) {
+      CurrencyExchange? cachePrice = getSavedDolarPrice();
+      if (cachePrice != null) {
+        if (!cachePrice.nextUpdateTime.isAfter(DateTime.now())) {
+          if (kDebugMode) {
+            print("Using cache value");
+          }
+          state = cachePrice;
+          return;
         }
-        state = cachePrice;
-        return;
       }
     }
 
