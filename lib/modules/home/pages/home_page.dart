@@ -4,6 +4,7 @@ import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/dolar_price_display.dart';
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
 import 'package:awesome_dolar_price/providers/dolar_price.dart';
+import 'package:awesome_dolar_price/providers/theme_mode.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
@@ -21,6 +22,8 @@ class HomePage extends HookConsumerWidget {
     final t = AppLocalizations.of(context);
 
     final dolarPriceNotifier = ref.read(dolarPriceNotifierProvider.notifier);
+
+    final isLightMode = ref.watch(themeModeNotifierProvider) == ThemeMode.light;
 
     Future fetchDolarPrice() async {
       if (isLoading.value) return;
@@ -77,7 +80,7 @@ class HomePage extends HookConsumerWidget {
                 height: AppSizing.lg,
               ),
               Image.asset(
-                "assets/icons/logo/logo-dark.png",
+                "assets/icons/logo/${isLightMode ? "logo" : "logo-dark"}.png",
                 width: 100,
                 height: 100,
               ),
