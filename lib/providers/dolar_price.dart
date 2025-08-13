@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:awesome_dolar_price/api/currency.dart';
+import 'package:awesome_dolar_price/tokens/local_storage.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_exchange.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dolar_price.g.dart';
@@ -17,6 +21,26 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
   }
 
   Future<void> fetchPrices() async {
+    /// Check if the saved price exist and
+    /// the next update time is after the current date,
+
+    CurrencyExchange? cachePrice = getSavedDolarPrice();
+
+    if (cachePrice != null) {
+      if (!cachePrice.nextUpdateTime.isAfter(DateTime.now())) {
+        if (kDebugMode) {
+          print("Using cache value");
+        }
+        state = cachePrice;
+        return;
+      }
+    }
+
+    /// If not, fetch normally
+
+    if (kDebugMode) {
+      print("fetching new value");
+    }
     var responses = await Future.wait([
       getCurrency("USD"),
       getCurrency("EUR"),
@@ -46,5 +70,20 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
         // isUtc: true,
       ),
     );
+    await saveDolarPrice();
+  }
+
+  Future<void> saveDolarPrice() async {
+    return LocalStorage.setString(
+        "dolar-price", JsonCodec().encode(state.toJson()));
+  }
+
+  CurrencyExchange? getSavedDolarPrice() {
+    String? dolarPrice = LocalStorage.getString("dolar-price");
+    if (dolarPrice == null) return null;
+
+    var json = JsonCodec().decode(dolarPrice);
+
+    return CurrencyExchange.fromJson(json);
   }
 }

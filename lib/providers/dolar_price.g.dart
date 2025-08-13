@@ -39,7 +39,7 @@ final class DolarPriceNotifierProvider
 }
 
 String _$dolarPriceNotifierHash() =>
-    r'906ff0703b5ef7c9c0246c176dc17276c9f8d17b';
+    r'b20867f9b8c55a76b6924369b1d42418fbcdc9b9';
 
 abstract class _$DolarPriceNotifier extends $Notifier<CurrencyExchange> {
   CurrencyExchange build();
