@@ -3,6 +3,7 @@ import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/settings/pages/atoms/language_switcher_atom.dart';
 import 'package:awesome_dolar_price/modules/settings/pages/atoms/theme_mode_switch_atom.dart';
 import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
+import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -17,12 +18,11 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         children: [
           AppSizing.xxl.sizedBoxH,
-          Image.asset(
-            "assets/icons/logo/logo.png",
-            width: AppSizing.xxxl,
-            height: AppSizing.xxxl,
+          AppLogo(
+            extended: true,
+            height: 50,
           ),
-          AppSizing.xxl.sizedBoxH,
+          AppSizing.xl.sizedBoxH,
           Divider(),
           ThemeModeSwitchAtom(),
           LanguageSwitcherAtom(),
