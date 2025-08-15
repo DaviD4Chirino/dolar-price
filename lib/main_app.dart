@@ -4,6 +4,7 @@ import 'package:awesome_dolar_price/providers/translation.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:awesome_dolar_price/tokens/app/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MainApp extends ConsumerStatefulWidget {
@@ -17,8 +18,7 @@ class _MainAppState extends ConsumerState<MainApp> {
   Locale get locale => ref.watch(translationNotifierProvider);
   TranslationNotifier get translationNotifier =>
       ref.read(translationNotifierProvider.notifier);
-  ThemeMode get themeModeProvider =>
-      ref.watch(themeModeNotifierProvider);
+  ThemeMode get themeModeProvider => ref.watch(themeModeNotifierProvider);
 
   @override
   void initState() {
@@ -27,14 +27,15 @@ class _MainAppState extends ConsumerState<MainApp> {
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       if (!mounted) return;
       ref.read(translationNotifierProvider.notifier).init();
+
+      FlutterNativeSplash.remove();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates:
-          AppLocalizations.localizationsDelegates,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
       title: "Awesome Dolar Price",

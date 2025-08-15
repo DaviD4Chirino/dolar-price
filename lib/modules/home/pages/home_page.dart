@@ -10,7 +10,6 @@ import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
 import 'package:awesome_dolar_price/tokens/mixins/consumer_mixin.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -24,23 +23,25 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
 
     final dolarPriceNotifier = ref.read(dolarPriceNotifierProvider.notifier);
 
-    Future fetchDolarPrice() async {
+    Future fetchDolarPrice({bool forceUpdate = true}) async {
       if (isLoading.value) return;
 
       try {
         isLoading.value = true;
-        await dolarPriceNotifier.fetchPrices();
+        await dolarPriceNotifier.fetchPrices(forceUpdate: forceUpdate);
         isLoading.value = false;
-      } on SocketException catch (e) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              e.message.toString(),
+      } on Exception catch (e) {
+        if (e is SocketException) {
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                e.message.toString(),
+              ),
+              duration: Duration(seconds: 5),
             ),
-            duration: Duration(seconds: 5),
-          ),
-        );
+          );
+        }
       }
       isLoading.value = false;
 
@@ -53,6 +54,7 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
     useEffect(
       () {
         Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
+
         return null;
       },
       const [],

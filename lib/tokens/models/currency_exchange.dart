@@ -14,9 +14,9 @@ class CurrencyExchange {
 
   CurrencyExchange.fromJson(Map<String, dynamic> json)
       : lastUpdateTime =
-            DateTime.fromMicrosecondsSinceEpoch(json["time_last_update_unix"]),
+            DateTime.fromMillisecondsSinceEpoch(json["time_last_update_unix"]),
         nextUpdateTime =
-            DateTime.fromMicrosecondsSinceEpoch(json["time_next_update_unix"]),
+            DateTime.fromMillisecondsSinceEpoch(json["time_next_update_unix"]),
         rates = CurrencyRates(
           json["rates"]["USD"],
           json["rates"]["EUR"],
@@ -25,8 +25,8 @@ class CurrencyExchange {
         );
   Map<String, dynamic> toJson() {
     return {
-      "time_last_update_unix": lastUpdateTime.microsecondsSinceEpoch,
-      "time_next_update_unix": nextUpdateTime.microsecondsSinceEpoch,
+      "time_last_update_unix": lastUpdateTime.millisecondsSinceEpoch,
+      "time_next_update_unix": nextUpdateTime.millisecondsSinceEpoch,
       "rates": {
         "USD": rates.usd,
         "EUR": rates.eur,

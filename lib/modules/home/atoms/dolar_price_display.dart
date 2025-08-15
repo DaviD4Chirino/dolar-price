@@ -32,9 +32,9 @@ class DolarPriceDisplay extends ConsumerWidget {
             ),
           ),
         ),
-        /* Text(
-          "Last update at ${dolarPriceProvider.lastUpdateTime.toUtc()}",
-        ) */
+        Text(
+          "Last update at ${dolarPriceProvider.nextUpdateTime.toLocal()}",
+        )
         // TODO: Add a percentage comparing this price and the previous one
       ],
     );

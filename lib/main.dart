@@ -1,10 +1,12 @@
 import 'package:awesome_dolar_price/tokens/local_storage.dart';
 import 'package:awesome_dolar_price/main_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initializations();
   runApp(const ProviderScope(child: MainApp()));
 }
