@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/dolar_price_display.dart';
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
+import 'package:awesome_dolar_price/modules/quick_calculator/molecules/quick_calculator.dart';
 import 'package:awesome_dolar_price/providers/dolar_price.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
@@ -88,6 +89,7 @@ class HomePage extends HookConsumerWidget
                 LinearProgressIndicator()
               else
                 DolarPriceDisplay(),
+              QuickCalculator(),
               CurrencyDisplayList(),
             ],
           ),
