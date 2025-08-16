@@ -7,25 +7,27 @@ class CurrencyExchange {
     required this.rates,
   });
 
-  DateTime lastUpdateTime;
+  String lastUpdateTime;
   String nextUpdateTime;
 
   CurrencyRates rates;
 
   CurrencyExchange.fromJson(Map<String, dynamic> json)
       : lastUpdateTime =
-            DateTime.fromMillisecondsSinceEpoch(json["time_last_update_unix"]),
-        nextUpdateTime = json["time_next_update_unix"],
+            json["time_last_update"] ?? DateTime.timestamp().toString(),
+        nextUpdateTime =
+            json["time_next_update"] ?? DateTime.timestamp().toString(),
         rates = CurrencyRates(
-          json["rates"]["USD"],
-          json["rates"]["EUR"],
-          json["rates"]["CNY"],
-          json["rates"]["RUB"],
+          json["rates"]["USD"] ?? 0,
+          json["rates"]["EUR"] ?? 0,
+          json["rates"]["CNY"] ?? 0,
+          json["rates"]["RUB"] ?? 0,
         );
+
   Map<String, dynamic> toJson() {
     return {
-      "time_last_update_unix": lastUpdateTime.millisecondsSinceEpoch,
-      "time_next_update_unix": nextUpdateTime,
+      "time_last_update": lastUpdateTime,
+      "time_next_update": nextUpdateTime,
       "rates": {
         "USD": rates.usd,
         "EUR": rates.eur,

@@ -19,7 +19,7 @@ class CurrencyDisplayList extends ConsumerWidget {
       ),
     );
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       spacing: AppSpacing.md,
       children: entries.toList(),
     );

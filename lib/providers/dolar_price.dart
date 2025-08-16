@@ -15,7 +15,7 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
   CurrencyExchange build() {
     return getSavedDolarPrice() ??
         CurrencyExchange(
-          lastUpdateTime: DateTime.utc(2020),
+          lastUpdateTime: DateTime.timestamp().toString(),
           nextUpdateTime: DateTime.timestamp().toString(),
           rates: CurrencyRates(0, 0, 0, 0),
         );
@@ -95,12 +95,13 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
         rates["CNY"]!,
         rates["RUB"]!,
       ),
-      lastUpdateTime: DateTime.fromMillisecondsSinceEpoch(
-        responses.last["time_last_update_unix"],
-      ),
+
+      /// The api has its own time, but i decided to
+      /// use custom caching
+      lastUpdateTime: DateTime.timestamp().toString(),
       nextUpdateTime: DateTime.timestamp()
           .add(
-            Duration(minutes: 5),
+            Duration(hours: 1),
           )
           .toString(),
     );

@@ -5,7 +5,6 @@ import 'package:awesome_dolar_price/modules/home/atoms/dolar_price_display.dart'
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
 import 'package:awesome_dolar_price/providers/dolar_price.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
-import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
 import 'package:awesome_dolar_price/tokens/mixins/consumer_mixin.dart';
@@ -62,10 +61,6 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
 
     return Scaffold(
       appBar: appBar(t, context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: fetchDolarPrice,
-        child: const Icon(Icons.replay_rounded),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.lg),
@@ -74,12 +69,22 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             textBaseline: TextBaseline.alphabetic,
-            // columnSizes: [1.fr],
-            // rowSizes: [0.3.fr, 50.px, 1.fr],
             children: [
-              SizedBox(
-                height: AppSizing.lg,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: fetchDolarPrice,
+                    onLongPress: () => fetchDolarPrice(forceUpdate: true),
+                    tooltip: "Refresh the prices, hold to force an update",
+                    icon: const Icon(Icons.refresh_rounded),
+                  ),
+                ],
               ),
+              /* SizedBox(
+                height: AppSizing.md,
+              ), */
               AppLogo.square(
                 size: 100,
               ),
