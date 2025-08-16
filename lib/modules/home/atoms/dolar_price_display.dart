@@ -33,7 +33,7 @@ class DolarPriceDisplay extends ConsumerWidget {
           ),
         ),
         Text(
-          "Last update at ${dolarPriceProvider.nextUpdateTime.toLocal()}",
+          "Next update on: ${dolarPriceProvider.nextUpdateTime}",
         )
         // TODO: Add a percentage comparing this price and the previous one
       ],

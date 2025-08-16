@@ -16,7 +16,7 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
     return getSavedDolarPrice() ??
         CurrencyExchange(
           lastUpdateTime: DateTime.utc(2020),
-          nextUpdateTime: DateTime.utc(2030),
+          nextUpdateTime: DateTime.timestamp().toString(),
           rates: CurrencyRates(0, 0, 0, 0),
         );
   }
@@ -25,23 +25,55 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
 
-    if (!forceUpdate) {
-      CurrencyExchange? cachePrice = getSavedDolarPrice();
-      if (cachePrice != null) {
-        if (!cachePrice.nextUpdateTime.isAfter(DateTime.now())) {
+    switch (forceUpdate) {
+      case true:
+        state = await fetchNewPrices();
+        await saveDolarPrice();
+        break;
+      default:
+        var cache = validateCache();
+        if (cache != null) {
           if (kDebugMode) {
-            print("Using cache value");
+            print("Using cache prices value");
           }
-          state = cachePrice;
-          return;
+          state = cache;
+          await saveDolarPrice();
+        } else {
+          state = await fetchNewPrices();
+          await saveDolarPrice();
         }
-      }
     }
 
     /// If not, fetch normally
 
+    await saveDolarPrice();
+  }
+
+  /// Returns the saved price only if the next update time is after the current time
+  CurrencyExchange? validateCache() {
+    CurrencyExchange? cachePrice = getSavedDolarPrice();
+
+    if (cachePrice == null) return null;
+
+    var nextUpdateTimeParsed = DateTime.parse(cachePrice.nextUpdateTime);
+    var now = DateTime.now();
+    var isAfter = nextUpdateTimeParsed.isAfter(now);
+
+    if (!isAfter) {
+      if (kDebugMode) {
+        print(
+          "Next prices update time is before the current time",
+        );
+      }
+      return null;
+    }
+
+    return cachePrice;
+  }
+
+  Future<CurrencyExchange> fetchNewPrices() async {
     if (kDebugMode) {
-      print("fetching new value");
+      print("fetching new prices");
     }
     var responses = await Future.wait([
       getCurrency("USD"),
@@ -56,7 +88,7 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
       rates[res["base_code"]] = res["rates"]["VES"];
     }
 
-    state = CurrencyExchange(
+    var result = CurrencyExchange(
       rates: CurrencyRates(
         rates["USD"]!,
         rates["EUR"]!,
@@ -66,19 +98,33 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
       lastUpdateTime: DateTime.fromMillisecondsSinceEpoch(
         responses.last["time_last_update_unix"],
       ),
-      nextUpdateTime: DateTime.now().add(Duration(minutes: 1)),
+      nextUpdateTime: DateTime.timestamp()
+          .add(
+            Duration(minutes: 5),
+          )
+          .toString(),
     );
-    await saveDolarPrice();
+
+    return result;
   }
 
   Future<void> saveDolarPrice() async {
     return LocalStorage.setString(
-        "dolar-price", JsonCodec().encode(state.toJson()));
+      "dolar-price",
+      JsonCodec().encode(
+        state.toJson(),
+      ),
+    );
   }
 
   CurrencyExchange? getSavedDolarPrice() {
     String? dolarPrice = LocalStorage.getString("dolar-price");
-    if (dolarPrice == null) return null;
+    if (dolarPrice == null) {
+      if (kDebugMode) {
+        print("Theres no dolar price saved");
+      }
+      return null;
+    }
 
     var json = JsonCodec().decode(dolarPrice);
 
