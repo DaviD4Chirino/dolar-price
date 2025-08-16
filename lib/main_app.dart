@@ -18,7 +18,8 @@ class _MainAppState extends ConsumerState<MainApp> {
   Locale get locale => ref.watch(translationNotifierProvider);
   TranslationNotifier get translationNotifier =>
       ref.read(translationNotifierProvider.notifier);
-  ThemeMode get themeModeProvider => ref.watch(themeModeNotifierProvider);
+  ThemeMode get themeModeProvider =>
+      ref.watch(themeModeNotifierProvider);
 
   @override
   void initState() {
@@ -35,7 +36,8 @@ class _MainAppState extends ConsumerState<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates:
+          AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
       title: "Awesome Dolar Price",
