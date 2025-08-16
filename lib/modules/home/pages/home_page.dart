@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookConsumerWidget with ConsumerMixin {
+class HomePage extends HookConsumerWidget
+    with ConsumerMixin {
   const HomePage({super.key});
 
   @override
@@ -20,14 +21,17 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
     final isLoading = useState(false);
     final t = AppLocalizations.of(context);
 
-    final dolarPriceNotifier = ref.read(dolarPriceNotifierProvider.notifier);
+    final dolarPriceNotifier =
+        ref.read(dolarPriceNotifierProvider.notifier);
 
-    Future fetchDolarPrice({bool forceUpdate = false}) async {
+    Future fetchDolarPrice(
+        {bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
       try {
         isLoading.value = true;
-        await dolarPriceNotifier.fetchPrices(forceUpdate: forceUpdate);
+        await dolarPriceNotifier.fetchPrices(
+            forceUpdate: forceUpdate);
         isLoading.value = false;
       } on Exception catch (e) {
         if (e is SocketException) {
@@ -52,7 +56,8 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
 
     useEffect(
       () {
-        Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
+        Future.delayed(
+            Duration(milliseconds: 200), fetchDolarPrice);
 
         return null;
       },
@@ -67,7 +72,11 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(AppSpacing.lg),
+          padding: EdgeInsets.only(
+            top: AppSpacing.md,
+            right: AppSpacing.lg,
+            left: AppSpacing.lg,
+          ),
           child: Column(
             spacing: AppSpacing.lg,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +110,8 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
           icon: const Icon(Icons.refresh_rounded),
         ),
         IconButton(
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.settings),
+          onPressed: () => Navigator.pushNamed(
+              context, AppRoutes.settings),
           icon: Icon(Icons.settings),
           tooltip: t.settingsTitle,
         ),
