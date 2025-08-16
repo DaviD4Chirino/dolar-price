@@ -60,34 +60,21 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
     );
 
     return Scaffold(
-      appBar: appBar(t, context),
+      appBar: appBar(
+        t,
+        context,
+        onRefresh: fetchDolarPrice,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.lg),
           child: Column(
             spacing: AppSpacing.lg,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            textBaseline: TextBaseline.alphabetic,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    onPressed: fetchDolarPrice,
-                    onLongPress: () => fetchDolarPrice(forceUpdate: true),
-                    tooltip: "Refresh the prices, hold to force an update",
-                    icon: const Icon(Icons.refresh_rounded),
-                  ),
-                ],
-              ),
-              /* SizedBox(
-                height: AppSizing.md,
-              ), */
-              AppLogo.square(
-                size: 100,
-              ),
+              AppLogo.square(size: 100),
               if (isLoading.value)
                 LinearProgressIndicator()
               else
@@ -100,13 +87,23 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
     );
   }
 
-  AppBar appBar(AppLocalizations t, BuildContext context) {
+  AppBar appBar(
+    AppLocalizations t,
+    BuildContext context, {
+    void Function()? onRefresh,
+  }) {
     return AppBar(
       title: Text(t.homeTitle),
       actions: [
         IconButton(
+          onPressed: onRefresh,
+          tooltip: "Refresh the prices",
+          icon: const Icon(Icons.refresh_rounded),
+        ),
+        IconButton(
           onPressed: () => Navigator.pushNamed(context, AppRoutes.settings),
-          icon: const Icon(Icons.settings),
+          icon: Icon(Icons.settings),
+          tooltip: t.settingsTitle,
         ),
       ],
     );
