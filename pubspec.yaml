@@ -28,6 +28,7 @@ dependencies:
   http: ^1.5.0
   html: ^0.15.6
   dart_date: ^1.5.3
+  currency_code_to_currency_symbol: ^0.0.4
 
 dev_dependencies:
   flutter_test:
