@@ -1,8 +1,12 @@
 import 'package:awesome_dolar_price/modules/quick_calculator/tokens/formatters/remove_leading_zeroes.dart';
+import 'package:awesome_dolar_price/tokens/utils/helpers/copy_to_clipboard.dart';
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// A text field that allows only numbers and a dot
+/// Also, it has an icon to copy the value to the clipboard
+/// but only if the controller is not null
 class CurrencyAmountInput extends StatelessWidget {
   const CurrencyAmountInput({
     super.key,
@@ -23,14 +27,19 @@ class CurrencyAmountInput extends StatelessWidget {
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-        LeadingZeroInputFormatter()
+        LeadingZeroInputFormatter(),
       ],
       decoration: InputDecoration(
         label: CurrencyToSymbolWidget(
           currencyCode: currencyCode,
         ),
         suffixIcon: IconButton(
-          onPressed: () {},
+          onPressed: controller != null
+              ? () => copyToClipboard(
+                    controller?.text ?? "",
+                    context: context,
+                  )
+              : null,
           icon: Icon(Icons.copy_rounded),
         ),
       ),
