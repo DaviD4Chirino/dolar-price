@@ -1,6 +1,6 @@
 include: package:flutter_lints/flutter.yaml
 formatter:
-  page_width: 60
+  page_width: 70
 
 analyzer:
   plugins:

@@ -13,10 +13,10 @@ class CurrencyExchange {
   CurrencyRates rates;
 
   CurrencyExchange.fromJson(Map<String, dynamic> json)
-      : lastUpdateTime =
-            json["time_last_update"] ?? DateTime.timestamp().toString(),
-        nextUpdateTime =
-            json["time_next_update"] ?? DateTime.timestamp().toString(),
+      : lastUpdateTime = json["time_last_update"] ??
+            DateTime.timestamp().toString(),
+        nextUpdateTime = json["time_next_update"] ??
+            DateTime.timestamp().toString(),
         rates = CurrencyRates(
           json["rates"]["USD"] ?? 0,
           json["rates"]["EUR"] ?? 0,

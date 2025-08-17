@@ -55,7 +55,8 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
 
     if (cachePrice == null) return null;
 
-    var nextUpdateTimeParsed = DateTime.parse(cachePrice.nextUpdateTime);
+    var nextUpdateTimeParsed =
+        DateTime.parse(cachePrice.nextUpdateTime);
     var now = DateTime.now();
     var isAfter = nextUpdateTimeParsed.isAfter(now);
 
@@ -85,7 +86,7 @@ class DolarPriceNotifier extends _$DolarPriceNotifier {
     Map<String, double> rates = {};
 
     for (var res in responses) {
-      rates[res["base_code"]] = res["rates"]["VES"];
+      rates[res["base_code"]] = res["rates"]["VES"].toDouble();
     }
 
     var result = CurrencyExchange(

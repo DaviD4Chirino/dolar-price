@@ -13,8 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookConsumerWidget
-    with ConsumerMixin {
+class HomePage extends HookConsumerWidget with ConsumerMixin {
   const HomePage({super.key});
 
   @override
@@ -25,8 +24,7 @@ class HomePage extends HookConsumerWidget
     final dolarPriceNotifier =
         ref.read(dolarPriceNotifierProvider.notifier);
 
-    Future fetchDolarPrice(
-        {bool forceUpdate = false}) async {
+    Future fetchDolarPrice({bool forceUpdate = true}) async {
       if (isLoading.value) return;
 
       try {
@@ -57,8 +55,7 @@ class HomePage extends HookConsumerWidget
 
     useEffect(
       () {
-        Future.delayed(
-            Duration(milliseconds: 200), fetchDolarPrice);
+        Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
 
         return null;
       },
@@ -112,8 +109,8 @@ class HomePage extends HookConsumerWidget
           icon: const Icon(Icons.refresh_rounded),
         ),
         IconButton(
-          onPressed: () => Navigator.pushNamed(
-              context, AppRoutes.settings),
+          onPressed: () =>
+              Navigator.pushNamed(context, AppRoutes.settings),
           icon: Icon(Icons.settings),
           tooltip: t.settingsTitle,
         ),

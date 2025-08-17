@@ -10,7 +10,7 @@ class CurrencyDisplayList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dolarPriceProvider = ref.watch(dolarPriceNotifierProvider);
-    var entries = dolarPriceProvider.rates.currencies.entries.map(
+    var entries = dolarPriceProvider.rates.allRates.entries.map(
       (e) => CurrencyDisplayMolecule(
         currency: e.key,
         value: e.value > 0.0

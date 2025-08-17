@@ -13,7 +13,33 @@ class CurrencyRates {
   // double try_;
   double rub;
 
-  Map<String, double> get currencies => {
+  double convertRate(
+    String currency,
+    double amount, {
+    bool reverse = false,
+  }) {
+    if (reverse) {
+      return amount / getRate(currency);
+    }
+    return amount * getRate(currency);
+  }
+
+  double getRate(String currency) {
+    switch (currency) {
+      case "USD":
+        return usd;
+      case "EUR":
+        return eur;
+      case "CNY":
+        return cny;
+      case "RUB":
+        return rub;
+      default:
+        throw Exception("Currency not found");
+    }
+  }
+
+  Map<String, double> get allRates => {
         "USD": usd,
         "EUR": eur,
         "CNY": cny,
