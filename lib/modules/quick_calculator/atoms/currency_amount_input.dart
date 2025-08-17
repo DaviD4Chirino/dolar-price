@@ -1,5 +1,7 @@
+import 'package:awesome_dolar_price/modules/quick_calculator/tokens/formatters/remove_leading_zeroes.dart';
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CurrencyAmountInput extends StatelessWidget {
   const CurrencyAmountInput({
@@ -18,9 +20,18 @@ class CurrencyAmountInput extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+        LeadingZeroInputFormatter()
+      ],
       decoration: InputDecoration(
         label: CurrencyToSymbolWidget(
           currencyCode: currencyCode,
+        ),
+        suffixIcon: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.copy_rounded),
         ),
       ),
     );

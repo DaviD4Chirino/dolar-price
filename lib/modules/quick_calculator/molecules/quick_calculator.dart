@@ -26,10 +26,6 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
   @override
   void initState() {
     super.initState();
-    currencyTextController.text = "1";
-    // Optionally, initialize bsTextController as well
-    final initialBs = dolarPriceProvider.rates.convertRate("USD", 1);
-    bsTextController.text = initialBs.toStringAsFixed(2);
   }
 
   void onCurrencyChanged(String value) {

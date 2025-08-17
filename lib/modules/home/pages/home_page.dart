@@ -24,7 +24,7 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
     final dolarPriceNotifier =
         ref.read(dolarPriceNotifierProvider.notifier);
 
-    Future fetchDolarPrice({bool forceUpdate = true}) async {
+    Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
       try {
@@ -55,7 +55,10 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
 
     useEffect(
       () {
-        Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
+        Future.delayed(
+          Duration(milliseconds: 200),
+          fetchDolarPrice,
+        );
 
         return null;
       },
