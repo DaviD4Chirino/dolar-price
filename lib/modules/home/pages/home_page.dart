@@ -46,6 +46,13 @@ class _HomePageState extends ConsumerState<HomePage> {
           forceUpdate: forceUpdate,
         );
         isLoading.value = false;
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Dolar price updated"),
+            duration: Duration(seconds: 5),
+          ),
+        );
       } on Exception catch (e) {
         if (e is SocketException) {
           // ignore: use_build_context_synchronously

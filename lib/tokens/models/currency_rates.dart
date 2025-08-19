@@ -13,6 +13,13 @@ class CurrencyRates {
   // double try_;
   double rub;
 
+  Map<String, double> get allRates => {
+    "USD": usd,
+    "EUR": eur,
+    "CNY": cny,
+    "RUB": rub,
+  };
+
   double convertRate(
     String currency,
     double amount, {
@@ -39,10 +46,13 @@ class CurrencyRates {
     }
   }
 
-  Map<String, double> get allRates => {
-        "USD": usd,
-        "EUR": eur,
-        "CNY": cny,
-        "RUB": rub,
-      };
+  CurrencyRates.fromJson(Map<String, dynamic> json)
+    : usd = json["USD"] ?? 0,
+      eur = json["EUR"] ?? 0,
+      cny = json["CNY"] ?? 0,
+      rub = json["RUB"] ?? 0;
+
+  Map<String, dynamic> toJson() {
+    return allRates;
+  }
 }

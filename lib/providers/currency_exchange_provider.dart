@@ -49,16 +49,15 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
 
     if (cachePrice == null) return null;
 
-    var nextUpdateTimeParsed =
-        DateTime.parse(cachePrice.nextUpdateTime);
+    var nextUpdateTimeParsed = DateTime.parse(
+      cachePrice.nextUpdateTime,
+    );
     var now = DateTime.now();
     var isAfter = nextUpdateTimeParsed.isAfter(now);
 
     if (!isAfter) {
       if (kDebugMode) {
-        print(
-          "Next prices update time is before the current time",
-        );
+        print("Next prices update time is before the current time");
       }
       return null;
     }
@@ -80,7 +79,8 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     Map<String, double> rates = {};
 
     for (var res in responses) {
-      rates[res["base_code"]] = res["rates"]["VES"].toDouble();
+      rates[res["base_code"]] = res["conversion_rates"]["VES"]
+          .toDouble();
     }
 
     var result = Quotes(
@@ -97,8 +97,9 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
       /// The api has its own time, but i decided to
       /// use custom caching
       lastUpdateTime: DateTime.timestamp().toString(),
-      nextUpdateTime:
-          DateTime.timestamp().add(Duration(hours: 1)).toString(),
+      nextUpdateTime: DateTime.timestamp()
+          .add(Duration(hours: 1))
+          .toString(),
     );
 
     return result;

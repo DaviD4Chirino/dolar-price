@@ -16,27 +16,26 @@ class Quotes {
   Quotes? lastQuote;
 
   Quotes.fromJson(Map<String, dynamic> json)
-      : lastUpdateTime = json["time_last_update"] ??
-            DateTime.timestamp().toString(),
-        nextUpdateTime = json["time_next_update"] ??
-            DateTime.timestamp().toString(),
-        rates = CurrencyRates(
-          json["rates"]["USD"] ?? 0,
-          json["rates"]["EUR"] ?? 0,
-          json["rates"]["CNY"] ?? 0,
-          json["rates"]["RUB"] ?? 0,
-        );
+    : lastUpdateTime =
+          json["time_last_update"] ?? DateTime.timestamp().toString(),
+      nextUpdateTime =
+          json["time_next_update"] ?? DateTime.timestamp().toString(),
+      rates = CurrencyRates(
+        json["rates"]["USD"] ?? 0,
+        json["rates"]["EUR"] ?? 0,
+        json["rates"]["CNY"] ?? 0,
+        json["rates"]["RUB"] ?? 0,
+      ),
+      lastQuote = json["last_quote"] != null
+          ? Quotes.fromJson(json["last_quote"])
+          : null;
 
   Map<String, dynamic> toJson() {
     return {
       "time_last_update": lastUpdateTime,
       "time_next_update": nextUpdateTime,
-      "rates": {
-        "USD": rates.usd,
-        "EUR": rates.eur,
-        "RUB": rates.rub,
-        "CNY": rates.cny,
-      }
+      "rates": rates.allRates,
+      "last_quote": lastQuote?.toJson(),
     };
   }
 }
