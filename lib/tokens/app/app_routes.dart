@@ -7,9 +7,8 @@ abstract class AppRoutes {
   static final String settings = "/settings";
   static final String initial = home;
 
-  static final Map<String, Widget Function(BuildContext)>
-      routes = {
-    home: (context) => HomePage(),
-    settings: (context) => SettingsPage(),
+  static final Map<String, Widget Function(BuildContext)> routes = {
+    home: (context) => const HomePage(),
+    settings: (context) => const SettingsPage(),
   };
 }
