@@ -154,6 +154,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select language'**
   String get languageSelectorTitle;
+
+  /// No description provided for @utilsCopyToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get utilsCopyToClipboard;
+
+  /// No description provided for @refreshPrices.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh prices'**
+  String get refreshPrices;
+
+  /// No description provided for @shareThisPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this page'**
+  String get shareThisPage;
 }
 
 class _AppLocalizationsDelegate

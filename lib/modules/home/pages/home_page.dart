@@ -135,7 +135,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ShareScreenshot(screenshotController: screenshotController),
         IconButton(
           onPressed: onRefresh,
-          tooltip: "Refresh the prices",
+          tooltip: t.refreshPrices,
           icon: const Icon(Icons.refresh_rounded),
         ),
         IconButton(

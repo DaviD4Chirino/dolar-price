@@ -34,4 +34,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get languageSelectorTitle => 'Seleccionar idioma';
+
+  @override
+  String get utilsCopyToClipboard => 'Copiado al portapapeles';
+
+  @override
+  String get refreshPrices => 'Actualizar precios';
+
+  @override
+  String get shareThisPage => 'Compartir esta página';
 }

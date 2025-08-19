@@ -9,5 +9,8 @@
   "changeToLightMode": "Cambiar a modo claro",
   "languageSwitcherTitle": "Idioma",
   "languageSwitcherSubtitle": "Cambiar lenguaje",
-  "languageSelectorTitle": "Seleccionar idioma"
+  "languageSelectorTitle": "Seleccionar idioma",
+  "utilsCopyToClipboard": "Copiado al portapapeles",
+  "refreshPrices": "Actualizar precios",
+  "shareThisPage": "Compartir esta página"
 }

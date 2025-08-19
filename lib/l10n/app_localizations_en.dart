@@ -34,4 +34,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageSelectorTitle => 'Select language';
+
+  @override
+  String get utilsCopyToClipboard => 'Copied to clipboard';
+
+  @override
+  String get refreshPrices => 'Refresh prices';
+
+  @override
+  String get shareThisPage => 'Share this page';
 }

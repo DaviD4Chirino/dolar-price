@@ -20,5 +20,11 @@
   "languageSwitcherSubtitle": "Switch Languages",
   "@languageSwitcherSubtitle": {},
   "languageSelectorTitle": "Select language",
-  "@languageSelectorTitle": {}
+  "@languageSelectorTitle": {},
+  "utilsCopyToClipboard": "Copied to clipboard",
+  "@utilsCopyToClipboard": {},
+  "refreshPrices": "Refresh prices",
+  "@refreshPrices": {},
+  "shareThisPage": "Share this page",
+  "@shareThisPage": {}
 }

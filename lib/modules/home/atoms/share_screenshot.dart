@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
@@ -45,9 +46,10 @@ class ShareScreenshot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return IconButton(
       onPressed: () => onShare(context),
-      tooltip: "Share this page",
+      tooltip: t.shareThisPage,
       icon: const Icon(Icons.share_rounded),
     );
   }
