@@ -13,23 +13,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookConsumerWidget
-    with ConsumerMixin {
+class HomePage extends HookConsumerWidget with ConsumerMixin {
   const HomePage({super.key});
 
   @override
-  Widget build(
-      BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
     final t = AppLocalizations.of(context);
 
     final dolarPriceNotifier = ref.read(
-        currencyExchangeNotifierProvider
-            .notifier);
+      currencyExchangeNotifierProvider.notifier,
+    );
 
-    Future fetchDolarPrice({
-      bool forceUpdate = true,
-    }) async {
+    Future fetchDolarPrice({bool forceUpdate = true}) async {
       if (isLoading.value) return;
 
       try {
@@ -41,12 +37,9 @@ class HomePage extends HookConsumerWidget
       } on Exception catch (e) {
         if (e is SocketException) {
           // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context)
-              .showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                e.message.toString(),
-              ),
+              content: Text(e.message.toString()),
               duration: Duration(seconds: 5),
             ),
           );
@@ -60,24 +53,14 @@ class HomePage extends HookConsumerWidget
       isLoading.value = false; */
     }
 
-    useEffect(
-      () {
-        Future.delayed(
-          Duration(milliseconds: 200),
-          fetchDolarPrice,
-        );
+    useEffect(() {
+      Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
 
-        return null;
-      },
-      const [],
-    );
+      return null;
+    }, const []);
 
     return Scaffold(
-      appBar: appBar(
-        t,
-        context,
-        onRefresh: fetchDolarPrice,
-      ),
+      appBar: appBar(t, context, onRefresh: fetchDolarPrice),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
@@ -87,10 +70,8 @@ class HomePage extends HookConsumerWidget
           ),
           child: Column(
             spacing: AppSpacing.lg,
-            crossAxisAlignment:
-                CrossAxisAlignment.center,
-            mainAxisAlignment:
-                MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               AppLogo.square(size: 100),
@@ -121,8 +102,8 @@ class HomePage extends HookConsumerWidget
           icon: const Icon(Icons.refresh_rounded),
         ),
         IconButton(
-          onPressed: () => Navigator.pushNamed(
-              context, AppRoutes.settings),
+          onPressed: () =>
+              Navigator.pushNamed(context, AppRoutes.settings),
           icon: Icon(Icons.settings),
           tooltip: t.settingsTitle,
         ),
