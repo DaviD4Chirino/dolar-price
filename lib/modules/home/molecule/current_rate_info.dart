@@ -46,10 +46,11 @@ class CurrentRateInfo extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CurrencyComparison(
-              lastRate: quote.lastQuote?.rates.usd ?? quote.rates.usd,
-              currentRate: quote.rates.usd,
-            ),
+            if (quote.lastQuote != null)
+              CurrencyComparison(
+                lastRate: quote.lastQuote!.rates.usd,
+                currentRate: quote.rates.usd,
+              ),
             Text(lastUpdate, textAlign: TextAlign.end),
           ],
         ),

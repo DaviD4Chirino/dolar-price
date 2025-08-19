@@ -69,6 +69,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     if (kDebugMode) {
       print("fetching new prices");
     }
+
     var responses = await Future.wait([
       getCurrency("USD"),
       getCurrency("EUR"),

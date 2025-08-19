@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:awesome_dolar_price/env/env.dart';
 import 'package:http/http.dart' as http;
 
+// If we make more free accounts we can multiply its usage
 Future<Map<String, dynamic>> getCurrency(
   String code, {
   DateTime? date,

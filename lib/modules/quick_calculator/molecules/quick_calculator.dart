@@ -23,11 +23,6 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
 
   bool _isUpdating = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void onCurrencyChanged(String value) {
     if (_isUpdating) return;
     _isUpdating = true;
@@ -67,6 +62,13 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    currencyTextController.text = "1";
+    onCurrencyChanged("1");
+  }
+
+  @override
   void dispose() {
     currencyTextController.dispose();
     bsTextController.dispose();
@@ -94,7 +96,7 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
             controller: bsTextController,
             onChanged: onBsChanged,
           ),
-        )
+        ),
       ],
     );
   }

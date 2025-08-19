@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
@@ -37,6 +38,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       currencyExchangeNotifierProvider.notifier,
     );
 
+    Timer? timer;
+
     Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
@@ -75,7 +78,13 @@ class _HomePageState extends ConsumerState<HomePage> {
     useEffect(() {
       Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
 
-      return null;
+      timer = Timer.periodic(Duration(hours: 1, seconds: 1), (timer) {
+        fetchDolarPrice(forceUpdate: false);
+      });
+
+      return () {
+        timer?.cancel();
+      };
     }, const []);
 
     return Scaffold(
