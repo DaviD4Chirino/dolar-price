@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/modules/home/atoms/dolar_price_display.dart';
+import 'package:awesome_dolar_price/modules/home/atoms/currency_display.dart';
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
 import 'package:awesome_dolar_price/modules/quick_calculator/molecules/quick_calculator.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
@@ -88,7 +88,7 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
               if (isLoading.value)
                 LinearProgressIndicator()
               else
-                DolarPriceDisplay(),
+                CurrencyDisplay(),
               QuickCalculator(),
               CurrencyDisplayList(),
             ],
