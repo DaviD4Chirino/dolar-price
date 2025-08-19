@@ -1,5 +1,8 @@
 /// Only for spacing purposes.
 abstract final class AppSpacing {
+  /// 4.0px
+  static const double xs = 4.0;
+
   /// 8.0px
   static const double sm = 8.0;
 

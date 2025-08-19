@@ -1,3 +1,4 @@
+import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/currency_comparison.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
 import 'package:awesome_dolar_price/providers/translation.dart';
@@ -12,18 +13,15 @@ class CurrencyDisplay extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dolarPriceProvider =
-        ref.watch(currencyExchangeNotifierProvider);
+    final dolarPriceProvider = ref.watch(
+      currencyExchangeNotifierProvider,
+    );
     final locale = ref.watch(translationNotifierProvider);
 
     final ThemeData theme = Theme.of(context);
-    final lastUpdate =
-        DateTime.parse(dolarPriceProvider.lastUpdateTime)
-            .format(
-              "EEEE, dd/MM/yyyy",
-              locale.toLanguageTag(),
-            )
-            .capitalize;
+    final lastUpdate = DateTime.parse(
+      dolarPriceProvider.lastUpdateTime,
+    ).format("EEEE, dd/MM/yyyy", locale.toLanguageTag()).capitalize;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -32,14 +30,13 @@ class CurrencyDisplay extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppSpacing.lg),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(100)),
           ),
           // height: 80,
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.sm,
+            ),
             child: Text(
               "${dolarPriceProvider.rates.usd.toStringAsFixed(3)} Bs",
               style: theme.textTheme.headlineLarge,
@@ -47,19 +44,18 @@ class CurrencyDisplay extends ConsumerWidget {
             ),
           ),
         ),
+        AppSpacing.sm.sizedBoxH,
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CurrencyComparison(
-              lastRate: dolarPriceProvider.lastQuote?.rates.usd ??
+              lastRate:
+                  dolarPriceProvider.lastQuote?.rates.usd ??
                   dolarPriceProvider.rates.usd,
               currentRate: dolarPriceProvider.rates.usd,
             ),
-            Text(
-              lastUpdate,
-              textAlign: TextAlign.end,
-            ),
+            Text(lastUpdate, textAlign: TextAlign.end),
           ],
         ),
         // Add a percentage comparing this price and the previous one

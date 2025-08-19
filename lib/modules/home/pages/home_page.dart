@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/currency_display.dart';
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
@@ -80,6 +81,7 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
               else
                 CurrencyDisplay(),
               QuickCalculator(),
+              AppSpacing.xs.sizedBoxH,
               CurrencyDisplayList(),
             ],
           ),
