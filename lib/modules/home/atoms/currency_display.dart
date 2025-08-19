@@ -1,10 +1,6 @@
-import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
-import 'package:awesome_dolar_price/modules/home/atoms/currency_comparison.dart';
+import 'package:awesome_dolar_price/modules/home/atoms/copy_button.dart';
+import 'package:awesome_dolar_price/modules/home/molecule/current_rate_info.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
-import 'package:awesome_dolar_price/providers/translation.dart';
-import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
-import 'package:dart_date/dart_date.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -16,49 +12,12 @@ class CurrencyDisplay extends ConsumerWidget {
     final dolarPriceProvider = ref.watch(
       currencyExchangeNotifierProvider,
     );
-    final locale = ref.watch(translationNotifierProvider);
 
-    final ThemeData theme = Theme.of(context);
-    final lastUpdate = DateTime.parse(
-      dolarPriceProvider.lastUpdateTime,
-    ).format("EEEE, dd/MM/yyyy", locale.toLanguageTag()).capitalize;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.all(Radius.circular(100)),
-          ),
-          // height: 80,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.sm,
-            ),
-            child: Text(
-              "${dolarPriceProvider.rates.usd.toStringAsFixed(3)} Bs",
-              style: theme.textTheme.headlineLarge,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        AppSpacing.sm.sizedBoxH,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CurrencyComparison(
-              lastRate:
-                  dolarPriceProvider.lastQuote?.rates.usd ??
-                  dolarPriceProvider.rates.usd,
-              currentRate: dolarPriceProvider.rates.usd,
-            ),
-            Text(lastUpdate, textAlign: TextAlign.end),
-          ],
-        ),
-        // Add a percentage comparing this price and the previous one
+        CurrentRateInfo(),
+
+        CopyButton(value: dolarPriceProvider.rates.usd),
       ],
     );
   }

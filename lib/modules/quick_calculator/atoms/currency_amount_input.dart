@@ -24,21 +24,22 @@ class CurrencyAmountInput extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
+      onTapOutside: (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
         LeadingZeroInputFormatter(),
       ],
       decoration: InputDecoration(
-        label: CurrencyToSymbolWidget(
-          currencyCode: currencyCode,
-        ),
+        label: CurrencyToSymbolWidget(currencyCode: currencyCode),
         suffixIcon: IconButton(
           onPressed: controller != null
               ? () => copyToClipboard(
-                    controller?.text ?? "",
-                    context: context,
-                  )
+                  controller?.text ?? "",
+                  context: context,
+                )
               : null,
           icon: Icon(Icons.copy_rounded),
         ),
