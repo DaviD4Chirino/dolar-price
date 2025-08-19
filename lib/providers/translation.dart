@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/tokens/local_storage.dart';
+import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,8 +13,7 @@ class TranslationNotifier extends _$TranslationNotifier {
   Locale build() {
     /// Get the language code from the device
     return AppLocalizations.supportedLocales.firstWhere(
-      (element) =>
-          element.toLanguageTag() == Platform.localeName,
+      (element) => element.toLanguageTag() == Platform.localeName,
       orElse: () => AppLocalizations.supportedLocales.first,
     );
   }

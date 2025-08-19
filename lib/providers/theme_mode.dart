@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/tokens/local_storage.dart';
+import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +11,8 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
   @override
   ThemeMode build() {
     if (LocalStorage.getBool("theme-mode") == null) {
-      return SchedulerBinding.instance.platformDispatcher
-                  .platformBrightness ==
+      return SchedulerBinding
+                  .instance.platformDispatcher.platformBrightness ==
               Brightness.dark
           ? ThemeMode.dark
           : ThemeMode.light;

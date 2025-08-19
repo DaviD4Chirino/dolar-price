@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:awesome_dolar_price/api/currency.dart';
-import 'package:awesome_dolar_price/tokens/local_storage.dart';
-import 'package:awesome_dolar_price/tokens/models/currency_exchange.dart';
+import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
+import 'package:awesome_dolar_price/tokens/models/quotes.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,9 +12,9 @@ part 'currency_exchange_provider.g.dart';
 @riverpod
 class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
   @override
-  CurrencyExchange build() {
+  Quotes build() {
     return getSavedDolarPrice() ??
-        CurrencyExchange(
+        Quotes(
           lastUpdateTime: DateTime.timestamp().toString(),
           nextUpdateTime: DateTime.timestamp().toString(),
           rates: CurrencyRates(0, 0, 0, 0),
@@ -50,8 +50,8 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
   }
 
   /// Returns the saved price only if the next update time is after the current time
-  CurrencyExchange? validateCache() {
-    CurrencyExchange? cachePrice = getSavedDolarPrice();
+  Quotes? validateCache() {
+    Quotes? cachePrice = getSavedDolarPrice();
 
     if (cachePrice == null) return null;
 
@@ -72,7 +72,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     return cachePrice;
   }
 
-  Future<CurrencyExchange> fetchNewPrices() async {
+  Future<Quotes> fetchNewPrices() async {
     if (kDebugMode) {
       print("fetching new prices");
     }
@@ -89,7 +89,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
       rates[res["base_code"]] = res["rates"]["VES"].toDouble();
     }
 
-    var result = CurrencyExchange(
+    var result = Quotes(
       rates: CurrencyRates(
         rates["USD"]!,
         rates["EUR"]!,
@@ -119,7 +119,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     );
   }
 
-  CurrencyExchange? getSavedDolarPrice() {
+  Quotes? getSavedDolarPrice() {
     String? dolarPrice = LocalStorage.getString("dolar-price");
     if (dolarPrice == null) {
       if (kDebugMode) {
@@ -130,6 +130,6 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
 
     var json = JsonCodec().decode(dolarPrice);
 
-    return CurrencyExchange.fromJson(json);
+    return Quotes.fromJson(json);
   }
 }

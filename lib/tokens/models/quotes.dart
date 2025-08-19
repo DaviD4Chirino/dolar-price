@@ -1,7 +1,7 @@
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
 
-class CurrencyExchange {
-  CurrencyExchange({
+class Quotes {
+  Quotes({
     required this.lastUpdateTime,
     required this.nextUpdateTime,
     required this.rates,
@@ -12,7 +12,7 @@ class CurrencyExchange {
 
   CurrencyRates rates;
 
-  CurrencyExchange.fromJson(Map<String, dynamic> json)
+  Quotes.fromJson(Map<String, dynamic> json)
       : lastUpdateTime = json["time_last_update"] ??
             DateTime.timestamp().toString(),
         nextUpdateTime = json["time_next_update"] ??

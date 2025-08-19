@@ -10,7 +10,7 @@ part of 'currency_exchange_provider.dart';
 const currencyExchangeNotifierProvider = CurrencyExchangeNotifierProvider._();
 
 final class CurrencyExchangeNotifierProvider
-    extends $NotifierProvider<CurrencyExchangeNotifier, CurrencyExchange> {
+    extends $NotifierProvider<CurrencyExchangeNotifier, Quotes> {
   const CurrencyExchangeNotifierProvider._()
       : super(
           from: null,
@@ -30,29 +30,26 @@ final class CurrencyExchangeNotifierProvider
   CurrencyExchangeNotifier create() => CurrencyExchangeNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(CurrencyExchange value) {
+  Override overrideWithValue(Quotes value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<CurrencyExchange>(value),
+      providerOverride: $SyncValueProvider<Quotes>(value),
     );
   }
 }
 
 String _$currencyExchangeNotifierHash() =>
-    r'98e41450811aa01df9ada55135825feb2761c3f7';
+    r'fa0ddabb24341002a53f84546dd7269ff9a0d832';
 
-abstract class _$CurrencyExchangeNotifier extends $Notifier<CurrencyExchange> {
-  CurrencyExchange build();
+abstract class _$CurrencyExchangeNotifier extends $Notifier<Quotes> {
+  Quotes build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<CurrencyExchange, CurrencyExchange>;
+    final ref = this.ref as $Ref<Quotes, Quotes>;
     final element = ref.element as $ClassProviderElement<
-        AnyNotifier<CurrencyExchange, CurrencyExchange>,
-        CurrencyExchange,
-        Object?,
-        Object?>;
+        AnyNotifier<Quotes, Quotes>, Quotes, Object?, Object?>;
     element.handleValue(ref, created);
   }
 }
