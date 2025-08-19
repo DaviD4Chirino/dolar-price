@@ -5,12 +5,15 @@ class Quotes {
     required this.lastUpdateTime,
     required this.nextUpdateTime,
     required this.rates,
+    this.lastQuote,
   });
 
   String lastUpdateTime;
   String nextUpdateTime;
 
   CurrencyRates rates;
+
+  Quotes? lastQuote;
 
   Quotes.fromJson(Map<String, dynamic> json)
       : lastUpdateTime = json["time_last_update"] ??

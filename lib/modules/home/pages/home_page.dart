@@ -13,18 +13,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookConsumerWidget with ConsumerMixin {
+class HomePage extends HookConsumerWidget
+    with ConsumerMixin {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(
+      BuildContext context, WidgetRef ref) {
     final isLoading = useState(false);
     final t = AppLocalizations.of(context);
 
-    final dolarPriceNotifier =
-        ref.read(currencyExchangeNotifierProvider.notifier);
+    final dolarPriceNotifier = ref.read(
+        currencyExchangeNotifierProvider
+            .notifier);
 
-    Future fetchDolarPrice({bool forceUpdate = false}) async {
+    Future fetchDolarPrice({
+      bool forceUpdate = true,
+    }) async {
       if (isLoading.value) return;
 
       try {
@@ -36,7 +41,8 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
       } on Exception catch (e) {
         if (e is SocketException) {
           // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.of(context)
+              .showSnackBar(
             SnackBar(
               content: Text(
                 e.message.toString(),
@@ -81,8 +87,10 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
           ),
           child: Column(
             spacing: AppSpacing.lg,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment:
+                CrossAxisAlignment.center,
+            mainAxisAlignment:
+                MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               AppLogo.square(size: 100),
@@ -113,8 +121,8 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
           icon: const Icon(Icons.refresh_rounded),
         ),
         IconButton(
-          onPressed: () =>
-              Navigator.pushNamed(context, AppRoutes.settings),
+          onPressed: () => Navigator.pushNamed(
+              context, AppRoutes.settings),
           icon: Icon(Icons.settings),
           tooltip: t.settingsTitle,
         ),

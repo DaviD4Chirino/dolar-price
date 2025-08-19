@@ -11,7 +11,7 @@ part 'currency_exchange_provider.g.dart';
 class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
   @override
   Quotes build() {
-    return getSavedDolarPrice() ??
+    return getSavedExchangeValue() ??
         Quotes(
           lastUpdateTime: DateTime.timestamp().toString(),
           nextUpdateTime: DateTime.timestamp().toString(),
@@ -45,7 +45,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
 
   /// Returns the saved price only if the next update time is after the current time
   Quotes? validateCache() {
-    Quotes? cachePrice = getSavedDolarPrice();
+    Quotes? cachePrice = getSavedExchangeValue();
 
     if (cachePrice == null) return null;
 
@@ -91,14 +91,14 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
         rates["RUB"]!,
       ),
 
+      /// So we can compare the current value with the previous one
+      lastQuote: getPreviousExchangeValue(),
+
       /// The api has its own time, but i decided to
       /// use custom caching
       lastUpdateTime: DateTime.timestamp().toString(),
-      nextUpdateTime: DateTime.timestamp()
-          .add(
-            Duration(hours: 1),
-          )
-          .toString(),
+      nextUpdateTime:
+          DateTime.timestamp().add(Duration(hours: 1)).toString(),
     );
 
     return result;
@@ -108,11 +108,22 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     return saveQuote(state);
   }
 
-  Quotes? getSavedDolarPrice() {
+  Quotes? getSavedExchangeValue() {
     var quotes = getQuotes();
     if (quotes == null || quotes.isEmpty) {
       return null;
     }
     return quotes.last;
+  }
+
+  Quotes? getPreviousExchangeValue() {
+    var quotes = getQuotes();
+    if (quotes == null || quotes.isEmpty) {
+      return null;
+    }
+    if (quotes.length <= 1) {
+      return null;
+    }
+    return quotes[quotes.length - 2];
   }
 }
