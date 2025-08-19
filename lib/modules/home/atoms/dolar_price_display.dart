@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/providers/dolar_price.dart';
+import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
 import 'package:awesome_dolar_price/providers/translation.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:dart_date/dart_date.dart';
@@ -12,7 +12,7 @@ class DolarPriceDisplay extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dolarPriceProvider =
-        ref.watch(dolarPriceNotifierProvider);
+        ref.watch(currencyExchangeNotifierProvider);
     final locale = ref.watch(translationNotifierProvider);
 
     final ThemeData theme = Theme.of(context);
@@ -37,8 +37,8 @@ class DolarPriceDisplay extends ConsumerWidget {
           ),
           // height: 80,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: AppSpacing.md),
+            padding:
+                const EdgeInsets.symmetric(vertical: AppSpacing.md),
             child: Text(
               "${dolarPriceProvider.rates.usd.toStringAsFixed(3)} Bs",
               style: theme.textTheme.headlineLarge,

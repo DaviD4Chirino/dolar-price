@@ -1,33 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dolar_price.dart';
+part of 'currency_exchange_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(DolarPriceNotifier)
-const dolarPriceNotifierProvider = DolarPriceNotifierProvider._();
+@ProviderFor(CurrencyExchangeNotifier)
+const currencyExchangeNotifierProvider = CurrencyExchangeNotifierProvider._();
 
-final class DolarPriceNotifierProvider
-    extends $NotifierProvider<DolarPriceNotifier, CurrencyExchange> {
-  const DolarPriceNotifierProvider._()
+final class CurrencyExchangeNotifierProvider
+    extends $NotifierProvider<CurrencyExchangeNotifier, CurrencyExchange> {
+  const CurrencyExchangeNotifierProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
-          name: r'dolarPriceNotifierProvider',
+          name: r'currencyExchangeNotifierProvider',
           isAutoDispose: true,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
 
   @override
-  String debugGetCreateSourceHash() => _$dolarPriceNotifierHash();
+  String debugGetCreateSourceHash() => _$currencyExchangeNotifierHash();
 
   @$internal
   @override
-  DolarPriceNotifier create() => DolarPriceNotifier();
+  CurrencyExchangeNotifier create() => CurrencyExchangeNotifier();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(CurrencyExchange value) {
@@ -38,10 +38,10 @@ final class DolarPriceNotifierProvider
   }
 }
 
-String _$dolarPriceNotifierHash() =>
-    r'a2be415278963a88f0d4e3c0abe1dd2ba9dfb032';
+String _$currencyExchangeNotifierHash() =>
+    r'98e41450811aa01df9ada55135825feb2761c3f7';
 
-abstract class _$DolarPriceNotifier extends $Notifier<CurrencyExchange> {
+abstract class _$CurrencyExchangeNotifier extends $Notifier<CurrencyExchange> {
   CurrencyExchange build();
   @$mustCallSuper
   @override

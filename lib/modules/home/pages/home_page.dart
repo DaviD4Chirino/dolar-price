@@ -4,7 +4,7 @@ import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/dolar_price_display.dart';
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
 import 'package:awesome_dolar_price/modules/quick_calculator/molecules/quick_calculator.dart';
-import 'package:awesome_dolar_price/providers/dolar_price.dart';
+import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
@@ -22,7 +22,7 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
     final t = AppLocalizations.of(context);
 
     final dolarPriceNotifier =
-        ref.read(dolarPriceNotifierProvider.notifier);
+        ref.read(currencyExchangeNotifierProvider.notifier);
 
     Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;

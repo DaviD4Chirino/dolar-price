@@ -7,10 +7,10 @@ import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'dolar_price.g.dart';
+part 'currency_exchange_provider.g.dart';
 
 @riverpod
-class DolarPriceNotifier extends _$DolarPriceNotifier {
+class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
   @override
   CurrencyExchange build() {
     return getSavedDolarPrice() ??

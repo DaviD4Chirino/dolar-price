@@ -1,5 +1,5 @@
 import 'package:awesome_dolar_price/modules/home/molecule/currency_display_molecule.dart';
-import 'package:awesome_dolar_price/providers/dolar_price.dart';
+import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +9,8 @@ class CurrencyDisplayList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dolarPriceProvider = ref.watch(dolarPriceNotifierProvider);
+    final dolarPriceProvider =
+        ref.watch(currencyExchangeNotifierProvider);
     var entries = dolarPriceProvider.rates.allRates.entries.map(
       (e) => CurrencyDisplayMolecule(
         currency: e.key,
