@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:awesome_dolar_price/api/currency.dart';
-import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
+import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
 import 'package:awesome_dolar_price/tokens/models/quotes.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +26,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     switch (forceUpdate) {
       case true:
         state = await fetchNewPrices();
-        await saveDolarPrice();
+        await saveExchangeValue();
         break;
       default:
         var cache = validateCache();
@@ -37,16 +35,12 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
             print("Using cache prices value");
           }
           state = cache;
-          await saveDolarPrice();
+          await saveExchangeValue();
         } else {
           state = await fetchNewPrices();
-          await saveDolarPrice();
+          await saveExchangeValue();
         }
     }
-
-    /// If not, fetch normally
-
-    await saveDolarPrice();
   }
 
   /// Returns the saved price only if the next update time is after the current time
@@ -110,26 +104,15 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     return result;
   }
 
-  Future<void> saveDolarPrice() async {
-    return LocalStorage.setString(
-      "dolar-price",
-      JsonCodec().encode(
-        state.toJson(),
-      ),
-    );
+  Future<void> saveExchangeValue() async {
+    return saveQuote(state);
   }
 
   Quotes? getSavedDolarPrice() {
-    String? dolarPrice = LocalStorage.getString("dolar-price");
-    if (dolarPrice == null) {
-      if (kDebugMode) {
-        print("Theres no dolar price saved");
-      }
+    var quotes = getQuotes();
+    if (quotes == null || quotes.isEmpty) {
       return null;
     }
-
-    var json = JsonCodec().decode(dolarPrice);
-
-    return Quotes.fromJson(json);
+    return quotes.last;
   }
 }

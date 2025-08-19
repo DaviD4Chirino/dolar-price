@@ -39,7 +39,7 @@ final class CurrencyExchangeNotifierProvider
 }
 
 String _$currencyExchangeNotifierHash() =>
-    r'fa0ddabb24341002a53f84546dd7269ff9a0d832';
+    r'ec3f0515fef5e121fa4147beed1dfdadf9f7b18f';
 
 abstract class _$CurrencyExchangeNotifier extends $Notifier<Quotes> {
   Quotes build();

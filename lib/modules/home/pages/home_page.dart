@@ -30,7 +30,8 @@ class HomePage extends HookConsumerWidget with ConsumerMixin {
       try {
         isLoading.value = true;
         await dolarPriceNotifier.fetchPrices(
-            forceUpdate: forceUpdate);
+          forceUpdate: forceUpdate,
+        );
         isLoading.value = false;
       } on Exception catch (e) {
         if (e is SocketException) {
