@@ -1,7 +1,7 @@
+import 'package:awesome_dolar_price/modules/home/atoms/currency_comparison.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
 import 'package:awesome_dolar_price/providers/translation.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
-import 'package:awesome_dolar_price/tokens/utils/helpers/percentage_calculator.dart';
 import 'package:dart_date/dart_date.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +24,6 @@ class CurrencyDisplay extends ConsumerWidget {
               locale.toLanguageTag(),
             )
             .capitalize;
-    final growth = percentageChange(
-      dolarPriceProvider.lastQuote?.rates.usd ?? 0,
-      dolarPriceProvider.rates.usd,
-    ).toStringAsFixed(1);
-
-    final amountChanged = (dolarPriceProvider.rates.usd -
-            (dolarPriceProvider.lastQuote?.rates.usd ?? 0))
-        .toStringAsFixed(2);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -46,8 +38,8 @@ class CurrencyDisplay extends ConsumerWidget {
           ),
           // height: 80,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: AppSpacing.md),
+            padding:
+                const EdgeInsets.symmetric(vertical: AppSpacing.md),
             child: Text(
               "${dolarPriceProvider.rates.usd.toStringAsFixed(3)} Bs",
               style: theme.textTheme.headlineLarge,
@@ -59,9 +51,10 @@ class CurrencyDisplay extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "$amountChanged ($growth%)",
-              textAlign: TextAlign.end,
+            CurrencyComparison(
+              lastRate: dolarPriceProvider.lastQuote?.rates.usd ??
+                  dolarPriceProvider.rates.usd,
+              currentRate: dolarPriceProvider.rates.usd,
             ),
             Text(
               lastUpdate,
