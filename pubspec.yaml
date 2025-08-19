@@ -29,7 +29,6 @@ dependencies:
   dart_date: ^1.5.3
   currency_code_to_currency_symbol: ^0.0.4
   currency_text_input_formatter: ^2.3.0
-  fluttertoast: ^8.2.12
 
 dev_dependencies:
   flutter_test:
