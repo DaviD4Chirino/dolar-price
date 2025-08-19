@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// Use same major flex_color_scheme package version. If you use a
 /// lower minor version, some properties may not be supported.
 /// In that case, remove them after copying this theme to your
-/// app or upgrade the package to version 8.2.0.
+/// app or upgrade the package to version 8.3.0.
 ///
 /// Use it in a [MaterialApp] like this:
 ///
@@ -21,10 +21,15 @@ abstract final class AppTheme {
   static ThemeData light = FlexThemeData.light(
     // Using FlexColorScheme built-in FlexScheme enum based colors
     scheme: FlexScheme.indigo,
+    // Input color modifiers.
+    useMaterial3ErrorColors: true,
     // Component theme configurations for light mode.
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
+      blendOnColors: true,
+      scaffoldBackgroundSchemeColor:
+          SchemeColor.surfaceContainerLowest,
       useM2StyleDividerInM3: true,
       inputDecoratorIsFilled: true,
       inputDecoratorBorderType: FlexInputBorderType.outline,
@@ -42,11 +47,15 @@ abstract final class AppTheme {
   static ThemeData dark = FlexThemeData.dark(
     // Using FlexColorScheme built-in FlexScheme enum based colors.
     scheme: FlexScheme.indigo,
+    // Input color modifiers.
+    useMaterial3ErrorColors: true,
     // Component theme configurations for dark mode.
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
       blendOnColors: true,
+      scaffoldBackgroundSchemeColor:
+          SchemeColor.surfaceContainerLowest,
       useM2StyleDividerInM3: true,
       inputDecoratorIsFilled: true,
       inputDecoratorBorderType: FlexInputBorderType.outline,
