@@ -43,4 +43,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shareThisPage => 'Compartir esta página';
+
+  @override
+  String get currencyParallel => 'Paralelo';
 }

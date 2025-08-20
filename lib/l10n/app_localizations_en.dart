@@ -43,4 +43,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareThisPage => 'Share this page';
+
+  @override
+  String get currencyParallel => 'Parallel';
 }

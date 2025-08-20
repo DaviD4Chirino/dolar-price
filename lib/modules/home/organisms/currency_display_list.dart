@@ -1,3 +1,4 @@
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/molecule/currency_display_molecule.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
@@ -12,6 +13,8 @@ class CurrencyDisplayList extends ConsumerWidget {
     final dolarPriceProvider = ref.watch(
       currencyExchangeNotifierProvider,
     );
+
+    var t = AppLocalizations.of(context);
 
     var parallel = dolarPriceProvider.rates.usdParallel;
     var allRates = dolarPriceProvider.rates.allRates;
@@ -33,7 +36,7 @@ class CurrencyDisplayList extends ConsumerWidget {
       children: [
         CurrencyDisplayMolecule(
           currency: "USD",
-          title: "USD (Parallel)",
+          title: "USD (${t.currencyParallel})",
           value: parallel > 0.0
               ? parallel.toStringAsFixed(3)
               : parallel.toStringAsFixed(0),

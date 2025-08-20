@@ -172,6 +172,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share this page'**
   String get shareThisPage;
+
+  /// No description provided for @currencyParallel.
+  ///
+  /// In en, this message translates to:
+  /// **'Parallel'**
+  String get currencyParallel;
 }
 
 class _AppLocalizationsDelegate

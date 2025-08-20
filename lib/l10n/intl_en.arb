@@ -26,5 +26,7 @@
   "refreshPrices": "Refresh prices",
   "@refreshPrices": {},
   "shareThisPage": "Share this page",
-  "@shareThisPage": {}
+  "@shareThisPage": {},
+  "currencyParallel": "Parallel",
+  "@currencyParallel": {}
 }
