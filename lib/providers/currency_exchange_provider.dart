@@ -126,6 +126,27 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     if (quotes.length <= 1) {
       return null;
     }
-    return quotes[quotes.length - 2];
+    var filtered = quotes
+        .where(
+          (q) =>
+              DateTime.parse(q.lastUpdateTime).isBefore(
+                DateTime.parse(quotes.last.lastUpdateTime),
+              ) &&
+              q.rates.usd != quotes.last.rates.usd,
+        )
+        .toList();
+    if (filtered.isEmpty) {
+      return null;
+    }
+    // Find the latest (max time)
+    filtered.sort(
+      (a, b) =>
+          DateTime.parse(
+            a.lastUpdateTime,
+          ).isBefore(DateTime.parse(b.lastUpdateTime))
+          ? 1
+          : -1,
+    );
+    return filtered.first;
   }
 }
