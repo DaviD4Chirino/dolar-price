@@ -2,8 +2,11 @@ import 'package:awesome_dolar_price/tokens/utils/helpers/percentage_calculator.d
 import 'package:flutter/material.dart';
 
 class CurrencyComparison extends StatelessWidget {
-  const CurrencyComparison(
-      {super.key, required this.lastRate, required this.currentRate});
+  const CurrencyComparison({
+    super.key,
+    required this.lastRate,
+    required this.currentRate,
+  });
 
   final double lastRate;
   final double currentRate;
@@ -11,18 +14,15 @@ class CurrencyComparison extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final growth = percentageChange(
-      lastRate,
-      currentRate,
-    );
+    final growth = percentageChange(lastRate, currentRate);
 
-    final amountChanged = (lastRate - currentRate);
+    final amountChanged = (currentRate - lastRate);
 
     final color = amountChanged == 0
         ? null
         : amountChanged > 0
-            ? Colors.green
-            : theme.colorScheme.error;
+        ? theme.colorScheme.error
+        : Colors.green;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -39,9 +39,7 @@ class CurrencyComparison extends StatelessWidget {
           ),
         Text(
           "${amountChanged.toStringAsFixed(2)}bs (${growth.toStringAsFixed(1)}%)",
-          style: TextStyle(
-            color: color,
-          ),
+          style: TextStyle(color: color),
         ),
       ],
     );
