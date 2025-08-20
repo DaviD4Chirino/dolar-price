@@ -1,7 +1,7 @@
 name: awesome_dolar_price
 description: "An App that looks up the dolar price in Venezuela"
 publish_to: 'none'
-version: 0.0.1
+version: 0.0.2
 
 environment:
   sdk: ^3.8.1
