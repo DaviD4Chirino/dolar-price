@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/api/currency.dart';
+import 'package:awesome_dolar_price/api/exchange_rate_api.dart';
 import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
 import 'package:awesome_dolar_price/tokens/models/quotes.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
@@ -71,10 +71,10 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     }
 
     var responses = await Future.wait([
-      getCurrency("USD"),
-      getCurrency("EUR"),
-      getCurrency("CNY"),
-      getCurrency("RUB"),
+      ExchangeRateApi.getCurrency("USD"),
+      ExchangeRateApi.getCurrency("EUR"),
+      ExchangeRateApi.getCurrency("CNY"),
+      ExchangeRateApi.getCurrency("RUB"),
     ]);
 
     Map<String, double> rates = {};
