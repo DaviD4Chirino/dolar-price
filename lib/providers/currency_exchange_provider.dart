@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:awesome_dolar_price/api/dolar_api.dart';
 import 'package:awesome_dolar_price/api/exchange_rate_api.dart';
 import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
@@ -18,26 +16,13 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
         Quotes(
           lastUpdateTime: DateTime.timestamp().toString(),
           nextUpdateTime: DateTime.timestamp().toString(),
-          rates: CurrencyRates(0, 0, 0, 0),
+          rates: CurrencyRates(0, 0, 0, 0, 0, 0),
         );
   }
 
-  Future<void> fetchPrices({bool forceUpdate = false}) async {
+  Future<void> fetchPrices({bool forceUpdate = true}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
-
-    /* try {
-      var allPrices = await DolarApi.getAllPrices();
-      var official = await DolarApi.getOfficialPrice();
-      var parallel = await DolarApi.getParallelPrice();
-      var bitcoin = await DolarApi.getBitcoinPrice();
-      print(allPrices);
-      print(official);
-      print(parallel);
-      print(bitcoin);
-    } on SocketException catch (e) {
-      print(e.message);
-    } */
 
     switch (forceUpdate) {
       case true:
@@ -99,10 +84,13 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
       rates[res["base_code"]] = res["conversion_rates"]["VES"]
           .toDouble();
     }
+    var allPrices = await DolarApi.getAllPrices();
 
     var result = Quotes(
       rates: CurrencyRates(
         rates["USD"]!,
+        allPrices[1]["promedio"]!,
+        allPrices[2]["promedio"]!,
         rates["EUR"]!,
         rates["CNY"]!,
         rates["RUB"]!,

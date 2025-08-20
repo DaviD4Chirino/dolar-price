@@ -9,9 +9,17 @@ class CurrencyDisplayList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dolarPriceProvider =
-        ref.watch(currencyExchangeNotifierProvider);
-    var entries = dolarPriceProvider.rates.allRates.entries.map(
+    final dolarPriceProvider = ref.watch(
+      currencyExchangeNotifierProvider,
+    );
+
+    var parallel = dolarPriceProvider.rates.usdParallel;
+    var allRates = dolarPriceProvider.rates.allRates;
+    allRates.remove("BTC");
+    allRates.remove("USD_PARALLEL");
+    allRates.remove("USD");
+
+    var entries = allRates.entries.map(
       (e) => CurrencyDisplayMolecule(
         currency: e.key,
         value: e.value > 0.0
@@ -22,7 +30,17 @@ class CurrencyDisplayList extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.max,
       spacing: AppSpacing.md,
-      children: entries.toList(),
+      children: [
+        CurrencyDisplayMolecule(
+          currency: "USD",
+          title: "USD (Parallel)",
+          value: parallel > 0.0
+              ? parallel.toStringAsFixed(3)
+              : parallel.toStringAsFixed(0),
+        ),
+        Divider(),
+        ...entries,
+      ],
     );
   }
 }

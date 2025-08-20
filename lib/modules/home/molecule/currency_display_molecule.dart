@@ -8,10 +8,12 @@ class CurrencyDisplayMolecule extends StatelessWidget {
     super.key,
     required this.currency,
     required this.value,
+    this.title,
   });
 
   final String currency;
   final String value;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class CurrencyDisplayMolecule extends StatelessWidget {
               textStyle: theme.textTheme.bodyLarge,
             ),
             AppSpacing.sm.sizedBoxW,
-            Text(currency, style: theme.textTheme.bodyLarge)
+            Text(title ?? currency, style: theme.textTheme.bodyLarge),
           ],
         ),
         Text(value, style: theme.textTheme.bodyLarge),

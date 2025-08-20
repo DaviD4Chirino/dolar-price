@@ -25,6 +25,8 @@ class Quotes {
         json["rates"]["EUR"] ?? 0,
         json["rates"]["CNY"] ?? 0,
         json["rates"]["RUB"] ?? 0,
+        json["rates"]["USD PARALLEL"] ?? 0,
+        json["rates"]["USD BITCOIN"] ?? 0,
       ),
       lastQuote = json["last_quote"] != null
           ? Quotes.fromJson(json["last_quote"])
