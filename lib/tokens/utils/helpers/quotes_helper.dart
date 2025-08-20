@@ -12,9 +12,9 @@ Future<void> saveQuote(Quotes quote) async {
 }
 
 Future<void> saveQuotes(List<Quotes> quotes) async {
-  /// Keep only the last 10 quotes
-  if (quotes.length > 10) {
-    quotes.removeRange(0, quotes.length - 10);
+  /// Keep only the last 50 quotes
+  if (quotes.length > 50) {
+    quotes.removeRange(0, quotes.length - 50);
   }
 
   return LocalStorage.setStringList(
@@ -24,8 +24,9 @@ Future<void> saveQuotes(List<Quotes> quotes) async {
 }
 
 List<Quotes>? getQuotes() {
-  var existingQuotes =
-      LocalStorage.getStringList(LocalStoragePaths.currencyQuotes);
+  var existingQuotes = LocalStorage.getStringList(
+    LocalStoragePaths.currencyQuotes,
+  );
 
   if (existingQuotes != null) {
     return existingQuotes
