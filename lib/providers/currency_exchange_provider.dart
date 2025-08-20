@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:awesome_dolar_price/api/dolar_api.dart';
 import 'package:awesome_dolar_price/api/exchange_rate_api.dart';
 import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
 import 'package:awesome_dolar_price/tokens/models/quotes.dart';
@@ -22,6 +25,19 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
   Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
+
+    /* try {
+      var allPrices = await DolarApi.getAllPrices();
+      var official = await DolarApi.getOfficialPrice();
+      var parallel = await DolarApi.getParallelPrice();
+      var bitcoin = await DolarApi.getBitcoinPrice();
+      print(allPrices);
+      print(official);
+      print(parallel);
+      print(bitcoin);
+    } on SocketException catch (e) {
+      print(e.message);
+    } */
 
     switch (forceUpdate) {
       case true:
