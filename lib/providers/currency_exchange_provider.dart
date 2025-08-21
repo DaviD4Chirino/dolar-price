@@ -16,7 +16,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
         Quotes(
           lastUpdateTime: DateTime.timestamp().toString(),
           nextUpdateTime: DateTime.timestamp().toString(),
-          rates: CurrencyRates(0, 0, 0, 0, 0, 0),
+          rates: CurrencyRates(),
         );
   }
 
@@ -88,12 +88,12 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
 
     var result = Quotes(
       rates: CurrencyRates(
-        rates["USD"]!,
-        allPrices[1]["promedio"]!,
-        allPrices[2]["promedio"]!,
-        rates["EUR"]!,
-        rates["CNY"]!,
-        rates["RUB"]!,
+        usd: rates["USD"]!,
+        usdParallel: allPrices[Prices.parallel.index]["promedio"]!,
+        btc: allPrices[Prices.bitcoin.index]["promedio"]!,
+        eur: rates["EUR"]!,
+        cny: rates["CNY"]!,
+        rub: rates["RUB"]!,
       ),
 
       /// So we can compare the current value with the previous one

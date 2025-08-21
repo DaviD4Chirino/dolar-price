@@ -1,13 +1,12 @@
 class CurrencyRates {
-  CurrencyRates(
-    this.usd,
-    this.usdParallel,
-    this.btc,
-    this.eur,
-    this.cny,
-    // this.try_,
-    this.rub,
-  );
+  CurrencyRates({
+    this.usd = 0,
+    this.usdParallel = 0,
+    this.btc = 0,
+    this.eur = 0,
+    this.cny = 0,
+    this.rub = 0,
+  });
 
   double usd;
   double eur;
@@ -63,7 +62,7 @@ class CurrencyRates {
       cny = json["CNY"] ?? 0,
       rub = json["RUB"] ?? 0,
       usdParallel = json["USD_PARALLEL"] ?? 0,
-      btc = json["USD_BITCOIN"] ?? 0;
+      btc = json["BTC"] ?? 0;
 
   Map<String, dynamic> toJson() {
     return allRates;

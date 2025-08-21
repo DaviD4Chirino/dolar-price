@@ -21,12 +21,12 @@ class Quotes {
       nextUpdateTime =
           json["time_next_update"] ?? DateTime.timestamp().toString(),
       rates = CurrencyRates(
-        json["rates"]["USD"] ?? 0,
-        json["rates"]["EUR"] ?? 0,
-        json["rates"]["CNY"] ?? 0,
-        json["rates"]["RUB"] ?? 0,
-        json["rates"]["USD PARALLEL"] ?? 0,
-        json["rates"]["USD BITCOIN"] ?? 0,
+        usd: json["rates"]["USD"] ?? 0,
+        eur: json["rates"]["EUR"] ?? 0,
+        cny: json["rates"]["CNY"] ?? 0,
+        rub: json["rates"]["RUB"] ?? 0,
+        usdParallel: json["rates"]["USD_PARALLEL"] ?? 0,
+        btc: json["rates"]["BTC"] ?? 0,
       ),
       lastQuote = json["last_quote"] != null
           ? Quotes.fromJson(json["last_quote"])
