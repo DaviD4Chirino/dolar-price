@@ -139,6 +139,11 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
               q.rates.usd != quotes.last.rates.usd,
         )
         .toList();
+    filtered.sort(
+      (a, b) => DateTime.parse(
+        b.lastUpdateTime,
+      ).compareTo(DateTime.parse(a.lastUpdateTime)),
+    );
     if (filtered.isEmpty) {
       return null;
     }
