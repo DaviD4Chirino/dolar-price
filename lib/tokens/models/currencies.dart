@@ -1,4 +1,6 @@
+import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
+import 'package:flutter/material.dart';
 
 abstract class Currencies {
   static String usd = "USD";
@@ -8,22 +10,52 @@ abstract class Currencies {
   static String usdParallel = "USD_PARALLEL";
   static String btc = "BTC";
 
-  static String getCurrencyTitle(String currency) {
+  static String getCurrencyTitle(
+    String currency, {
+    BuildContext? context,
+    bool withoutSymbol = false,
+  }) {
+    var symbol = withoutSymbol ? "" : "${getSymbol(currency)} ";
+
     switch (currency) {
       case "USD":
-        return "${getCurrencySymbol(currency)} USD Dolar";
+        if (context != null) {
+          var t = AppLocalizations.of(context);
+          return "$symbol${t.currencyDolar}";
+        }
+        return "${symbol}USD Dolar";
       case "EUR":
-        return "${getCurrencySymbol(currency)} Euro";
+        return "${symbol}Euro";
       case "CNY":
-        return "${getCurrencySymbol(currency)} Yuan";
+        return "${symbol}Yuan";
       case "RUB":
-        return "${getCurrencySymbol(currency)} Ruble";
+        if (context != null) {
+          var t = AppLocalizations.of(context);
+          return "$symbol${t.currencyRuble}";
+        }
+        return "${symbol}Ruble";
+
       case "USD_PARALLEL":
-        return "${getCurrencySymbol("USD")} Parallel Dolar";
+        if (context != null) {
+          var t = AppLocalizations.of(context);
+          var symbol_ = withoutSymbol ? "" : "\$ ";
+          return "$symbol_${t.currencyParallel}";
+        }
+        return "${symbol}Parallel Dolar";
       case "BTC":
-        return "Bitcoin";
+        return "${withoutSymbol ? "" : "₿ "}Bitcoin";
       default:
         throw Exception("Currency not found");
+    }
+  }
+
+  static String getSymbol(String currency) {
+    if (currency case "USD_PARALLEL") {
+      return "\$";
+    } else if (currency case "BTC") {
+      return "₿";
+    } else {
+      return getCurrencySymbol(currency);
     }
   }
 
@@ -57,10 +89,10 @@ abstract class Currencies {
 
   static List<String> allCurrencies = [
     usd,
+    usdParallel,
     eur,
     cny,
     rub,
-    usdParallel,
     btc,
   ];
 }

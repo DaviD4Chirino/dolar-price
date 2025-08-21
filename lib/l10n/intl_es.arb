@@ -13,5 +13,8 @@
   "utilsCopyToClipboard": "Copiado al portapapeles",
   "refreshPrices": "Actualizar precios",
   "shareThisPage": "Compartir esta página",
-  "currencyParallel": "Paralelo"
+  "currencyParallel": "Dólar Paralelo",
+  "currencyDolar": "Dólar",
+  "currencyRuble": "Rublo",
+  "settingsChangeMainCurrencyTitle": "Cambiar la moneda principal"
 }

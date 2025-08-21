@@ -1,7 +1,9 @@
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/molecule/currency_display_molecule.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
+import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
+import 'package:awesome_dolar_price/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -13,6 +15,7 @@ class CurrencyDisplayList extends ConsumerWidget {
     final dolarPriceProvider = ref.watch(
       currencyExchangeNotifierProvider,
     );
+    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
 
     var t = AppLocalizations.of(context);
 
@@ -25,6 +28,11 @@ class CurrencyDisplayList extends ConsumerWidget {
     var entries = allRates.entries.map(
       (e) => CurrencyDisplayMolecule(
         currency: e.key,
+        title: Currencies.getCurrencyTitle(
+          e.key,
+          context: context,
+          withoutSymbol: true,
+        ),
         value: e.value > 0.0
             ? e.value.toStringAsFixed(3)
             : e.value.toStringAsFixed(0),
@@ -36,7 +44,7 @@ class CurrencyDisplayList extends ConsumerWidget {
       children: [
         CurrencyDisplayMolecule(
           currency: "USD",
-          title: "USD (${t.currencyParallel})",
+          title: t.currencyParallel,
           value: parallel > 0.0
               ? parallel.toStringAsFixed(3)
               : parallel.toStringAsFixed(0),

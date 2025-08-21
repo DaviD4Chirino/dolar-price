@@ -63,7 +63,9 @@ import 'app_localizations_es.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(
+        locale.toString(),
+      );
 
   final String localeName;
 
@@ -176,8 +178,26 @@ abstract class AppLocalizations {
   /// No description provided for @currencyParallel.
   ///
   /// In en, this message translates to:
-  /// **'Parallel'**
+  /// **'Parallel Dolar'**
   String get currencyParallel;
+
+  /// No description provided for @currencyDolar.
+  ///
+  /// In en, this message translates to:
+  /// **'Dolar'**
+  String get currencyDolar;
+
+  /// No description provided for @currencyRuble.
+  ///
+  /// In en, this message translates to:
+  /// **'Ruble'**
+  String get currencyRuble;
+
+  /// No description provided for @settingsChangeMainCurrencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the main currency'**
+  String get settingsChangeMainCurrencyTitle;
 }
 
 class _AppLocalizationsDelegate

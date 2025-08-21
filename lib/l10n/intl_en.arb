@@ -27,6 +27,12 @@
   "@refreshPrices": {},
   "shareThisPage": "Share this page",
   "@shareThisPage": {},
-  "currencyParallel": "Parallel",
-  "@currencyParallel": {}
+  "currencyParallel": "Parallel Dolar",
+  "currencyDolar": "Dolar",
+  "@currencyDolar": {},
+  "currencyRuble": "Ruble",
+  "@currencyRuble": {},
+  "@currencyParallel": {},
+  "settingsChangeMainCurrencyTitle": "Change the main currency",
+  "@settingsChangeMainCurrencyTitle": {}
 }

@@ -40,7 +40,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     Timer? timer;
 
-    Future fetchDolarPrice({bool forceUpdate = true}) async {
+    Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
       try {

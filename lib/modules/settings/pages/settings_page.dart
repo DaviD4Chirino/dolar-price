@@ -1,6 +1,7 @@
 import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/settings/pages/atoms/language_switcher_atom.dart';
+import 'package:awesome_dolar_price/modules/settings/pages/atoms/main_currency_selector.dart';
 import 'package:awesome_dolar_price/modules/settings/pages/atoms/theme_mode_switch_atom.dart';
 import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
 import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
@@ -18,14 +19,12 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         children: [
           AppSizing.xxl.sizedBoxH,
-          AppLogo(
-            extended: true,
-            height: 50,
-          ),
+          AppLogo(extended: true, height: 50),
           AppSizing.xl.sizedBoxH,
           Divider(),
           ThemeModeSwitchAtom(),
           LanguageSwitcherAtom(),
+          MainCurrencySelector(),
         ],
       ),
     );
