@@ -1,6 +1,4 @@
-import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
-import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
-import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
+import 'package:awesome_dolar_price/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyDisplayMolecule extends StatelessWidget {
@@ -18,7 +16,23 @@ class CurrencyDisplayMolecule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Row(
+    return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+
+      minVerticalPadding: 0,
+      title: Text(
+        title ??
+            Currencies.getCurrencyTitle(
+              currency,
+              context: context,
+            ),
+        style: theme.textTheme.bodyLarge,
+      ),
+      trailing: Text(value, style: theme.textTheme.bodyLarge),
+    );
+
+    /* Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -35,6 +49,6 @@ class CurrencyDisplayMolecule extends StatelessWidget {
         ),
         Text(value, style: theme.textTheme.bodyLarge),
       ],
-    );
+    ); */
   }
 }

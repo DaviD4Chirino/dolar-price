@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pasteboard/pasteboard.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -27,6 +28,11 @@ class ShareScreenshot extends StatelessWidget {
         '${tempDir.path}/dolar_price_screenshot.png',
       );
       await file.writeAsBytes(screenshot);
+      if (Platform.isAndroid ||
+          Platform.isIOS ||
+          Platform.isWindows) {
+        await Pasteboard.writeFiles([file.path]);
+      }
 
       var params = ShareParams(files: [XFile(file.path)]);
       SharePlus.instance.share(params);
@@ -35,7 +41,7 @@ class ShareScreenshot extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            "There was an error while sharing the screenshot",
+            e.toString(),
           ), // Optional: add a sharing error message key to your l10n
           duration: Duration(seconds: 4),
         ),

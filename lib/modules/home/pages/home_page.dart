@@ -95,42 +95,43 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
       body: SingleChildScrollView(
-        child: Container(
-          color: theme.colorScheme.surfaceContainerLow,
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: AppSpacing.md,
-              right: AppSpacing.lg,
-              left: AppSpacing.lg,
-            ),
-            child: Column(
-              spacing: AppSpacing.lg,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                AppSpacing.xs.sizedBoxH,
-                Screenshot(
-                  controller: screenshotController,
+        child: Column(
+          spacing: AppSpacing.lg,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            AppSpacing.xs.sizedBoxH,
+            Screenshot(
+              controller: screenshotController,
+              child: Container(
+                color: theme.colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+
                     children: [
                       AppLogo.square(size: 100),
+                      AppSpacing.sm.sizedBoxH,
                       if (isLoading.value)
                         LinearProgressIndicator()
                       else
                         CurrencyDisplay(),
+                      AppSpacing.sm.sizedBoxH,
                       QuickCalculator(),
+                      AppSpacing.md.sizedBoxH,
                     ],
                   ),
                 ),
-
-                AppSpacing.xs.sizedBoxH,
-                CurrencyDisplayList(),
-                AppSpacing.md.sizedBoxH,
-              ],
+              ),
             ),
-          ),
+
+            CurrencyDisplayList(),
+            AppSpacing.md.sizedBoxH,
+          ],
         ),
       ),
     );

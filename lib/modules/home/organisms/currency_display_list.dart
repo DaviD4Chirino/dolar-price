@@ -30,7 +30,6 @@ class CurrencyDisplayList extends ConsumerWidget {
         title: Currencies.getCurrencyTitle(
           e.key,
           context: context,
-          withoutSymbol: true,
         ),
         value: e.value > 0.0
             ? e.value.toStringAsFixed(3)
@@ -43,14 +42,14 @@ class CurrencyDisplayList extends ConsumerWidget {
       children: [
         CurrencyDisplayMolecule(
           currency: "USD",
-          title: t.currencyDolar,
+          title: "\$ ${t.currencyDolar}",
           value: dolar > 0.0
               ? dolar.toStringAsFixed(3)
               : dolar.toStringAsFixed(0),
         ),
         CurrencyDisplayMolecule(
           currency: "USD",
-          title: t.currencyParallel,
+          title: "\$ ${t.currencyParallel}",
           value: parallel > 0.0
               ? parallel.toStringAsFixed(3)
               : parallel.toStringAsFixed(0),
