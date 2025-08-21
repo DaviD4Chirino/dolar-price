@@ -20,10 +20,10 @@ class CurrencyValueTitle extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainer,
+        color: theme.colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
-      // height: 80,
+      height: 65,
       child: Stack(
         children: [
           Padding(

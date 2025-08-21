@@ -40,7 +40,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     Timer? timer;
 
-    Future fetchDolarPrice({bool forceUpdate = true}) async {
+    Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
       try {
@@ -98,7 +98,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         controller: screenshotController,
         child: SingleChildScrollView(
           child: Container(
-            color: theme.colorScheme.surfaceContainerLowest,
+            color: theme.colorScheme.surfaceContainerLow,
             child: Padding(
               padding: EdgeInsets.only(
                 top: AppSpacing.md,

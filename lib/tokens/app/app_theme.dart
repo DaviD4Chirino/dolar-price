@@ -20,20 +20,19 @@ abstract final class AppTheme {
   // The FlexColorScheme defined light mode ThemeData.
   static ThemeData light = FlexThemeData.light(
     // Using FlexColorScheme built-in FlexScheme enum based colors
-    scheme: FlexScheme.indigo,
+    scheme: FlexScheme.green,
     // Input color modifiers.
     useMaterial3ErrorColors: true,
     // Component theme configurations for light mode.
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
-      blendOnColors: true,
-      scaffoldBackgroundSchemeColor:
-          SchemeColor.surfaceContainerLowest,
+      scaffoldBackgroundBaseColor:
+          FlexScaffoldBaseColor.surfaceContainerLow,
       useM2StyleDividerInM3: true,
-      inputDecoratorIsFilled: true,
-      inputDecoratorBorderType: FlexInputBorderType.outline,
       alignedDropdown: true,
+      appBarBackgroundSchemeColor:
+          SchemeColor.surfaceContainerLow,
       navigationRailUseIndicator: true,
     ),
     // Direct ThemeData properties.
@@ -46,20 +45,19 @@ abstract final class AppTheme {
   // The FlexColorScheme defined dark mode ThemeData.
   static ThemeData dark = FlexThemeData.dark(
     // Using FlexColorScheme built-in FlexScheme enum based colors.
-    scheme: FlexScheme.indigo,
+    scheme: FlexScheme.green,
     // Input color modifiers.
     useMaterial3ErrorColors: true,
     // Component theme configurations for dark mode.
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
-      blendOnColors: true,
-      scaffoldBackgroundSchemeColor:
-          SchemeColor.surfaceContainerLowest,
+      scaffoldBackgroundBaseColor:
+          FlexScaffoldBaseColor.surfaceContainerLow,
       useM2StyleDividerInM3: true,
-      inputDecoratorIsFilled: true,
-      inputDecoratorBorderType: FlexInputBorderType.outline,
       alignedDropdown: true,
+      appBarBackgroundSchemeColor:
+          SchemeColor.surfaceContainerLow,
       navigationRailUseIndicator: true,
     ),
     // Direct ThemeData properties.
