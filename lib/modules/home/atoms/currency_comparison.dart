@@ -35,11 +35,14 @@ class CurrencyComparison extends StatelessWidget {
                 ? Icons.arrow_upward_rounded
                 : Icons.arrow_downward_rounded,
             color: color,
-            size: 16,
+            size: 14,
           ),
         Text(
           "${amountChanged.toStringAsFixed(2)}bs (${growth.toStringAsFixed(1)}%)",
-          style: TextStyle(color: color),
+          style: TextStyle(
+            color: color,
+            fontSize: theme.textTheme.bodySmall!.fontSize,
+          ),
         ),
       ],
     );

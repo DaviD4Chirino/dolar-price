@@ -9,23 +9,15 @@ class CopyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Transform.translate(
-          offset: const Offset(-7, 4),
-          child: IconButton(
-            onPressed: () {
-              copyToClipboard(
-                "${value.toStringAsFixed(3)}Bs",
-                context: context,
-              );
-            },
-            icon: Icon(Icons.copy_rounded),
-            iconSize: AppSizing.md,
-          ),
-        ),
-      ),
+    return IconButton(
+      onPressed: () {
+        copyToClipboard(
+          "${value.toStringAsFixed(3)}Bs",
+          context: context,
+        );
+      },
+      icon: Icon(Icons.copy_rounded),
+      iconSize: AppSizing.md,
     );
   }
 }

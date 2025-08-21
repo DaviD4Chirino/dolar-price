@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/modules/home/atoms/currency_display.dart';
+import 'package:awesome_dolar_price/modules/home/organisms/currency_display.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/share_screenshot.dart';
 import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
 import 'package:awesome_dolar_price/modules/quick_calculator/molecules/quick_calculator.dart';
@@ -76,9 +76,14 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     useEffect(() {
-      Future.delayed(Duration(milliseconds: 200), fetchDolarPrice);
+      Future.delayed(
+        Duration(milliseconds: 200),
+        fetchDolarPrice,
+      );
 
-      timer = Timer.periodic(Duration(hours: 1, seconds: 1), (timer) {
+      timer = Timer.periodic(Duration(hours: 1, seconds: 1), (
+        timer,
+      ) {
         fetchDolarPrice(forceUpdate: false);
       });
 
@@ -132,7 +137,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     return AppBar(
       title: Text(t.homeTitle),
       actions: [
-        ShareScreenshot(screenshotController: screenshotController),
+        ShareScreenshot(
+          screenshotController: screenshotController,
+        ),
         IconButton(
           onPressed: onRefresh,
           tooltip: t.refreshPrices,
