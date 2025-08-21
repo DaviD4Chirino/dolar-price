@@ -1,6 +1,7 @@
 import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
 import 'package:awesome_dolar_price/modules/quick_calculator/atoms/currency_amount_input.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
+import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:awesome_dolar_price/tokens/models/quotes.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,18 @@ class QuickCalculator extends ConsumerStatefulWidget {
       _QuickCalculatorState();
 }
 
-class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
+class _QuickCalculatorState
+    extends ConsumerState<QuickCalculator> {
   final currencyTextController = TextEditingController();
   final bsTextController = TextEditingController();
 
   Quotes get dolarPriceProvider =>
       ref.read(currencyExchangeNotifierProvider);
+  String get mainCurrency =>
+      ref.watch(mainCurrencyNotifierProvider);
 
   bool _isUpdating = false;
+  bool initialized = false;
 
   void onCurrencyChanged(String value) {
     if (_isUpdating) return;
@@ -29,7 +34,7 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
 
     final currencyAmount = double.tryParse(value) ?? 0;
     final bsValue = dolarPriceProvider.rates.convertRate(
-      "USD",
+      mainCurrency,
       currencyAmount,
     );
 
@@ -41,13 +46,35 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
     _isUpdating = false;
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    currencyTextController.text = "1";
+    onCurrencyChanged("1");
+  }
+
+  /* @override
+  void initState() {
+    super.initState();
+    currencyTextController.text = "1";
+    onCurrencyChanged("1");
+    initialized = true;
+  }
+ */
+  @override
+  void dispose() {
+    currencyTextController.dispose();
+    bsTextController.dispose();
+    super.dispose();
+  }
+
   void onBsChanged(String value) {
     if (_isUpdating) return;
     _isUpdating = true;
 
     final bsAmount = double.tryParse(value) ?? 0;
     final currencyValue = dolarPriceProvider.rates.convertRate(
-      "USD",
+      mainCurrency,
       bsAmount,
       reverse: true,
     );
@@ -55,24 +82,11 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
     // Update the other controller if needed
     if (currencyTextController.text !=
         currencyValue.toStringAsFixed(3)) {
-      currencyTextController.text = currencyValue.toStringAsFixed(3);
+      currencyTextController.text = currencyValue
+          .toStringAsFixed(3);
     }
 
     _isUpdating = false;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    currencyTextController.text = "1";
-    onCurrencyChanged("1");
-  }
-
-  @override
-  void dispose() {
-    currencyTextController.dispose();
-    bsTextController.dispose();
-    super.dispose();
   }
 
   @override
@@ -82,7 +96,7 @@ class _QuickCalculatorState extends ConsumerState<QuickCalculator> {
       children: [
         Expanded(
           child: CurrencyAmountInput(
-            currencyCode: "USD",
+            currencyCode: mainCurrency,
             controller: currencyTextController,
             onChanged: onCurrencyChanged,
           ),

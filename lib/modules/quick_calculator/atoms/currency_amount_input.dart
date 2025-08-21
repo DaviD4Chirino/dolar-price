@@ -33,7 +33,9 @@ class CurrencyAmountInput extends StatelessWidget {
         LeadingZeroInputFormatter(),
       ],
       decoration: InputDecoration(
-        label: CurrencyToSymbolWidget(currencyCode: currencyCode),
+        label: CurrencyToSymbolWidget(
+          currencyCode: currencyCode,
+        ),
         suffixIcon: IconButton(
           onPressed: controller != null
               ? () => copyToClipboard(
