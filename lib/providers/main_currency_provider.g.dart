@@ -45,7 +45,7 @@ final class MainCurrencyNotifierProvider
 }
 
 String _$mainCurrencyNotifierHash() =>
-    r'07ff3d56cda53bd17b62bdc4ff2dbf7c1115e044';
+    r'd94ec43f4acff23efd1e00fd8c69025d46f7af2e';
 
 abstract class _$MainCurrencyNotifier extends $Notifier<String> {
   String build();

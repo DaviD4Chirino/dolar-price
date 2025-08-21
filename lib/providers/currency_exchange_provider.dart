@@ -1,5 +1,6 @@
 import 'package:awesome_dolar_price/api/dolar_api.dart';
 import 'package:awesome_dolar_price/api/exchange_rate_api.dart';
+import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
 import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
 import 'package:awesome_dolar_price/tokens/models/quotes.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
@@ -8,8 +9,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'currency_exchange_provider.g.dart';
 
-@riverpod
-class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
+@Riverpod(keepAlive: true)
+class CurrencyExchangeNotifier
+    extends _$CurrencyExchangeNotifier {
   @override
   Quotes build() {
     return getSavedExchangeValue() ??
@@ -20,7 +22,7 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
         );
   }
 
-  Future<void> fetchPrices({bool forceUpdate = true}) async {
+  Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
 
@@ -36,7 +38,6 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
             print("Using cache prices value");
           }
           state = cache;
-          await saveExchangeValue();
         } else {
           state = await fetchNewPrices();
           await saveExchangeValue();
@@ -58,7 +59,9 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
 
     if (!isAfter) {
       if (kDebugMode) {
-        print("Next prices update time is before the current time");
+        print(
+          "Next prices update time is before the current time",
+        );
       }
       return null;
     }
@@ -89,7 +92,8 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     var result = Quotes(
       rates: CurrencyRates(
         usd: rates["USD"]!,
-        usdParallel: allPrices[Prices.parallel.index]["promedio"]!,
+        usdParallel:
+            allPrices[Prices.parallel.index]["promedio"]!,
         btc: allPrices[Prices.bitcoin.index]["promedio"]!,
         eur: rates["EUR"]!,
         cny: rates["CNY"]!,
@@ -130,13 +134,17 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     if (quotes.length <= 1) {
       return null;
     }
+
+    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
+
     var filtered = quotes
         .where(
           (q) =>
               DateTime.parse(q.lastUpdateTime).isBefore(
                 DateTime.parse(quotes.last.lastUpdateTime),
               ) &&
-              q.rates.usd != quotes.last.rates.usd,
+              q.rates.getRate(mainCurrency) !=
+                  quotes.last.rates.getRate(mainCurrency),
         )
         .toList();
     filtered.sort(
@@ -147,15 +155,20 @@ class CurrencyExchangeNotifier extends _$CurrencyExchangeNotifier {
     if (filtered.isEmpty) {
       return null;
     }
-    // Find the latest (max time)
-    filtered.sort(
-      (a, b) =>
-          DateTime.parse(
-            a.lastUpdateTime,
-          ).isBefore(DateTime.parse(b.lastUpdateTime))
-          ? 1
-          : -1,
-    );
     return filtered.first;
+  }
+
+  void updatePreviousExchangeValue() {
+    var quote = getPreviousExchangeValue();
+    if (quote == null) {
+      return;
+    }
+    var newState = Quotes(
+      lastQuote: quote,
+      lastUpdateTime: state.lastUpdateTime,
+      nextUpdateTime: state.nextUpdateTime,
+      rates: state.rates,
+    );
+    state = newState;
   }
 }

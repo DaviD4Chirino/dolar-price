@@ -1,7 +1,6 @@
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:awesome_dolar_price/modules/home/molecule/currency_display_molecule.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
-import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:awesome_dolar_price/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +14,11 @@ class CurrencyDisplayList extends ConsumerWidget {
     final dolarPriceProvider = ref.watch(
       currencyExchangeNotifierProvider,
     );
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
 
     var t = AppLocalizations.of(context);
 
     var parallel = dolarPriceProvider.rates.usdParallel;
+    var dolar = dolarPriceProvider.rates.usd;
     var allRates = dolarPriceProvider.rates.allRates;
     allRates.remove("BTC");
     allRates.remove("USD_PARALLEL");
@@ -42,6 +41,13 @@ class CurrencyDisplayList extends ConsumerWidget {
       mainAxisSize: MainAxisSize.max,
       spacing: AppSpacing.md,
       children: [
+        CurrencyDisplayMolecule(
+          currency: "USD",
+          title: t.currencyDolar,
+          value: dolar > 0.0
+              ? dolar.toStringAsFixed(3)
+              : dolar.toStringAsFixed(0),
+        ),
         CurrencyDisplayMolecule(
           currency: "USD",
           title: t.currencyParallel,

@@ -1,6 +1,7 @@
 import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
 import 'package:awesome_dolar_price/modules/home/atoms/copy_button.dart';
 import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
+import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
 import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
 import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,10 @@ class CurrencyValueTitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
+    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
+
     final quote = ref.watch(currencyExchangeNotifierProvider);
-    final dolarPriceProvider = ref.watch(
-      currencyExchangeNotifierProvider,
-    );
+
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainer,
@@ -35,7 +36,7 @@ class CurrencyValueTitle extends ConsumerWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "${quote.rates.usd.toStringAsFixed(3)} Bs",
+                "${quote.rates.getRate(mainCurrency).toStringAsFixed(3)}Bs",
                 style: theme.textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
@@ -47,7 +48,7 @@ class CurrencyValueTitle extends ConsumerWidget {
                 Alignment(-0.05, 0),
               ),
               child: CopyButton(
-                value: dolarPriceProvider.rates.usd,
+                value: quote.rates.allRates[mainCurrency] ?? 0,
               ),
             ),
           ),

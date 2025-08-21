@@ -8,7 +8,6 @@ class CurrencySelectorDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
     final mainCurrencyNotifier = ref.read(
       mainCurrencyNotifierProvider.notifier,
     );

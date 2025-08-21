@@ -16,7 +16,9 @@ class CurrencyComparison extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final growth = percentageChange(lastRate, currentRate);
 
-    final amountChanged = (currentRate - lastRate);
+    var amountChanged = (currentRate - lastRate);
+
+    amountChanged = growth == 0 ? 0 : amountChanged;
 
     final color = amountChanged == 0
         ? null
