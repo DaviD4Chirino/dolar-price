@@ -17,13 +17,15 @@ class ShareScreenshot extends StatelessWidget {
   Future<void> onShare(BuildContext context) async {
     try {
       var screenshot = await screenshotController.capture(
-        delay: Duration(seconds: 2),
+        delay: Duration(seconds: 1),
       );
       if (screenshot == null) return;
 
       // Save image to a temporary file
       final tempDir = await Directory.systemTemp.createTemp();
-      final file = File('${tempDir.path}/dolar_price_screenshot.png');
+      final file = File(
+        '${tempDir.path}/dolar_price_screenshot.png',
+      );
       await file.writeAsBytes(screenshot);
 
       var params = ShareParams(files: [XFile(file.path)]);

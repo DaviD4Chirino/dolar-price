@@ -94,34 +94,41 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
-      body: Screenshot(
-        controller: screenshotController,
-        child: SingleChildScrollView(
-          child: Container(
-            color: theme.colorScheme.surfaceContainerLow,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: AppSpacing.md,
-                right: AppSpacing.lg,
-                left: AppSpacing.lg,
-              ),
-              child: Column(
-                spacing: AppSpacing.lg,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  AppLogo.square(size: 100),
-                  if (isLoading.value)
-                    LinearProgressIndicator()
-                  else
-                    CurrencyDisplay(),
-                  QuickCalculator(),
-                  AppSpacing.xs.sizedBoxH,
-                  CurrencyDisplayList(),
-                  AppSpacing.md.sizedBoxH,
-                ],
-              ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: theme.colorScheme.surfaceContainerLow,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: AppSpacing.md,
+              right: AppSpacing.lg,
+              left: AppSpacing.lg,
+            ),
+            child: Column(
+              spacing: AppSpacing.lg,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                AppSpacing.xs.sizedBoxH,
+                Screenshot(
+                  controller: screenshotController,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppLogo.square(size: 100),
+                      if (isLoading.value)
+                        LinearProgressIndicator()
+                      else
+                        CurrencyDisplay(),
+                      QuickCalculator(),
+                    ],
+                  ),
+                ),
+
+                AppSpacing.xs.sizedBoxH,
+                CurrencyDisplayList(),
+                AppSpacing.md.sizedBoxH,
+              ],
             ),
           ),
         ),
