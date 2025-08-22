@@ -39,6 +39,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get utilsCopyToClipboard => 'Copied to clipboard';
 
   @override
+  String get pricesUpdated => 'The prices have been updated';
+
+  @override
   String get refreshPrices => 'Refresh prices';
 
   @override

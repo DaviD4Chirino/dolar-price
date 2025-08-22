@@ -163,6 +163,12 @@ abstract class AppLocalizations {
   /// **'Copied to clipboard'**
   String get utilsCopyToClipboard;
 
+  /// No description provided for @pricesUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'The prices have been updated'**
+  String get pricesUpdated;
+
   /// No description provided for @refreshPrices.
   ///
   /// In en, this message translates to:

@@ -53,7 +53,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Dolar price updated"),
+            content: Text(t.pricesUpdated),
             duration: Duration(seconds: 5),
           ),
         );

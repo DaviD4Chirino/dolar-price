@@ -39,6 +39,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get utilsCopyToClipboard => 'Copiado al portapapeles';
 
   @override
+  String get pricesUpdated =>
+      'Los precios han sido actualizados';
+
+  @override
   String get refreshPrices => 'Actualizar precios';
 
   @override
