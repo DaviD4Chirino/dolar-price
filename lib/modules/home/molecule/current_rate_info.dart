@@ -23,9 +23,6 @@ class CurrentRateInfo extends ConsumerWidget {
         .format("EEEE, dd/MM/yyyy", locale.toLanguageTag())
         .capitalize;
 
-    final lastRate = quote.lastQuote!.rates.getRate(
-      mainCurrency,
-    );
     final currentRate = quote.rates.getRate(mainCurrency);
 
     return Row(
@@ -36,7 +33,9 @@ class CurrentRateInfo extends ConsumerWidget {
                 mainCurrency == Currencies.usd ||
             mainCurrency == Currencies.usdParallel)
           CurrencyComparison(
-            lastRate: lastRate,
+            lastRate: quote.lastQuote!.rates.getRate(
+              mainCurrency,
+            ),
             currentRate: currentRate,
           ),
         /* Text(

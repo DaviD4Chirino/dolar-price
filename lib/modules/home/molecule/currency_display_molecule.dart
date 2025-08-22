@@ -17,6 +17,7 @@ class CurrencyDisplayMolecule extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       dense: true,
       visualDensity: VisualDensity.compact,
 
