@@ -33,9 +33,9 @@ class CurrentRateInfo extends ConsumerWidget {
                 mainCurrency == Currencies.usd ||
             mainCurrency == Currencies.usdParallel)
           CurrencyComparison(
-            lastRate: quote.lastQuote!.rates.getRate(
-              mainCurrency,
-            ),
+            lastRate:
+                quote.lastQuote?.rates.getRate(mainCurrency) ??
+                0.0,
             currentRate: currentRate,
           ),
         /* Text(

@@ -33,6 +33,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     final isLoading = useState(false);
     final t = AppLocalizations.of(context);
 
+    final ThemeData theme = Theme.of(context);
+
     final dolarPriceNotifier = ref.read(
       currencyExchangeNotifierProvider.notifier,
     );
@@ -94,32 +96,48 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: AppSpacing.lg,
-            right: AppSpacing.lg,
-            top: AppSpacing.lg,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              AppSpacing.xs.sizedBoxH,
-              AppLogo.square(size: 100),
-              AppSpacing.sm.sizedBoxH,
-              if (isLoading.value)
-                LinearProgressIndicator()
-              else
-                CurrencyDisplay(),
-              AppSpacing.sm.sizedBoxH,
-              QuickCalculator(),
-              AppSpacing.lg.sizedBoxH,
-              AppSpacing.lg.sizedBoxH,
-              CurrencyDisplayList(),
-              AppSpacing.md.sizedBoxH,
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Screenshot(
+              controller: screenshotController,
+              child: Container(
+                color: theme.colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.lg),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      AppSpacing.xs.sizedBoxH,
+                      AppLogo.square(size: 100),
+                      AppSpacing.sm.sizedBoxH,
+                      if (isLoading.value)
+                        LinearProgressIndicator()
+                      else
+                        CurrencyDisplay(),
+                      AppSpacing.sm.sizedBoxH,
+                      QuickCalculator(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppSpacing.lg.sizedBoxH,
+                  CurrencyDisplayList(),
+                  AppSpacing.md.sizedBoxH,
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

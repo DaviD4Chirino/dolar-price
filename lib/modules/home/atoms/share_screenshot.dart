@@ -32,6 +32,15 @@ class ShareScreenshot extends StatelessWidget {
           Platform.isIOS ||
           Platform.isWindows) {
         await Pasteboard.writeFiles([file.path]);
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Screenshot copied to clipboard",
+            ), // Optional: add a sharing error message key to your l10n
+            duration: Duration(seconds: 4),
+          ),
+        );
       }
 
       var params = ShareParams(files: [XFile(file.path)]);

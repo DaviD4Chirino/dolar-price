@@ -26,7 +26,6 @@ class _QuickCalculatorState
       ref.watch(mainCurrencyNotifierProvider);
 
   bool _isUpdating = false;
-  bool initialized = false;
 
   void onCurrencyChanged(String value) {
     if (_isUpdating) return;
@@ -53,14 +52,16 @@ class _QuickCalculatorState
     onCurrencyChanged("1");
   }
 
-  /* @override
+  @override
   void initState() {
     super.initState();
-    currencyTextController.text = "1";
-    onCurrencyChanged("1");
-    initialized = true;
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
+      if (!mounted) return;
+      currencyTextController.text = "1";
+      onCurrencyChanged("1");
+    });
   }
- */
+
   @override
   void dispose() {
     currencyTextController.dispose();
