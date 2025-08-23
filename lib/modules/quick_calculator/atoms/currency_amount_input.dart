@@ -1,6 +1,6 @@
 import 'package:awesome_dolar_price/modules/quick_calculator/tokens/formatters/remove_leading_zeroes.dart';
+import 'package:awesome_dolar_price/tokens/models/currencies.dart';
 import 'package:awesome_dolar_price/tokens/utils/helpers/copy_to_clipboard.dart';
-import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,6 +21,7 @@ class CurrencyAmountInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(currencyCode);
     return TextField(
       controller: controller,
       onChanged: onChanged,
@@ -33,9 +34,13 @@ class CurrencyAmountInput extends StatelessWidget {
         LeadingZeroInputFormatter(),
       ],
       decoration: InputDecoration(
-        label: CurrencyToSymbolWidget(
-          currencyCode: currencyCode,
+        label: Text(
+          Currencies.getCurrencyTitle(
+            currencyCode,
+            context: context,
+          ),
         ),
+
         suffixIcon: IconButton(
           onPressed: controller != null
               ? () => copyToClipboard(

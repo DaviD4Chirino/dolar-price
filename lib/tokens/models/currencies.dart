@@ -18,6 +18,11 @@ abstract class Currencies {
     var symbol = withoutSymbol ? "" : "${getSymbol(currency)} ";
 
     switch (currency) {
+      case "VES":
+
+        /// This is a Venezuelan app, so we don't need to translate it
+        return getSymbol(currency);
+
       case "USD":
         if (context != null) {
           var t = AppLocalizations.of(context);

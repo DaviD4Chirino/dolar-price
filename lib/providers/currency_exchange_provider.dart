@@ -1,6 +1,5 @@
 import 'package:awesome_dolar_price/api/dolar_api.dart';
 import 'package:awesome_dolar_price/api/exchange_rate_api.dart';
-import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
 import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
 import 'package:awesome_dolar_price/tokens/models/quotes.dart';
 import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
@@ -135,16 +134,14 @@ class CurrencyExchangeNotifier
       return null;
     }
 
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
-
     var filtered = quotes
         .where(
           (q) =>
               DateTime.parse(q.lastUpdateTime).isBefore(
                 DateTime.parse(quotes.last.lastUpdateTime),
               ) &&
-              q.rates.getRate(mainCurrency) !=
-                  quotes.last.rates.getRate(mainCurrency),
+              q.rates.getRate("USD") !=
+                  quotes.last.rates.getRate("USD"),
         )
         .toList();
     filtered.sort(
