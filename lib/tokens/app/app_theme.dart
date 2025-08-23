@@ -18,7 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///   darkTheme: AppTheme.dark,
 /// );
 abstract final class AppTheme {
-  static var textTheme = GoogleFonts.figtreeTextTheme().copyWith(
+  static var textTheme = GoogleFonts.mPlus1TextTheme().copyWith(
     headlineLarge: GoogleFonts.mavenProTextTheme().headlineLarge,
     headlineMedium: GoogleFonts.mavenProTextTheme().bodyLarge,
     headlineSmall: GoogleFonts.mavenProTextTheme().headlineSmall,
