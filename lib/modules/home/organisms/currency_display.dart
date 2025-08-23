@@ -18,7 +18,7 @@ class CurrencyDisplay extends ConsumerWidget {
         MainCurrencyText(),
         AppSpacing.xs.sizedBoxH,
         CurrencyValueTitle(),
-        AppSpacing.sm.sizedBoxH,
+        AppSpacing.md.sizedBoxH,
         CurrentRateInfo(),
       ],
     );

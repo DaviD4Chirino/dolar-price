@@ -156,38 +156,16 @@ class HomePageLandscape extends StatelessWidget {
       spacing: AppSpacing.lg,
       children: [
         Expanded(
+          flex: 6,
           child: Center(
-            child: Screenshot(
-              controller: screenshotController,
-              child: Container(
-                color: theme.colorScheme.surfaceContainerLow,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        AppSpacing.sm.sizedBoxH,
-                        AppLogo.square(size: 70),
-                        AppSpacing.sm.sizedBoxH,
-                        if (isLoading.value)
-                          LinearProgressIndicator()
-                        else
-                          CurrencyDisplay(),
-                        AppSpacing.sm.sizedBoxH,
-                        QuickCalculator(),
-                        AppSpacing.md.sizedBoxH,
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            child: MainCurrencyHeadline(
+              screenshotController: screenshotController,
+              isLoading: isLoading,
             ),
           ),
         ),
         Expanded(
+          flex: 4,
           child: Center(
             child: SingleChildScrollView(
               child: CurrencyDisplayList(),
@@ -220,28 +198,9 @@ class HomePagePortrait extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Screenshot(
-            controller: screenshotController,
-            child: Container(
-              color: theme.colorScheme.surfaceContainerLow,
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.lg),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    AppSpacing.xs.sizedBoxH,
-                    AppLogo.square(size: 100),
-                    AppSpacing.sm.sizedBoxH,
-                    if (isLoading.value)
-                      LinearProgressIndicator()
-                    else
-                      CurrencyDisplay(),
-                    AppSpacing.sm.sizedBoxH,
-                    QuickCalculator(),
-                  ],
-                ),
-              ),
-            ),
+          MainCurrencyHeadline(
+            screenshotController: screenshotController,
+            isLoading: isLoading,
           ),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -252,11 +211,50 @@ class HomePagePortrait extends StatelessWidget {
               children: [
                 AppSpacing.lg.sizedBoxH,
                 CurrencyDisplayList(),
-                AppSpacing.md.sizedBoxH,
+                AppSpacing.lg.sizedBoxH,
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MainCurrencyHeadline extends StatelessWidget {
+  const MainCurrencyHeadline({
+    super.key,
+    required this.screenshotController,
+    required this.isLoading,
+  });
+
+  final ScreenshotController screenshotController;
+  final ValueNotifier<bool> isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Screenshot(
+      controller: screenshotController,
+      child: Container(
+        color: theme.colorScheme.surfaceContainerLow,
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              AppSpacing.xs.sizedBoxH,
+              AppLogo.square(size: 100),
+              AppSpacing.lg.sizedBoxH,
+              if (isLoading.value)
+                LinearProgressIndicator()
+              else
+                CurrencyDisplay(),
+              AppSpacing.lg.sizedBoxH,
+              QuickCalculator(),
+            ],
+          ),
+        ),
       ),
     );
   }
