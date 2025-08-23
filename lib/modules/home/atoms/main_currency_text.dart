@@ -14,6 +14,7 @@ class MainCurrencyText extends ConsumerWidget {
         mainCurrency,
         context: context,
       ),
+      style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,
     );
   }
