@@ -12,13 +12,9 @@ class CurrencySelectorDialog extends ConsumerWidget {
       mainCurrencyNotifierProvider.notifier,
     );
 
-    final curatedCurrencies = Currencies.allCurrencies.where(
-      (currency) => currency != Currencies.btc,
-    );
-
     return SimpleDialog(
       title: Text("Select currency"),
-      children: curatedCurrencies.map((currency) {
+      children: Currencies.allCurrencies.map((currency) {
         return ListTile(
           title: Text(
             Currencies.getCurrencyTitle(

@@ -14,6 +14,7 @@ import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:layout/layout.dart';
 import 'package:screenshot/screenshot.dart';
 
 class HomePage extends StatefulHookConsumerWidget {
@@ -95,51 +96,17 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Screenshot(
-              controller: screenshotController,
-              child: Container(
-                color: theme.colorScheme.surfaceContainerLow,
-                child: Padding(
-                  padding: EdgeInsets.all(AppSpacing.lg),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      AppSpacing.xs.sizedBoxH,
-                      AppLogo.square(size: 100),
-                      AppSpacing.sm.sizedBoxH,
-                      if (isLoading.value)
-                        LinearProgressIndicator()
-                      else
-                        CurrencyDisplay(),
-                      AppSpacing.sm.sizedBoxH,
-                      QuickCalculator(),
-                    ],
-                  ),
-                ),
-              ),
+      body: context.breakpoint > LayoutBreakpoint.xs
+          ? HomePageLandscape(
+              screenshotController: screenshotController,
+              theme: theme,
+              isLoading: isLoading,
+            )
+          : HomePagePortrait(
+              screenshotController: screenshotController,
+              theme: theme,
+              isLoading: isLoading,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppSpacing.lg.sizedBoxH,
-                  CurrencyDisplayList(),
-                  AppSpacing.md.sizedBoxH,
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -166,6 +133,131 @@ class _HomePageState extends ConsumerState<HomePage> {
           tooltip: t.settingsTitle,
         ),
       ],
+    );
+  }
+}
+
+class HomePageLandscape extends StatelessWidget {
+  const HomePageLandscape({
+    super.key,
+    required this.screenshotController,
+    required this.theme,
+    required this.isLoading,
+  });
+  final ScreenshotController screenshotController;
+  final ThemeData theme;
+  final ValueNotifier<bool> isLoading;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: AppSpacing.lg,
+      children: [
+        Expanded(
+          child: Center(
+            child: Screenshot(
+              controller: screenshotController,
+              child: Container(
+                color: theme.colorScheme.surfaceContainerLow,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        AppSpacing.sm.sizedBoxH,
+                        AppLogo.square(size: 70),
+                        AppSpacing.sm.sizedBoxH,
+                        if (isLoading.value)
+                          LinearProgressIndicator()
+                        else
+                          CurrencyDisplay(),
+                        AppSpacing.sm.sizedBoxH,
+                        QuickCalculator(),
+                        AppSpacing.md.sizedBoxH,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Center(
+            child: SingleChildScrollView(
+              child: CurrencyDisplayList(),
+            ),
+          ),
+        ),
+        AppSpacing.xl.sizedBoxH,
+      ],
+    );
+  }
+}
+
+class HomePagePortrait extends StatelessWidget {
+  const HomePagePortrait({
+    super.key,
+    required this.screenshotController,
+    required this.theme,
+    required this.isLoading,
+  });
+
+  final ScreenshotController screenshotController;
+  final ThemeData theme;
+  final ValueNotifier<bool> isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Screenshot(
+            controller: screenshotController,
+            child: Container(
+              color: theme.colorScheme.surfaceContainerLow,
+              child: Padding(
+                padding: EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    AppSpacing.xs.sizedBoxH,
+                    AppLogo.square(size: 100),
+                    AppSpacing.sm.sizedBoxH,
+                    if (isLoading.value)
+                      LinearProgressIndicator()
+                    else
+                      CurrencyDisplay(),
+                    AppSpacing.sm.sizedBoxH,
+                    QuickCalculator(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppSpacing.lg.sizedBoxH,
+                CurrencyDisplayList(),
+                AppSpacing.md.sizedBoxH,
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

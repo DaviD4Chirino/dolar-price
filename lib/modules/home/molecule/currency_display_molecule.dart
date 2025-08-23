@@ -7,11 +7,13 @@ class CurrencyDisplayMolecule extends StatelessWidget {
     required this.currency,
     required this.value,
     this.title,
+    this.onTap,
   });
 
   final String currency;
   final String value;
   final String? title;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class CurrencyDisplayMolecule extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       dense: true,
       visualDensity: VisualDensity.compact,
+      onTap: onTap,
 
       minVerticalPadding: 0,
       title: Text(

@@ -92,6 +92,15 @@ class _QuickCalculatorState
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<String>(mainCurrencyNotifierProvider, (
+      prev,
+      next,
+    ) {
+      // When mainCurrency changes, update fields
+      currencyTextController.text = "1";
+      onCurrencyChanged("1");
+    });
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

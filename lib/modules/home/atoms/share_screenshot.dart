@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:awesome_dolar_price/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pasteboard/pasteboard.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -19,10 +18,10 @@ class ShareScreenshot extends StatelessWidget {
   Future<void> onShare(BuildContext context) async {
     try {
       // Force Portrait Mode
-      await SystemChrome.setPreferredOrientations([
+      /* await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
-      ]);
+      ]); */
       var screenshot = await screenshotController.capture(
         delay: Duration(seconds: 1),
       );
@@ -67,12 +66,12 @@ class ShareScreenshot extends StatelessWidget {
     }
 
     // Reset Portrait Mode
-    await SystemChrome.setPreferredOrientations([
+    /* await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
-    ]);
+    ]); */
   }
 
   @override
