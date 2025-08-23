@@ -116,7 +116,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     void Function()? onRefresh,
   }) {
     return AppBar(
-      title: Text(t.homeTitle),
       actions: [
         ShareScreenshot(
           screenshotController: screenshotController,
@@ -157,10 +156,12 @@ class HomePageLandscape extends StatelessWidget {
       children: [
         Expanded(
           flex: 6,
-          child: Center(
-            child: MainCurrencyHeadline(
-              screenshotController: screenshotController,
-              isLoading: isLoading,
+          child: SingleChildScrollView(
+            child: Center(
+              child: MainCurrencyHeadline(
+                screenshotController: screenshotController,
+                isLoading: isLoading,
+              ),
             ),
           ),
         ),
