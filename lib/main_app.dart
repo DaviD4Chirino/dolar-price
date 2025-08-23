@@ -38,6 +38,11 @@ class _MainAppState extends ConsumerState<MainApp> {
   Widget build(BuildContext context) {
     return Layout(
       child: MaterialApp(
+        scrollBehavior: ScrollConfiguration.of(context).copyWith(
+          physics: const ClampingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+        ),
         localizationsDelegates:
             AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

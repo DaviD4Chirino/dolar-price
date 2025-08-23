@@ -21,7 +21,6 @@ class CurrencyAmountInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(currencyCode);
     return TextField(
       controller: controller,
       onChanged: onChanged,
