@@ -239,13 +239,27 @@ class MainCurrencyHeadline extends StatelessWidget {
       controller: screenshotController,
       child: Container(
         color: theme.colorScheme.surfaceContainerLow,
+
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.lg),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
               AppSpacing.xs.sizedBoxH,
-              AppLogo.square(size: 100),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.164),
+                      blurRadius: 18,
+                      spreadRadius: 10,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: AppLogo.square(size: 100),
+              ),
               AppSpacing.lg.sizedBoxH,
               if (isLoading.value)
                 LinearProgressIndicator()
