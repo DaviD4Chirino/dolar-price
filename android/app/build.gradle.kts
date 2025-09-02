@@ -34,8 +34,7 @@ android {
         applicationId = "com.davidspace.awesome_dolar_price"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21
-        minSdkVersion = 27.0.12077973
+        minSdk = 27.0.12077973
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -50,8 +50,6 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/icons/logo/logo.svg
-    - assets/icons/logo/logo_extended.svg
     - assets/icons/logo/logo.png
     - assets/icons/logo/logo-extended.png
     - assets/icons/logo/logo-dark.png
