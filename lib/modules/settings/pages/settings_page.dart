@@ -19,8 +19,8 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         children: [
           AppSizing.xxl.sizedBoxH,
-          AppLogo(extended: true, height: 50),
-          AppSizing.xl.sizedBoxH,
+          AppLogo(height: 80, type: LogoType.title),
+          AppSizing.xs.sizedBoxH,
           Divider(),
           ThemeModeSwitchAtom(),
           LanguageSwitcherAtom(),

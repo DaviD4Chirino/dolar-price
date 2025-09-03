@@ -258,9 +258,11 @@ class MainCurrencyHeadline extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: AppLogo.square(size: 100),
+                child: AppLogo.square(
+                  size: 180,
+                  type: LogoType.titleWithSlogan,
+                ),
               ),
-              AppSpacing.lg.sizedBoxH,
               if (isLoading.value)
                 LinearProgressIndicator()
               else
