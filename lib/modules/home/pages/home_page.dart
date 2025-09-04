@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
-import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/modules/home/organisms/currency_display.dart';
-import 'package:awesome_dolar_price/modules/home/atoms/share_screenshot.dart';
-import 'package:awesome_dolar_price/modules/home/organisms/currency_display_list.dart';
-import 'package:awesome_dolar_price/modules/quick_calculator/molecules/quick_calculator.dart';
-import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
-import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
-import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
-import 'package:awesome_dolar_price/tokens/atoms/app_logo.dart';
+import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
+import 'package:doya/l10n/app_localizations.dart';
+import 'package:doya/modules/home/organisms/currency_display.dart';
+import 'package:doya/modules/home/atoms/share_screenshot.dart';
+import 'package:doya/modules/home/organisms/currency_display_list.dart';
+import 'package:doya/modules/quick_calculator/molecules/quick_calculator.dart';
+import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/tokens/app/app_routes.dart';
+import 'package:doya/tokens/app/app_spacing.dart';
+import 'package:doya/tokens/atoms/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

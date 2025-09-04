@@ -1,7 +1,7 @@
-import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
-import 'package:awesome_dolar_price/tokens/models/currencies.dart';
-import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
-import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
+import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/tokens/models/currencies.dart';
+import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
+import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'main_currency_provider.g.dart';

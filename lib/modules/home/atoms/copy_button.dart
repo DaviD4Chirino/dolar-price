@@ -1,5 +1,5 @@
-import 'package:awesome_dolar_price/tokens/app/app_sizing.dart';
-import 'package:awesome_dolar_price/tokens/utils/helpers/copy_to_clipboard.dart';
+import 'package:doya/tokens/app/app_sizing.dart';
+import 'package:doya/tokens/utils/helpers/copy_to_clipboard.dart';
 import 'package:flutter/material.dart';
 
 class CopyButton extends StatelessWidget {

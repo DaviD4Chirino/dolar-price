@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/tokens/models/currencies.dart';
+import 'package:doya/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyDisplayMolecule extends StatelessWidget {

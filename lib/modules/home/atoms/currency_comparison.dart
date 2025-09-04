@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/tokens/utils/helpers/percentage_calculator.dart';
+import 'package:doya/tokens/utils/helpers/percentage_calculator.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyComparison extends StatelessWidget {

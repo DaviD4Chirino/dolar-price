@@ -1,9 +1,9 @@
-import 'package:awesome_dolar_price/extensions/double_extensions/sized_box_extension.dart';
-import 'package:awesome_dolar_price/modules/quick_calculator/atoms/currency_amount_input.dart';
-import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
-import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
-import 'package:awesome_dolar_price/tokens/app/app_spacing.dart';
-import 'package:awesome_dolar_price/tokens/models/quotes.dart';
+import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
+import 'package:doya/modules/quick_calculator/atoms/currency_amount_input.dart';
+import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/providers/main_currency_provider.dart';
+import 'package:doya/tokens/app/app_spacing.dart';
+import 'package:doya/tokens/models/quotes.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

@@ -1,9 +1,10 @@
-import 'package:awesome_dolar_price/providers/theme_mode.dart';
+import 'package:doya/providers/theme_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 mixin ConsumerMixin {
   bool isLightMode(WidgetRef ref) {
-    return ref.watch(themeModeNotifierProvider) == ThemeMode.light;
+    return ref.watch(themeModeNotifierProvider) ==
+        ThemeMode.light;
   }
 }

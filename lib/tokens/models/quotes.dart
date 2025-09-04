@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
+import 'package:doya/tokens/models/currency_rates.dart';
 
 class Quotes {
   Quotes({
@@ -17,9 +17,11 @@ class Quotes {
 
   Quotes.fromJson(Map<String, dynamic> json)
     : lastUpdateTime =
-          json["time_last_update"] ?? DateTime.timestamp().toString(),
+          json["time_last_update"] ??
+          DateTime.timestamp().toString(),
       nextUpdateTime =
-          json["time_next_update"] ?? DateTime.timestamp().toString(),
+          json["time_next_update"] ??
+          DateTime.timestamp().toString(),
       rates = CurrencyRates(
         usd: json["rates"]["USD"] ?? 0,
         eur: json["rates"]["EUR"] ?? 0,

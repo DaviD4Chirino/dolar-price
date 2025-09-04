@@ -1,8 +1,8 @@
-import 'package:awesome_dolar_price/api/dolar_api.dart';
-import 'package:awesome_dolar_price/api/exchange_rate_api.dart';
-import 'package:awesome_dolar_price/tokens/utils/helpers/quotes_helper.dart';
-import 'package:awesome_dolar_price/tokens/models/quotes.dart';
-import 'package:awesome_dolar_price/tokens/models/currency_rates.dart';
+import 'package:doya/api/dolar_api.dart';
+import 'package:doya/api/exchange_rate_api.dart';
+import 'package:doya/tokens/utils/helpers/quotes_helper.dart';
+import 'package:doya/tokens/models/quotes.dart';
+import 'package:doya/tokens/models/currency_rates.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

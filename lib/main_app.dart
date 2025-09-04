@@ -1,8 +1,8 @@
-import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/providers/theme_mode.dart';
-import 'package:awesome_dolar_price/providers/translation.dart';
-import 'package:awesome_dolar_price/tokens/app/app_routes.dart';
-import 'package:awesome_dolar_price/tokens/app/app_theme.dart';
+import 'package:doya/l10n/app_localizations.dart';
+import 'package:doya/providers/theme_mode.dart';
+import 'package:doya/providers/translation.dart';
+import 'package:doya/tokens/app/app_routes.dart';
+import 'package:doya/tokens/app/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

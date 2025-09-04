@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:doya/l10n/app_localizations.dart';
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:flutter/material.dart';
 

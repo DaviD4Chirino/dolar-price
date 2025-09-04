@@ -1,8 +1,8 @@
-import 'package:awesome_dolar_price/modules/home/atoms/currency_comparison.dart';
-import 'package:awesome_dolar_price/providers/currency_exchange_provider.dart';
-import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
-import 'package:awesome_dolar_price/providers/translation.dart';
-import 'package:awesome_dolar_price/tokens/models/currencies.dart';
+import 'package:doya/modules/home/atoms/currency_comparison.dart';
+import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/providers/main_currency_provider.dart';
+import 'package:doya/providers/translation.dart';
+import 'package:doya/tokens/models/currencies.dart';
 import 'package:dart_date/dart_date.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';

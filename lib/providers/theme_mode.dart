@@ -1,4 +1,4 @@
-import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
+import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +12,9 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
   ThemeMode build() {
     if (LocalStorage.getBool("theme-mode") == null) {
       return SchedulerBinding
-                  .instance.platformDispatcher.platformBrightness ==
+                  .instance
+                  .platformDispatcher
+                  .platformBrightness ==
               Brightness.dark
           ? ThemeMode.dark
           : ThemeMode.light;
@@ -46,8 +48,8 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
   void _setStatusBarColor() {
     SystemUiOverlayStyle brightness =
         state == ThemeMode.light || state == ThemeMode.system
-            ? SystemUiOverlayStyle.dark
-            : SystemUiOverlayStyle.light;
+        ? SystemUiOverlayStyle.dark
+        : SystemUiOverlayStyle.light;
 
     SystemChrome.setSystemUIOverlayStyle(brightness);
   }

@@ -1,7 +1,7 @@
-import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/modules/settings/molecules/currency_selector_dialog.dart';
-import 'package:awesome_dolar_price/providers/main_currency_provider.dart';
-import 'package:awesome_dolar_price/tokens/models/currencies.dart';
+import 'package:doya/l10n/app_localizations.dart';
+import 'package:doya/modules/settings/molecules/currency_selector_dialog.dart';
+import 'package:doya/providers/main_currency_provider.dart';
+import 'package:doya/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

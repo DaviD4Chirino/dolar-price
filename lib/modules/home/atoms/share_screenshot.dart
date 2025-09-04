@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:awesome_dolar_price/l10n/app_localizations.dart';
+import 'package:doya/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pasteboard/pasteboard.dart';

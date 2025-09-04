@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:awesome_dolar_price/env/env.dart';
+import 'package:doya/env/env.dart';
 import 'package:http/http.dart' as http;
 
 // TODO: So, if we have multiple apis, we need to switch from them, so, uh do that
@@ -30,14 +30,18 @@ abstract class ExchangeRateApi {
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       if (json["result"] == "error") {
-        throw SocketException("Api Error: ${json["error-type"]}");
+        throw SocketException(
+          "Api Error: ${json["error-type"]}",
+        );
       }
       return json;
     }
     if (response.statusCode == 403) {
       final json = jsonDecode(response.body);
       if (json["result"] == "error") {
-        throw SocketException("Api Error: ${json["error-type"]}");
+        throw SocketException(
+          "Api Error: ${json["error-type"]}",
+        );
       }
     }
     throw SocketException("Could not get dolar price");

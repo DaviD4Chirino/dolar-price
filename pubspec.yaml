@@ -1,7 +1,7 @@
-name: awesome_dolar_price
+name: doya
 description: "An App that looks up the dolar price in Venezuela"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.1.0
 
 environment:
   sdk: ^3.8.1

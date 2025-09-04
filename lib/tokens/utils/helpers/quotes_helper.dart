@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:awesome_dolar_price/tokens/models/quotes.dart';
-import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/local_storage.dart';
-import 'package:awesome_dolar_price/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
+import 'package:doya/tokens/models/quotes.dart';
+import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
+import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 
 Future<void> saveQuote(Quotes quote) async {
   var quotes = getQuotes() ?? [];

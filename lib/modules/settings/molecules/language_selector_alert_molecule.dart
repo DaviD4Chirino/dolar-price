@@ -1,7 +1,7 @@
-import 'package:awesome_dolar_price/l10n/app_localizations.dart';
-import 'package:awesome_dolar_price/providers/translation.dart';
-import 'package:awesome_dolar_price/tokens/utils/atoms/locale_code_atom.dart';
-import 'package:awesome_dolar_price/tokens/utils/atoms/localized.dart';
+import 'package:doya/l10n/app_localizations.dart';
+import 'package:doya/providers/translation.dart';
+import 'package:doya/tokens/utils/atoms/locale_code_atom.dart';
+import 'package:doya/tokens/utils/atoms/localized.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,8 +10,9 @@ class LanguageSelectorAlertMolecule extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final translationNotifier =
-        ref.read(translationNotifierProvider.notifier);
+    final translationNotifier = ref.read(
+      translationNotifierProvider.notifier,
+    );
     final currentLocale = ref.watch(translationNotifierProvider);
 
     return SimpleDialog(
@@ -29,9 +30,8 @@ class LanguageSelectorAlertMolecule extends HookConsumerWidget {
           leading: LocaleCodeAtom(locale.toLanguageTag()),
           title: Localized(
             locale: locale,
-            builder: (context) => Text(
-              AppLocalizations.of(context).languageTitle,
-            ),
+            builder: (context) =>
+                Text(AppLocalizations.of(context).languageTitle),
           ),
           onTap: onTap,
         );
