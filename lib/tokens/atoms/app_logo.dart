@@ -50,7 +50,7 @@ class _AppLogoState extends ConsumerState<AppLogo>
 
   Widget _buildIcon(double width, double height) {
     return Image.asset(
-      "assets/icons/logo/logo${isLightMode(ref) ? "" : "-dark"}.png",
+      "assets/icons/logo/logo.png",
       width: width,
       height: height,
     );
@@ -58,7 +58,7 @@ class _AppLogoState extends ConsumerState<AppLogo>
 
   Widget _buildBranding(double width, double height) {
     return Image.asset(
-      "assets/icons/logo/${isLightMode(ref) ? "logo-branding" : "logo-branding-dark"}.png",
+      "assets/icons/logo/logo-branding${isLightMode(ref) ? "" : "-dark"}.png",
       width: width,
       height: height,
     );

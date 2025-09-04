@@ -51,12 +51,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/logo/logo.png
-    - assets/icons/logo/logo-extended.png
-    - assets/icons/logo/logo-dark.png
-    - assets/icons/logo/logo-extended-dark.png
+    - assets/icons/logo/logo-256x256.png
 
     - assets/icons/logo/logo-branding.png
+    - assets/icons/logo/logo-branding-512x512.png
     - assets/icons/logo/logo-branding-dark.png
+    - assets/icons/logo/logo-branding-dark-512x512.png
     - assets/icons/logo/logo-title-with-slogan.png
     - assets/icons/logo/logo-title-with-slogan-dark.png
     - assets/icons/logo/logo-title.png

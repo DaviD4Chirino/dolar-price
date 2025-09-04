@@ -246,23 +246,7 @@ class MainCurrencyHeadline extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               AppSpacing.xs.sizedBoxH,
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.164),
-                      blurRadius: 18,
-                      spreadRadius: 10,
-                      offset: Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: AppLogo.square(
-                  size: 180,
-                  type: LogoType.titleWithSlogan,
-                ),
-              ),
+              AppLogo.square(size: 180, type: LogoType.branding),
               if (isLoading.value)
                 LinearProgressIndicator()
               else
