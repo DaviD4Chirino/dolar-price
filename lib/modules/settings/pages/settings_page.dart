@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
         children: [
           AppSizing.xxl.sizedBoxH,
           AppLogo(height: 80, type: LogoType.title),
-          AppSizing.xs.sizedBoxH,
+          AppSizing.xl.sizedBoxH,
           Divider(),
           ThemeModeSwitchAtom(),
           LanguageSwitcherAtom(),
