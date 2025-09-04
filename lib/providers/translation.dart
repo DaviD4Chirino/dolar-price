@@ -15,7 +15,7 @@ class TranslationNotifier extends _$TranslationNotifier {
     return AppLocalizations.supportedLocales.firstWhere(
       (element) =>
           element.toLanguageTag() == Platform.localeName,
-      orElse: () => AppLocalizations.supportedLocales.first,
+      orElse: () => Locale("es"),
     );
   }
 
