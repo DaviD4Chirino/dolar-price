@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:doya/tokens/constants/env.dart';
 import 'package:http/http.dart' as http;
 
 // TODO: So, if we have multiple apis, we need to switch from them, so, uh do that
@@ -16,10 +17,10 @@ abstract class ExchangeRateApi {
       final month = date.month;
       final day = date.day;
       url =
-          "https://v6.exchangerate-api.com/v6/${String.fromEnvironment('EXCHANGE_RATES_API_KEY')}/history/$code/$year/$month/$day";
+          "https://v6.exchangerate-api.com/v6/${Env.exchangeRatesApiKey}/history/$code/$year/$month/$day";
     } else {
       url =
-          "https://v6.exchangerate-api.com/v6/${String.fromEnvironment('EXCHANGE_RATES_API_KEY')}/latest/$code";
+          "https://v6.exchangerate-api.com/v6/${Env.exchangeRatesApiKey}/latest/$code";
     }
 
     final response = await http.get(

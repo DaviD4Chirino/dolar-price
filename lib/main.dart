@@ -1,6 +1,7 @@
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/main_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,5 +13,5 @@ Future<void> main() async {
 }
 
 Future<List<void>> initializations() async {
-  return Future.wait([LocalStorage.init()]);
+  return Future.wait([LocalStorage.init(), dotenv.load()]);
 }

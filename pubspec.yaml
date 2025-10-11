@@ -61,3 +61,5 @@ flutter:
     - assets/icons/logo/logo-title-with-slogan.png
     - assets/icons/logo/logo-title-with-slogan-dark.png
     - assets/icons/logo/logo-title.png
+
+    - .env
