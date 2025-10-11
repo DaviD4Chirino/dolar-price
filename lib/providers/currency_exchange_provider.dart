@@ -72,6 +72,9 @@ class CurrencyExchangeNotifier
     if (kDebugMode) {
       print("fetching new prices");
     }
+    try {} catch (e) {
+
+    }
 
     var responses = await Future.wait([
       ExchangeRateApi.getCurrency("USD"),
