@@ -75,6 +75,11 @@ class _HomePageState extends ConsumerState<HomePage> {
       isLoading.value = false; */
     }
 
+    useEffect(() {
+      fetchDolarPrice();
+      return null;
+    }, []);
+
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
       body: context.breakpoint > LayoutBreakpoint.xs
