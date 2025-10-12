@@ -1,5 +1,7 @@
 import 'package:doya/api/dolar_api.dart';
 import 'package:doya/api/exchange_rate_api.dart';
+import 'package:doya/providers/main_currency_provider.dart';
+import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/helpers/quotes_helper.dart';
 import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
@@ -73,11 +75,9 @@ class CurrencyExchangeNotifier
       print("fetching new prices");
     }
 
-    var newQuotes = state.copyWith();
-
     try {
       var responses = await Future.wait<Map<String, dynamic>>([
-        ExchangeRateApi.getCurrency("USD", earlyThrow: true),
+        ExchangeRateApi.getCurrency("USD"),
         ExchangeRateApi.getCurrency("EUR"),
       ]);
 
@@ -89,7 +89,7 @@ class CurrencyExchangeNotifier
       }
       final dolarApiPrices = await fetchDolarApiPrices();
 
-      newQuotes = newQuotes.copyWith(
+      state = state.copyWith(
         rates: CurrencyRates(
           usd: rates["USD"] ?? 0,
           eur: rates["EUR"] ?? 0,
@@ -105,11 +105,13 @@ class CurrencyExchangeNotifier
 
       try {
         final dolarApiPrices = await fetchDolarApiPrices();
-        newQuotes = newQuotes.copyWith(
+        var prevQuotes = getPreviousExchangeValue();
+        state = state.copyWith(
           rates: CurrencyRates(
             usd: dolarApiPrices.usd,
             usdParallel: dolarApiPrices.usdParallel,
             btc: dolarApiPrices.btc,
+            eur: prevQuotes?.rates.eur ?? 0,
           ),
         );
       } catch (e) {
@@ -127,11 +129,20 @@ class CurrencyExchangeNotifier
         DateTime.timestamp() /* .add(Duration(hours: 1))*/
             .toString();
 
-    state = newQuotes.copyWith(
+    state = state.copyWith(
       lastUpdateTime: lastUpdateTime,
       nextUpdateTime: nextUpdateTime,
       lastQuote: getPreviousExchangeValue(),
     );
+
+    final mainCurrency = ref.read(mainCurrencyNotifierProvider);
+    final mainCurrencyNotifier = ref.read(
+      mainCurrencyNotifierProvider.notifier,
+    );
+
+    if (state.rates.getRate(mainCurrency) == 0) {
+      mainCurrencyNotifier.setMainCurrency(Currencies.usd);
+    }
 
     // var allPrices = await DolarApi.getAllPrices();
 
