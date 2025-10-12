@@ -124,10 +124,17 @@ class CurrencyExchangeNotifier
       }
     }
 
+    final now = DateTime.now();
+
     final lastUpdateTime = DateTime.timestamp().toString();
-    final nextUpdateTime =
-        DateTime.timestamp() /* .add(Duration(hours: 1))*/
-            .toString();
+
+    // Next update is tomorrow at 20:00
+    final nextUpdateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      20,
+    ).add(Duration(days: 2)).toString();
 
     state = state.copyWith(
       lastUpdateTime: lastUpdateTime,

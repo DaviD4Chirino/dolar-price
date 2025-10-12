@@ -20,7 +20,10 @@ class CurrentRateInfo extends ConsumerWidget {
     final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
 
     final lastUpdate = DateTime.parse(quote.lastUpdateTime)
-        .format("EEEE, dd/MM/yyyy", locale.toLanguageTag())
+        .format("EEEE, dd MMM. yyyy", locale.toLanguageTag())
+        .capitalize;
+    final nextUpdate = DateTime.parse(quote.nextUpdateTime)
+        .format("EEEE, dd MMM. yyyy", locale.toLanguageTag())
         .capitalize;
 
     final currentRate = quote.rates.getRate(mainCurrency);
@@ -45,10 +48,13 @@ class CurrentRateInfo extends ConsumerWidget {
               "0.0",
         ) */
         Expanded(
-          child: Text(
-            lastUpdate,
-            textAlign: TextAlign.end,
-            style: theme.textTheme.bodySmall,
+          child: Tooltip(
+            message: 'Siguiente actualización:\n$nextUpdate',
+            child: Text(
+              lastUpdate,
+              textAlign: TextAlign.end,
+              style: theme.textTheme.bodySmall,
+            ),
           ),
         ),
       ],

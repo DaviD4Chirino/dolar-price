@@ -40,8 +40,6 @@ class _HomePageState extends ConsumerState<HomePage> {
       currencyExchangeNotifierProvider.notifier,
     );
 
-    Timer? timer;
-
     Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
@@ -76,23 +74,6 @@ class _HomePageState extends ConsumerState<HomePage> {
       dolarPrice.value = remoteValue.toStringAsFixed(3);
       isLoading.value = false; */
     }
-
-    useEffect(() {
-      Future.delayed(
-        Duration(milliseconds: 200),
-        fetchDolarPrice,
-      );
-
-      timer = Timer.periodic(Duration(hours: 1, seconds: 1), (
-        timer,
-      ) {
-        fetchDolarPrice(forceUpdate: false);
-      });
-
-      return () {
-        timer?.cancel();
-      };
-    }, const []);
 
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
@@ -252,7 +233,7 @@ class MainCurrencyHeadline extends StatelessWidget {
               else
                 CurrencyDisplay(),
               AppSpacing.lg.sizedBoxH,
-              QuickCalculator(),
+              if (!isLoading.value) QuickCalculator(),
             ],
           ),
         ),
