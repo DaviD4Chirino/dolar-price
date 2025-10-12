@@ -15,5 +15,5 @@ Todo:
       ☐ Build the .env file in the workflow
       ☐ Build for windows
 
-  ☐ Add github Flavor
-  ☐ Add Play Store Flavor
+  ✔ Add github Flavor @done(25-10-12 14:25)
+  ✔ Add Play Store Flavor @done(25-10-12 14:25)

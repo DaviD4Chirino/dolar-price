@@ -20,6 +20,29 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
+    flavorDimensions += "default"
+
+    productFlavors {
+        create("github") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "DOYA! Dolar para ya"
+            )
+            applicationIdSuffix = ".gh"
+        }
+        create("playstore") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "DOYA! Dolar para ya"
+            )
+            applicationIdSuffix = ".ps"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

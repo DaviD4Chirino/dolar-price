@@ -1,17 +1,21 @@
-import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/main_app.dart';
+import 'package:doya/main_shared.dart';
+import 'package:doya/tokens/app/app_flavors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<void> main() async {
   var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await initializations();
-  runApp(const ProviderScope(child: MainApp()));
-}
+  AppFlavor.setFlavor(AppFlavors.github);
 
-Future<List<void>> initializations() async {
-  return Future.wait([LocalStorage.init(), dotenv.load()]);
+  if (kDebugMode) {
+    print('Running on Github');
+  }
+
+  await MainShared.initializations();
+
+  runApp(const ProviderScope(child: MainApp()));
 }
