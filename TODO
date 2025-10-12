@@ -1,0 +1,16 @@
+Todo:
+  Exchange Rate API:
+    ☐ Optimize (Theres a way to only fetch the conversion rates that are needed)
+    ☐ Add multiple keys in case one fails
+
+  Modules:
+    ☐ Currency selector (up to 5 currencies)
+
+  Translations:
+    ☐ Remove english from the app
+
+  Github:
+    ☐ Add a better readme
+    ☐ Fix the workflows
+      ☐ Build the .env file in the workflow
+      ☐ Build for windows
