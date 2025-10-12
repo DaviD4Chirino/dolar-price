@@ -134,7 +134,7 @@ class CurrencyExchangeNotifier
       now.month,
       now.day,
       20,
-    ).add(Duration(days: 2)).toString();
+    ).add(Duration(days: 1)).toString();
 
     state = state.copyWith(
       lastUpdateTime: lastUpdateTime,
