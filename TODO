@@ -14,3 +14,6 @@ Todo:
     ☐ Fix the workflows
       ☐ Build the .env file in the workflow
       ☐ Build for windows
+
+  ☐ Add github Flavor
+  ☐ Add Play Store Flavor
