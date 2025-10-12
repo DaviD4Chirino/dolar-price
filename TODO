@@ -1,6 +1,6 @@
 Todo:
   Exchange Rate API:
-    ☐ Optimize (Theres a way to only fetch the conversion rates that are needed)
+    ☐ Optimize (Theres a way to only fetch the conversion rates that are needed) @started(25-10-12 14:31)
     ☐ Add multiple keys in case one fails
 
   Modules:
