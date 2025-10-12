@@ -15,6 +15,37 @@ class Quotes {
 
   Quotes? lastQuote;
 
+  Quotes copyWith({
+    String? lastUpdateTime,
+    String? nextUpdateTime,
+    CurrencyRates? rates,
+    Quotes? lastQuote,
+  }) {
+    return Quotes(
+      lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
+      nextUpdateTime: nextUpdateTime ?? this.nextUpdateTime,
+      rates: rates ?? this.rates,
+      lastQuote: lastQuote ?? this.lastQuote,
+    );
+  }
+
+  @override
+  operator ==(Object other) =>
+      identical(this, other) ||
+      other is Quotes &&
+          runtimeType == other.runtimeType &&
+          lastUpdateTime == other.lastUpdateTime &&
+          nextUpdateTime == other.nextUpdateTime &&
+          rates == other.rates &&
+          lastQuote == other.lastQuote;
+  @override
+  int get hashCode => Object.hash(
+    lastUpdateTime,
+    nextUpdateTime,
+    rates,
+    lastQuote,
+  );
+
   Quotes.fromJson(Map<String, dynamic> json)
     : lastUpdateTime =
           json["time_last_update"] ??

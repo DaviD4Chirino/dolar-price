@@ -25,7 +25,9 @@ abstract class DolarApi {
       final prices = await getAllPrices();
       return prices[Prices.official.index];
     } catch (e) {
-      throw SocketException("Could not get official dolar price");
+      throw SocketException(
+        "Could not get official dolar price",
+      );
     }
   }
 
@@ -44,7 +46,9 @@ abstract class DolarApi {
       final prices = await getAllPrices();
       return prices[Prices.parallel.index];
     } catch (e) {
-      throw SocketException("Could not get parallel dolar price");
+      throw SocketException(
+        "Could not get parallel dolar price",
+      );
     }
   }
 
@@ -96,8 +100,15 @@ abstract class DolarApi {
   ///    "fechaActualizacion": "2025-08-20T14:01:57.904Z",
   ///  },
   ///] ```
-  static Future<List<dynamic>> getAllPrices() async {
-    final response = await http.get(Uri.parse("$baseUrl/dolares"));
+  static Future<List<dynamic>> getAllPrices({
+    bool earlyThrow = false,
+  }) async {
+    if (earlyThrow) {
+      throw SocketException("Early throw");
+    }
+    final response = await http.get(
+      Uri.parse("$baseUrl/dolares"),
+    );
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       return json;

@@ -73,44 +73,100 @@ class CurrencyExchangeNotifier
       print("fetching new prices");
     }
 
-    var responses = await Future.wait([
-      ExchangeRateApi.getCurrency("USD"),
-      ExchangeRateApi.getCurrency("EUR"),
-      ExchangeRateApi.getCurrency("CNY"),
-      ExchangeRateApi.getCurrency("RUB"),
-    ]);
+    var newQuotes = state.copyWith();
 
-    Map<String, double> rates = {};
+    try {
+      var responses = await Future.wait<Map<String, dynamic>>([
+        ExchangeRateApi.getCurrency("USD", earlyThrow: true),
+        ExchangeRateApi.getCurrency("EUR"),
+      ]);
 
-    for (var res in responses) {
-      rates[res["base_code"]] = res["conversion_rates"]["VES"]
-          .toDouble();
+      Map<String, double> rates = {};
+
+      for (var res in responses) {
+        rates[res["base_code"]] = res["conversion_rates"]["VES"]
+            .toDouble();
+      }
+      final dolarApiPrices = await fetchDolarApiPrices();
+
+      newQuotes = newQuotes.copyWith(
+        rates: CurrencyRates(
+          usd: rates["USD"] ?? 0,
+          eur: rates["EUR"] ?? 0,
+          usdParallel: dolarApiPrices.usdParallel,
+          btc: dolarApiPrices.btc,
+        ),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+        print('Dolar exchange api failed, trying dolar api');
+      }
+
+      try {
+        final dolarApiPrices = await fetchDolarApiPrices();
+        newQuotes = newQuotes.copyWith(
+          rates: CurrencyRates(
+            usd: dolarApiPrices.usd,
+            usdParallel: dolarApiPrices.usdParallel,
+            btc: dolarApiPrices.btc,
+          ),
+        );
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+          print('Dolar api failed, Throwing');
+        }
+        // if both fails, better to do nothing
+        throw Exception("Could not fetch dolar prices");
+      }
     }
-    var allPrices = await DolarApi.getAllPrices();
 
-    var result = Quotes(
-      rates: CurrencyRates(
-        usd: rates["USD"]!,
-        usdParallel:
-            allPrices[Prices.parallel.index]["promedio"]!,
-        btc: allPrices[Prices.bitcoin.index]["promedio"]!,
-        eur: rates["EUR"]!,
-        cny: rates["CNY"]!,
-        rub: rates["RUB"]!,
-      ),
+    final lastUpdateTime = DateTime.timestamp().toString();
+    final nextUpdateTime =
+        DateTime.timestamp() /* .add(Duration(hours: 1))*/
+            .toString();
 
-      /// So we can compare the current value with the previous one
+    state = newQuotes.copyWith(
+      lastUpdateTime: lastUpdateTime,
+      nextUpdateTime: nextUpdateTime,
       lastQuote: getPreviousExchangeValue(),
-
-      /// The api has its own time, but i decided to
-      /// use custom caching
-      lastUpdateTime: DateTime.timestamp().toString(),
-      nextUpdateTime: DateTime.timestamp()
-          .add(Duration(hours: 1))
-          .toString(),
     );
 
-    return result;
+    // var allPrices = await DolarApi.getAllPrices();
+
+    // var result = state.copyWith(
+    //   rates: CurrencyRates(
+    //     usdParallel:
+    //         allPrices[Prices.parallel.index]["promedio"] ?? 0,
+    //     btc: allPrices[Prices.bitcoin.index]["promedio"] ?? 0,
+    //   ),
+
+    //   /// So we can compare the current value with the previous one
+    //   lastQuote: getPreviousExchangeValue(),
+
+    //   /// The api has its own time, but i decided to
+    //   /// use custom caching
+    //   lastUpdateTime: lastUpdateTime,
+    //   nextUpdateTime: nextUpdateTime,
+    // );
+
+    return state;
+  }
+
+  Future<CurrencyRates> fetchDolarApiPrices({
+    bool getOfficial = true,
+  }) async {
+    final dolarPrices = await DolarApi.getAllPrices();
+
+    return CurrencyRates(
+      usd: getOfficial
+          ? dolarPrices[Prices.official.index]["promedio"] ?? 0
+          : null,
+      usdParallel:
+          dolarPrices[Prices.parallel.index]["promedio"] ?? 0,
+      btc: dolarPrices[Prices.bitcoin.index]["promedio"] ?? 0,
+    );
   }
 
   Future<void> saveExchangeValue() async {

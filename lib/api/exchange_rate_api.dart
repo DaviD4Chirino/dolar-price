@@ -9,7 +9,12 @@ abstract class ExchangeRateApi {
   static Future<Map<String, dynamic>> getCurrency(
     String code, {
     DateTime? date,
+    bool earlyThrow = false,
   }) async {
+    if (earlyThrow) {
+      throw SocketException("Early throw");
+    }
+
     String url = "";
 
     if (date != null && date.isAfter(DateTime(2021))) {

@@ -56,6 +56,39 @@ class CurrencyRates {
     }
   }
 
+  CurrencyRates copyWith({
+    double? usd,
+    double? usdParallel,
+    double? btc,
+    double? eur,
+    double? cny,
+    double? rub,
+  }) {
+    return CurrencyRates(
+      usd: usd ?? this.usd,
+      usdParallel: usdParallel ?? this.usdParallel,
+      btc: btc ?? this.btc,
+      eur: eur ?? this.eur,
+      cny: cny ?? this.cny,
+      rub: rub ?? this.rub,
+    );
+  }
+
+  @override
+  operator ==(Object other) =>
+      identical(this, other) ||
+      other is CurrencyRates &&
+          runtimeType == other.runtimeType &&
+          usd == other.usd &&
+          usdParallel == other.usdParallel &&
+          btc == other.btc &&
+          eur == other.eur &&
+          cny == other.cny &&
+          rub == other.rub;
+  @override
+  int get hashCode =>
+      Object.hash(usd, usdParallel, btc, eur, cny, rub);
+
   CurrencyRates.fromJson(Map<String, dynamic> json)
     : usd = json["USD"] ?? 0,
       eur = json["EUR"] ?? 0,
