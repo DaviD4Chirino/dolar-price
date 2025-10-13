@@ -40,7 +40,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       currencyExchangeNotifierProvider.notifier,
     );
 
-    Future fetchDolarPrice({bool forceUpdate = true}) async {
+    Future fetchDolarPrice({bool forceUpdate = false}) async {
       if (isLoading.value) return;
 
       try {
@@ -76,8 +76,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     useEffect(() {
-      Future.delayed(Duration(seconds: 1), () {
-        fetchDolarPrice(forceUpdate: true);
+      Future.delayed(Duration(milliseconds: 100), () {
+        fetchDolarPrice();
       });
       return null;
     }, []);
