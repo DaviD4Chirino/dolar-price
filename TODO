@@ -10,6 +10,7 @@ Todo:
     ☐ Remove english from the app
 
   Github:
+    ☐ Add Auto Updater
     ☐ Add a better readme
     ☐ Fix the workflows
       ☐ Build the .env file in the workflow
