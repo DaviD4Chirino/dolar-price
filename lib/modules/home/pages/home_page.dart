@@ -76,7 +76,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     useEffect(() {
-      fetchDolarPrice();
+      Future.delayed(Duration(milliseconds: 100), () {
+        fetchDolarPrice();
+      });
       return null;
     }, []);
 

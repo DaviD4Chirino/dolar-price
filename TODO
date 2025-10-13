@@ -1,7 +1,7 @@
 Todo:
   Exchange Rate API:
-    ☐ Optimize (Theres a way to only fetch the conversion rates that are needed)
-    ☐ Add multiple keys in case one fails
+    ✔ Optimize (Theres a way to only fetch the conversion rates that are needed) @started(25-10-12 14:31) @done(25-10-13 14:09) @lasted(23h38m)
+    ✔ Add multiple keys in case one fails @done(25-10-12 20:26)
 
   Modules:
     ☐ Currency selector (up to 5 currencies)

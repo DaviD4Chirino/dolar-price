@@ -76,22 +76,23 @@ class CurrencyExchangeNotifier
     }
 
     try {
-      var responses = await Future.wait<Map<String, dynamic>>([
-        ExchangeRateApi.getCurrency("USD"),
-        ExchangeRateApi.getCurrency("EUR"),
+      var responses = await Future.wait<Map<String, dynamic>?>([
+        ExchangeRateApi.getPairConversion("USD"),
+        ExchangeRateApi.getPairConversion("EUR"),
       ]);
 
       Map<String, double> rates = {};
 
       for (var res in responses) {
-        rates[res["base_code"]] = res["conversion_rates"]["VES"]
+        if (res == null) continue;
+        rates[res["base_code"]] = res["conversion_rate"]
             .toDouble();
       }
       final dolarApiPrices = await fetchDolarApiPrices();
 
       state = state.copyWith(
         rates: CurrencyRates(
-          usd: rates["USD"] ?? 0,
+          usd: rates["USD"] ?? dolarApiPrices.usd,
           eur: rates["EUR"] ?? 0,
           usdParallel: dolarApiPrices.usdParallel,
           btc: dolarApiPrices.btc,
