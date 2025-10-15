@@ -1,10 +1,7 @@
----
-name: "tagged-release"
-
 on:
   push:
     tags:
-      - "v*"
+      - v*
 
 jobs:
   tagged-release:
@@ -21,31 +18,19 @@ jobs:
         with:
           file-path: "pubspec.yaml"
 
-      - name: removing caret
-        uses: frabert/replace-string-action@v2
-        id: flutter_sdk
-        with:
-          pattern: "\\^"
-          string: ${{ steps.yaml.outputs.environment__sdk }}
-          replace-with: ""
-
       - name: outputs to env
         run: |
-          echo "FLUTTER_SDK=${{ steps.flutter_sdk.outputs.replaced }}" >> $GITHUB_ENV
+          echo "DART_SDK=3.9.3" >> $GITHUB_ENV
           echo "NAME=${{ steps.yaml.outputs.name }}" >> $GITHUB_ENV
           echo "VERSION=${{ steps.yaml.outputs.version }}" >> $GITHUB_ENV
           echo "DESCRIPTION=${{ steps.yaml.outputs.description }}" >> $GITHUB_ENV
-
-      - name: echoing
-        run: |
-          echo "Flutter SDK: ${{ steps.flutter_sdk.outputs.replaced  }}"
-          echo "Name: ${{env.NAME}}"
-          echo "Version: ${{env.VERSION}}"
+          echo "FLUTTER_VERSION=3.32.2" >> $GITHUB_ENV
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -56,7 +41,7 @@ jobs:
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: ${{env.FLUTTER_SDK}}
+          sdk: ${{env.DART_SDK}}
 
       - name: Cache
         uses: actions/cache@v4.2.3
@@ -68,7 +53,6 @@ jobs:
           key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
           restore-keys: |
             ${{ runner.os }}-flutter-
-
       - name: Install Dependencies
         run: flutter pub get
 
@@ -84,18 +68,24 @@ jobs:
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=keystore.jks" >> android/key.properties
 
+      - name: Create .env file
+        run: |
+          echo "EXCHANGE_RATES_API_KEY=${{ secrets.EXCHANGE_RATES_API_KEY }}" > .env
+          echo "EXCHANGE_RATES_API_KEY_2=${{ secrets.EXCHANGE_RATES_API_KEY_2 }}" >> .env
+          echo "EXCHANGE_RATES_API_KEY_3=${{ secrets.EXCHANGE_RATES_API_KEY_3 }}" >> .env
+
       - name: Build Universal APK
-        run: flutter build apk --release
+        run: flutter build apk --flavor github --target lib/main_github.dart
 
       - name: Build APKs
-        run: flutter build apk --split-per-abi
+        run: flutter build apk --flavor github --target lib/main_github.dart --split-per-abi
 
       - name: Rename files
         run: |
-          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_universal_v${{ env.VERSION }}.apk
-          mv build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_armeabi_v7a_v${{ env.VERSION }}.apk
-          mv build/app/outputs/flutter-apk/app-arm64-v8a-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_arm64_v8a_v${{ env.VERSION }}.apk
-          mv build/app/outputs/flutter-apk/app-x86_64-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_x86_64_v${{ env.VERSION }}.apk
+          mv build/app/outputs/flutter-apk/app-github-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_universal_v${{ env.VERSION }}.apk
+          mv build/app/outputs/flutter-apk/app-armeabi-v7a-github-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_armeabi_v7a_v${{ env.VERSION }}.apk
+          mv build/app/outputs/flutter-apk/app-arm64-v8a-github-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_arm64_v8a_v${{ env.VERSION }}.apk
+          mv build/app/outputs/flutter-apk/app-x86_64-github-release.apk build/app/outputs/flutter-apk/${{ env.NAME }}_x86_64_v${{ env.VERSION }}.apk
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -106,11 +96,28 @@ jobs:
             build/app/outputs/flutter-apk/${{ env.NAME }}_armeabi_v7a_v${{ env.VERSION }}.apk
             build/app/outputs/flutter-apk/${{ env.NAME }}_arm64_v8a_v${{ env.VERSION }}.apk
             build/app/outputs/flutter-apk/${{ env.NAME }}_x86_64_v${{ env.VERSION }}.apk
+
+      - name: Check if Tag Exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+          fi
+      - name: Modify Tag
+        if: env.TAG_EXISTS == 'true'
+        id: modify_tag
+        run: |
+          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
+          echo "VERSION=$new_version" >> $GITHUB_ENV
+
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: "${{ secrets.GH_TOKEN }}"
           prerelease: true
-          automatic_release_tag: "latest"
+          automatic_release_tag: "v${{ env.VERSION }}"
+          title: "v${{ env.VERSION }}"
           files: |
             build/app/outputs/flutter-apk/${{ env.NAME }}_universal_v${{ env.VERSION }}.apk
             build/app/outputs/flutter-apk/${{ env.NAME }}_armeabi_v7a_v${{ env.VERSION }}.apk
