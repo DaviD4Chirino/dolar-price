@@ -1106,14 +1106,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  smart_banner:
-    dependency: "direct main"
-    description:
-      name: smart_banner
-      sha256: a92dfcc1975ce09411458789f5eac5d05d784457ae2edc64cc129dae8bf68abf
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2"
   source_gen:
     dependency: transitive
     description:
