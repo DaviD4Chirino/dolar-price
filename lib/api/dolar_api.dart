@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 enum Prices { official, parallel, bitcoin }
 
@@ -106,12 +105,11 @@ abstract class DolarApi {
     if (earlyThrow) {
       throw SocketException("Early throw");
     }
-    final response = await http.get(
-      Uri.parse("$baseUrl/dolares"),
-    );
+    final dio = Dio();
+
+    final response = await dio.get("$baseUrl/dolares");
     if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      return json;
+      return response.data;
     }
     throw SocketException("Could not get dolar price");
   }
