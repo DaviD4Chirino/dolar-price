@@ -8,13 +8,17 @@ import 'package:doya/modules/home/atoms/share_screenshot.dart';
 import 'package:doya/modules/home/organisms/currency_display_list.dart';
 import 'package:doya/modules/quick_calculator/molecules/quick_calculator.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/services/github/github_auto_updater.dart';
+import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
+import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:layout/layout.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:screenshot/screenshot.dart';
 
 class HomePage extends StatefulHookConsumerWidget {
@@ -76,8 +80,26 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     useEffect(() {
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(Duration(milliseconds: 100), () async {
         fetchDolarPrice();
+        if (AppFlavor.isGithub) {
+          final update =
+              await GithubAutoUpdater.checkForUpdatesAndroid();
+          final packageInfo = await PackageInfo.fromPlatform();
+          if (update != null) {
+            showDialog(
+              context: context,
+              builder: (context) => Utils.updateAlertDialog(
+                // ignore: use_build_context_synchronously
+                context,
+                downloadUrl: update.downloadUrl,
+                localVersion: packageInfo.version,
+                remoteVersion: update.version.toString(),
+                body: update.body,
+              ),
+            );
+          }
+        }
       });
       return null;
     }, []);
