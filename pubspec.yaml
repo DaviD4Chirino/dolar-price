@@ -43,6 +43,8 @@ dependencies:
   url_launcher: ^6.3.2
   markdown: ^7.3.0
   flutter_html: ^3.0.0
+  smart_banner: ^0.2.2
+  another_flushbar: ^1.12.32
 
 dev_dependencies:
   flutter_test:

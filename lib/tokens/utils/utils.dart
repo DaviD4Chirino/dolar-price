@@ -1,6 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 abstract class Utils {
   /// Logs the given [message] to the console.
@@ -62,38 +60,5 @@ abstract class Utils {
     // Convert the components back into a string
     // Example: 005000 -> v0.5.0
     return 'v${components[0]}.${components[1]}.${components[2]}';
-  }
-
-  static AlertDialog updateAlertDialog(
-    BuildContext context, {
-    String downloadUrl = "",
-    // we pass them because i dont want to call them twice
-    String localVersion = "",
-    String remoteVersion = "",
-    String body = "",
-  }) {
-    return AlertDialog(
-      title: Text(
-        "Nueva Actualización Disponible ($remoteVersion)",
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text("Cancelar"),
-        ),
-        FilledButton(
-          onPressed: () {
-            if (kDebugMode) {
-              print(downloadUrl);
-            }
-            launchUrlString(downloadUrl);
-          },
-          child: Text("Descargar"),
-        ),
-      ],
-      content: Text(body),
-    );
   }
 }

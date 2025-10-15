@@ -1,17 +1,37 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:doya/tokens/models/update_data.dart';
+import 'package:doya/tokens/utils/atoms/update_alert_dialog.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-abstract class GithubAutoUpdater {
+abstract class GithubUpdater {
   static final url =
       "https://api.github.com/repos/DaviD4Chirino/dolar-price/releases/latest";
 
-  static Future<UpdateData?> checkForUpdatesAndroid() async {
+  /// Checks for updates and shows a dialog if there is a new version,
+  /// returns false in any other case
+  static Future<bool> checkForUpdatesAndroid(
+    BuildContext context,
+  ) async {
+    if (!context.mounted) return false;
+    final hasUpdate = await compareVersionsAndroid();
+    if (hasUpdate != null && context.mounted) {
+      showDialog(
+        context: context,
+        builder: (context) => UpdateAlertDialog(hasUpdate),
+      );
+      return true;
+    }
+    return false;
+  }
+
+  /// This compares the local and remote versions and returns [UpdateData] if there is a new version,
+  static Future<UpdateData?> compareVersionsAndroid() async {
     final latestRelease = await getLatestRelease();
-    final androidSupportedAbis = await getSupportedAbis();
+    // final androidSupportedAbis = await getSupportedAbis();
 
     final packageInfo = await PackageInfo.fromPlatform();
     final appVersion = Utils.versionStringToInt(
@@ -21,7 +41,7 @@ abstract class GithubAutoUpdater {
       latestRelease["tag_name"] as String,
     );
 
-    if (appVersion > remoteVersion) {
+    if (appVersion >= remoteVersion) {
       Utils.log("Already up to date");
       return null;
     }
@@ -30,7 +50,7 @@ abstract class GithubAutoUpdater {
 
     String? downloadUrl;
 
-    outerLoop:
+    // outerLoop:
     for (final asset in assets) {
       final fileName = asset["name"] as String;
       if (!fileName.endsWith(".apk")) continue;
@@ -40,12 +60,12 @@ abstract class GithubAutoUpdater {
         downloadUrl = asset["browser_download_url"] as String;
       }
 
-      for (final abi in androidSupportedAbis) {
+      /* for (final abi in androidSupportedAbis) {
         if (fileName.endsWith("$abi-release.apk")) {
           downloadUrl = asset["browser_download_url"] as String;
           break outerLoop;
         }
-      }
+      } */
     }
     Utils.log(downloadUrl);
     if (downloadUrl == null) {
