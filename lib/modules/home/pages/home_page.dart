@@ -13,12 +13,11 @@ import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
-import 'package:doya/tokens/utils/utils.dart';
+import 'package:doya/tokens/utils/atoms/update_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:layout/layout.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:screenshot/screenshot.dart';
 
 class HomePage extends StatefulHookConsumerWidget {
@@ -85,18 +84,12 @@ class _HomePageState extends ConsumerState<HomePage> {
         if (AppFlavor.isGithub) {
           final update =
               await GithubAutoUpdater.checkForUpdatesAndroid();
-          final packageInfo = await PackageInfo.fromPlatform();
-          if (update != null) {
+          if (update != null && context.mounted) {
             showDialog(
               context: context,
-              builder: (context) => Utils.updateAlertDialog(
-                // ignore: use_build_context_synchronously
-                context,
-                downloadUrl: update.downloadUrl,
-                localVersion: packageInfo.version,
-                remoteVersion: update.version.toString(),
-                body: update.body,
-              ),
+              builder: (context) {
+                return UpdateAlertDialog(update);
+              },
             );
           }
         }

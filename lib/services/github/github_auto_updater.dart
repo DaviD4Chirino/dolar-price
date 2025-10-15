@@ -1,5 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:doya/tokens/models/update_data.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -8,7 +9,7 @@ abstract class GithubAutoUpdater {
   static final url =
       "https://api.github.com/repos/DaviD4Chirino/dolar-price/releases/latest";
 
-  static Future<GhReleaseData?> checkForUpdatesAndroid() async {
+  static Future<UpdateData?> checkForUpdatesAndroid() async {
     final latestRelease = await getLatestRelease();
     final androidSupportedAbis = await getSupportedAbis();
 
@@ -33,7 +34,9 @@ abstract class GithubAutoUpdater {
     for (final asset in assets) {
       final fileName = asset["name"] as String;
       if (!fileName.endsWith(".apk")) continue;
-      if (fileName.endsWith("universal.apk")) {
+      //NOTE: The name schema is: {name}_{abi}_v{version}.apk
+      //So it would be doya_arm64_v1.0.0.apk
+      if (fileName.contains("universal")) {
         downloadUrl = asset["browser_download_url"] as String;
       }
 
@@ -49,13 +52,14 @@ abstract class GithubAutoUpdater {
       Utils.log("Could not find apk for this device");
     }
 
-    return GhReleaseData(
-      name: latestRelease["name"] as String,
+    return UpdateData(
       body: latestRelease["body"] as String,
-      tagName: latestRelease["tag_name"] as String,
-      htmlUrl: latestRelease["html_url"] as String,
+      pageUrl: latestRelease["html_url"] as String,
       version: remoteVersion,
       downloadUrl: downloadUrl ?? "",
+      releaseDateUnix: DateTime.parse(
+        latestRelease["published_at"] as String,
+      ).millisecondsSinceEpoch,
     );
   }
 
