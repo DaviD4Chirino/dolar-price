@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
 import 'package:doya/l10n/app_localizations.dart';
+import 'package:doya/modules/settings/pages/atoms/check_for_updates_button.dart';
 import 'package:doya/modules/settings/pages/atoms/language_switcher_atom.dart';
 import 'package:doya/modules/settings/pages/atoms/main_currency_selector.dart';
 import 'package:doya/modules/settings/pages/atoms/theme_mode_switch_atom.dart';
+import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_sizing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +29,8 @@ class SettingsPage extends StatelessWidget {
           ThemeModeSwitchAtom(),
           LanguageSwitcherAtom(),
           MainCurrencySelector(),
+          if (AppFlavor.isGithub && Platform.isAndroid)
+            CheckForUpdatesButton(),
         ],
       ),
     );

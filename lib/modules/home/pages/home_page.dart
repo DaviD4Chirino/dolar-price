@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
 import 'package:doya/l10n/app_localizations.dart';
 import 'package:doya/modules/home/organisms/currency_display.dart';
@@ -8,9 +9,12 @@ import 'package:doya/modules/home/atoms/share_screenshot.dart';
 import 'package:doya/modules/home/organisms/currency_display_list.dart';
 import 'package:doya/modules/quick_calculator/molecules/quick_calculator.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/services/github/github_updater.dart';
+import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
+import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -49,22 +53,31 @@ class _HomePageState extends ConsumerState<HomePage> {
           forceUpdate: forceUpdate,
         );
         isLoading.value = false;
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(t.pricesUpdated),
-            duration: Duration(seconds: 5),
+        if (!context.mounted) return;
+
+        Flushbar(
+          flushbarStyle: FlushbarStyle.GROUNDED,
+          icon: Icon(
+            Icons.check_circle_outline_rounded,
+            color: Colors.green,
           ),
-        );
+          shouldIconPulse: false,
+          message: t.pricesUpdated,
+          duration: Duration(seconds: 5),
+        ).show(context);
       } on Exception catch (e) {
         if (e is SocketException) {
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.message.toString()),
-              duration: Duration(seconds: 5),
+          Flushbar(
+            flushbarStyle: FlushbarStyle.GROUNDED,
+            icon: Icon(
+              Icons.error_outline_rounded,
+              color: theme.colorScheme.error,
             ),
-          );
+            shouldIconPulse: false,
+            message: e.message.toString(),
+            duration: Duration(seconds: 5),
+          ).show(context);
+          // ignore: use_build_context_synchronously
         }
       }
       isLoading.value = false;
@@ -76,14 +89,24 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     useEffect(() {
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(Duration(milliseconds: 100), () async {
         fetchDolarPrice();
+        if (AppFlavor.isGithub && Platform.isAndroid) {
+          Utils.log("Checking for updates");
+          try {
+            if (!context.mounted) return;
+            GithubUpdater.checkForUpdatesAndroid(context);
+          } catch (e) {
+            Utils.log(e);
+          }
+        }
       });
       return null;
     }, []);
 
     return Scaffold(
       appBar: appBar(t, context, onRefresh: fetchDolarPrice),
+
       body: context.breakpoint > LayoutBreakpoint.xs
           ? HomePageLandscape(
               screenshotController: screenshotController,
