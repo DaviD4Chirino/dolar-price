@@ -12,8 +12,8 @@ Todo:
   Github:
     ☐ Add Auto Updater
     ☐ Add a better readme
-    ☐ Fix the workflows
-      ☐ Build the .env file in the workflow
+    ☐ Fix the workflows @started(25-10-15 12:41)
+      ☐ Build the .env file in the workflow @started(25-10-15 12:41)
       ☐ Build for windows
 
   ✔ Add github Flavor @done(25-10-12 14:25)
