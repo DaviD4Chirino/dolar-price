@@ -72,9 +72,9 @@ class LocalStorage {
     await pref!.remove(key);
   }
 
-  static Future<void> clear() async {
+  static Future<bool> clear() async {
     hasBeenInitialized();
-    await pref!.clear();
+    return pref!.clear();
   }
 
   static bool containsKey(String key) {

@@ -5,6 +5,7 @@ import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/helpers/quotes_helper.dart';
 import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
+import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,7 +27,6 @@ class CurrencyExchangeNotifier
   Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
-
     switch (forceUpdate) {
       case true:
         state = await fetchNewPrices();
@@ -55,8 +55,12 @@ class CurrencyExchangeNotifier
     var nextUpdateTimeParsed = DateTime.parse(
       cachePrice.nextUpdateTime,
     );
-    var now = DateTime.now();
-    var isAfter = nextUpdateTimeParsed.isAfter(now);
+    var lastUpdateTimeParsed = DateTime.parse(
+      cachePrice.lastUpdateTime,
+    );
+    var isAfter = nextUpdateTimeParsed.isAfter(
+      lastUpdateTimeParsed,
+    );
 
     if (!isAfter) {
       if (kDebugMode) {
@@ -90,6 +94,16 @@ class CurrencyExchangeNotifier
       }
       final dolarApiPrices = await fetchDolarApiPrices();
 
+      int? lastUpdateTime;
+      int? nextUpdateTime;
+
+      if (responses.isNotEmpty && responses.first != null) {
+        lastUpdateTime =
+            responses.first!["time_last_update_unix"];
+        nextUpdateTime =
+            responses.first!["time_next_update_unix"];
+      }
+
       state = state.copyWith(
         rates: CurrencyRates(
           usd: rates["USD"] ?? dolarApiPrices.usd,
@@ -97,7 +111,22 @@ class CurrencyExchangeNotifier
           usdParallel: dolarApiPrices.usdParallel,
           btc: dolarApiPrices.btc,
         ),
+        nextUpdateTime: nextUpdateTime != null
+            ? DateTime.fromMillisecondsSinceEpoch(
+                nextUpdateTime * 1000,
+                isUtc: true,
+              ).toString()
+            : null,
+        lastUpdateTime: lastUpdateTime != null
+            ? DateTime.fromMillisecondsSinceEpoch(
+                lastUpdateTime * 1000,
+                isUtc: true,
+              ).toString()
+            : null,
+        lastQuote: getPreviousExchangeValue(),
       );
+      Utils.log("Dolar exchange api success");
+      return state;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -124,18 +153,15 @@ class CurrencyExchangeNotifier
         throw Exception("Could not fetch dolar prices");
       }
     }
+    Utils.log("Dolar exchange api failed, trying dolar api");
 
     final now = DateTime.now();
 
     final lastUpdateTime = DateTime.timestamp().toString();
 
-    // Next update is tomorrow at 20:00
-    final nextUpdateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      20,
-    ).add(Duration(days: 1)).toString();
+    final nextUpdateTime = now
+        .add(Duration(hours: 1))
+        .toString();
 
     state = state.copyWith(
       lastUpdateTime: lastUpdateTime,

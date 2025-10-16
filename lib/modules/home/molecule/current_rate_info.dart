@@ -20,12 +20,14 @@ class CurrentRateInfo extends ConsumerWidget {
     final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
 
     final lastUpdate = DateTime.parse(quote.lastUpdateTime)
-        .toLocalTime
         .format("EEEE, dd MMM. yyyy", locale.toLanguageTag())
         .capitalize;
     final nextUpdate = DateTime.parse(quote.nextUpdateTime)
         .toLocalTime
-        .format("EEEE, dd MMM. yyyy", locale.toLanguageTag())
+        .format(
+          "EEEE, dd MMM. yyyy h:mm a",
+          locale.toLanguageTag(),
+        )
         .capitalize;
 
     final currentRate = quote.rates.getRate(mainCurrency);
