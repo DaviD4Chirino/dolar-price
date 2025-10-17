@@ -52,25 +52,22 @@ class CurrencyExchangeNotifier
 
     if (cachePrice == null) return null;
 
+    final now = DateTime.now();
+
     var nextUpdateTimeParsed = DateTime.parse(
       cachePrice.nextUpdateTime,
     );
-    var lastUpdateTimeParsed = DateTime.parse(
-      cachePrice.lastUpdateTime,
-    );
-    var isAfter = nextUpdateTimeParsed.isAfter(
-      lastUpdateTimeParsed,
-    );
 
-    if (!isAfter) {
-      if (kDebugMode) {
-        print(
-          "Next prices update time is before the current time",
-        );
-      }
+    var isAfter = now.isAfter(nextUpdateTimeParsed);
+
+    if (isAfter) {
       return null;
     }
-
+    if (kDebugMode) {
+      print(
+        "Next prices update time is before the current time",
+      );
+    }
     return cachePrice;
   }
 
