@@ -18,6 +18,10 @@ abstract class Utils {
     }
   }
 
+  static bool isTimeForUpdate(DateTime updateTime) {
+    return DateTime.now().isAfter(updateTime);
+  }
+
   static int versionStringToInt(String versionString) {
     // Remove the 'v' prefix if present
     String version = versionString.startsWith('v')

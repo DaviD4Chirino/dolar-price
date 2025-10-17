@@ -24,6 +24,18 @@ class CurrencyExchangeNotifier
         );
   }
 
+  Future<void> updateUsingDolarApi() async {
+    Utils.log("Updating with dolar api only");
+    final dolarApiPrices = await fetchDolarApiPrices();
+    state = state.copyWith(
+      rates: state.rates.copyWith(
+        usd: dolarApiPrices.usd,
+        usdParallel: dolarApiPrices.usdParallel,
+        btc: dolarApiPrices.btc,
+      ),
+    );
+  }
+
   Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,

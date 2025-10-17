@@ -43,12 +43,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     final dolarPriceNotifier = ref.read(
       currencyExchangeNotifierProvider.notifier,
     );
+    final dolarPrice = ref.watch(
+      currencyExchangeNotifierProvider,
+    );
 
-    Future fetchDolarPrice({bool forceUpdate = false}) async {
+    Future fetchDolarPrice({
+      bool forceUpdate = false,
+      bool manualUpdate = false,
+    }) async {
       if (isLoading.value) return;
 
       try {
         isLoading.value = true;
+        if (manualUpdate) {
+          await dolarPriceNotifier.updateUsingDolarApi();
+          isLoading.value = false;
+          return;
+        }
         await dolarPriceNotifier.fetchPrices(
           forceUpdate: forceUpdate,
         );
@@ -81,16 +92,18 @@ class _HomePageState extends ConsumerState<HomePage> {
         }
       }
       isLoading.value = false;
-
-      /* isLoading.value = true;
-      double remoteValue = await getDolarPrice(context);
-      dolarPrice.value = remoteValue.toStringAsFixed(3);
-      isLoading.value = false; */
     }
 
     useEffect(() {
       Future.delayed(Duration(milliseconds: 100), () async {
-        fetchDolarPrice();
+        if (Utils.isTimeForUpdate(
+          DateTime.parse(dolarPrice.nextUpdateTime),
+        )) {
+          fetchDolarPrice();
+        } else {
+          fetchDolarPrice(manualUpdate: true);
+        }
+
         if (AppFlavor.isGithub && Platform.isAndroid) {
           Utils.log("Checking for updates");
           try {
@@ -105,7 +118,13 @@ class _HomePageState extends ConsumerState<HomePage> {
     }, []);
 
     return Scaffold(
-      appBar: appBar(t, context, onRefresh: fetchDolarPrice),
+      appBar: appBar(
+        t,
+        context,
+        onRefresh: isLoading.value
+            ? null
+            : () => fetchDolarPrice(manualUpdate: true),
+      ),
 
       body: context.breakpoint > LayoutBreakpoint.xs
           ? HomePageLandscape(
