@@ -7,6 +7,7 @@ import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'currency_exchange_provider.g.dart';
@@ -29,9 +30,9 @@ class CurrencyExchangeNotifier
     final dolarApiPrices = await fetchDolarApiPrices();
     state = state.copyWith(
       rates: state.rates.copyWith(
-        usd: dolarApiPrices.usd,
-        usdParallel: dolarApiPrices.usdParallel,
-        btc: dolarApiPrices.btc,
+        usd: dolarApiPrices.rates.usd,
+        usdParallel: dolarApiPrices.rates.usdParallel,
+        btc: dolarApiPrices.rates.btc,
       ),
     );
   }
@@ -115,10 +116,10 @@ class CurrencyExchangeNotifier
 
       state = state.copyWith(
         rates: CurrencyRates(
-          usd: rates["USD"] ?? dolarApiPrices.usd,
+          usd: rates["USD"] ?? dolarApiPrices.rates.usd,
           eur: rates["EUR"] ?? 0,
-          usdParallel: dolarApiPrices.usdParallel,
-          btc: dolarApiPrices.btc,
+          usdParallel: dolarApiPrices.rates.usdParallel,
+          btc: dolarApiPrices.rates.btc,
         ),
         nextUpdateTime: nextUpdateTime != null
             ? DateTime.fromMillisecondsSinceEpoch(
@@ -147,9 +148,9 @@ class CurrencyExchangeNotifier
         var prevQuotes = getPreviousExchangeValue();
         state = state.copyWith(
           rates: CurrencyRates(
-            usd: dolarApiPrices.usd,
-            usdParallel: dolarApiPrices.usdParallel,
-            btc: dolarApiPrices.btc,
+            usd: dolarApiPrices.rates.usd,
+            usdParallel: dolarApiPrices.rates.usdParallel,
+            btc: dolarApiPrices.rates.btc,
             eur: prevQuotes?.rates.eur ?? 0,
           ),
         );
@@ -208,18 +209,39 @@ class CurrencyExchangeNotifier
     return state;
   }
 
-  Future<CurrencyRates> fetchDolarApiPrices({
+  Future<Quotes> fetchDolarApiPrices({
     bool getOfficial = true,
   }) async {
+    String formatAsRfc822(DateTime dtUtc) {
+      // Use English short weekday and month names
+      final df = DateFormat(
+        'EEE, dd MMM yyyy HH:mm:ss',
+        'en_US',
+      );
+      // DateFormat doesn't always append timezone in "+0000" form reliably across platforms,
+      // so append the fixed UTC offset string for clarity.
+      return '${df.format(dtUtc.toUtc())} +0000';
+    }
+
     final dolarPrices = await DolarApi.getAllPrices();
 
-    return CurrencyRates(
-      usd: getOfficial
-          ? dolarPrices[Prices.official.index]["promedio"] ?? 0
-          : null,
-      usdParallel:
-          dolarPrices[Prices.parallel.index]["promedio"] ?? 0,
-      btc: dolarPrices[Prices.bitcoin.index]["promedio"] ?? 0,
+    return Quotes(
+      rates: CurrencyRates(
+        usd: getOfficial
+            ? dolarPrices[Prices.official.index]["promedio"] ?? 0
+            : null,
+        usdParallel:
+            dolarPrices[Prices.parallel.index]["promedio"] ?? 0,
+        btc: dolarPrices[Prices.bitcoin.index]["promedio"] ?? 0,
+      ),
+      nextUpdateTime: state.nextUpdateTime,
+      lastUpdateTime: formatAsRfc822(
+        DateTime.parse(
+          dolarPrices[Prices
+              .parallel
+              .index]["fechaActualizacion"],
+        ).toUtc(),
+      ),
     );
   }
 

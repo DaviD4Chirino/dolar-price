@@ -43,7 +43,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     final dolarPriceNotifier = ref.read(
       currencyExchangeProvider.notifier,
     );
-    final dolarPrice = ref.watch(currencyExchangeProvider);
 
     Future fetchDolarPrice({
       bool forceUpdate = false,
@@ -94,13 +93,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     useEffect(() {
       Future.delayed(Duration(milliseconds: 100), () async {
-        if (Utils.isTimeForUpdate(
-          DateTime.parse(dolarPrice.nextUpdateTime),
-        )) {
-          fetchDolarPrice();
-        } else {
-          fetchDolarPrice(manualUpdate: true);
-        }
+        fetchDolarPrice();
 
         if (AppFlavor.isGithub && Platform.isAndroid) {
           Utils.log("Checking for updates");
@@ -119,9 +112,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: appBar(
         t,
         context,
-        onRefresh: isLoading.value
-            ? null
-            : () => fetchDolarPrice(manualUpdate: true),
+        onRefresh: isLoading.value ? null : fetchDolarPrice,
       ),
 
       body: context.breakpoint > LayoutBreakpoint.xs

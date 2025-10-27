@@ -89,13 +89,7 @@ abstract class ExchangeRateApi {
     bool earlyExit = false,
     int apiKeyIndex = 0,
   }) async {
-    if (earlyExit) {
-      if (kDebugMode) {
-        print("Early exit");
-      }
-      return null;
-    }
-    if (apiKeyIndex > apiKeys.length) {
+    if (apiKeyIndex >= apiKeys.length) {
       if (kDebugMode) {
         print("Api key index out of range");
       }
@@ -107,6 +101,11 @@ abstract class ExchangeRateApi {
         "https://v6.exchangerate-api.com/v6/$apiKey/pair/$from/$to";
 
     try {
+      if (earlyExit) {
+        throw Exception(
+          "Early Exit with api key level $apiKeyIndex",
+        );
+      }
       final response = await dio.get(url);
       if (response.statusCode == 200) {
         final json = response.data;
@@ -115,6 +114,10 @@ abstract class ExchangeRateApi {
             print("Api Error: ${json["error-type"]}");
           }
           return null;
+        }
+
+        if (kDebugMode) {
+          print("success at api key level $apiKeyIndex");
         }
         return json;
       }
