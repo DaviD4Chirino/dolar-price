@@ -21,11 +21,11 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
     }
     state = currency;
     saveMainCurrency();
-    if (ref.read(currencyExchangeNotifierProvider) == currency) {
+    if (ref.read(currencyExchangeProvider) == currency) {
       return;
     }
     ref
-        .read(currencyExchangeNotifierProvider.notifier)
+        .read(currencyExchangeProvider.notifier)
         .updatePreviousExchangeValue();
   }
 

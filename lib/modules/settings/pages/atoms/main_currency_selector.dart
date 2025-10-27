@@ -11,7 +11,7 @@ class MainCurrencySelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
+    final mainCurrency = ref.watch(mainCurrencyProvider);
 
     return ListTile(
       onTap: () => showDialog(

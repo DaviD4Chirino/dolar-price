@@ -21,9 +21,8 @@ class _QuickCalculatorState
   final bsTextController = TextEditingController();
 
   Quotes get dolarPriceProvider =>
-      ref.read(currencyExchangeNotifierProvider);
-  String get mainCurrency =>
-      ref.watch(mainCurrencyNotifierProvider);
+      ref.read(currencyExchangeProvider);
+  String get mainCurrency => ref.watch(mainCurrencyProvider);
 
   bool _isUpdating = false;
 
@@ -92,10 +91,7 @@ class _QuickCalculatorState
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<String>(mainCurrencyNotifierProvider, (
-      prev,
-      next,
-    ) {
+    ref.listen<String>(mainCurrencyProvider, (prev, next) {
       // When mainCurrency changes, update fields
       currencyTextController.text = "1";
       onCurrencyChanged("1");

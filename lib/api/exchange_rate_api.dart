@@ -20,9 +20,6 @@ abstract class ExchangeRateApi {
     bool earlyThrow = false,
     int apiKeyIndex = 0,
   }) async {
-    if (earlyThrow) {
-      throw SocketException("Early throw");
-    }
     if (apiKeyIndex > apiKeys.length) {
       if (kDebugMode) {
         print("Api key index out of range");
@@ -31,6 +28,9 @@ abstract class ExchangeRateApi {
     }
 
     try {
+      if (earlyThrow) {
+        throw SocketException("Early throw");
+      }
       String url = "";
       String apiKey = apiKeys[apiKeyIndex];
       if (date != null && date.isAfter(DateTime(2021))) {

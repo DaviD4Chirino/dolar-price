@@ -16,11 +16,11 @@ class MainApp extends ConsumerStatefulWidget {
 }
 
 class _MainAppState extends ConsumerState<MainApp> {
-  Locale get locale => ref.watch(translationNotifierProvider);
+  Locale get locale => ref.watch(translationProvider);
   TranslationNotifier get translationNotifier =>
-      ref.read(translationNotifierProvider.notifier);
-  ThemeMode get themeModeProvider =>
-      ref.watch(themeModeNotifierProvider);
+      ref.read(translationProvider.notifier);
+  ThemeMode get themeModeNotifierProvider =>
+      ref.watch(themeModeProvider);
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _MainAppState extends ConsumerState<MainApp> {
 
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       if (!mounted) return;
-      ref.read(translationNotifierProvider.notifier).init();
+      ref.read(translationProvider.notifier).init();
 
       FlutterNativeSplash.remove();
     });
@@ -51,7 +51,7 @@ class _MainAppState extends ConsumerState<MainApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
-        themeMode: themeModeProvider,
+        themeMode: themeModeNotifierProvider,
         initialRoute: AppRoutes.initial,
         routes: AppRoutes.routes,
       ),

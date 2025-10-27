@@ -14,9 +14,9 @@ class CurrencyValueTitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
+    final mainCurrency = ref.watch(mainCurrencyProvider);
 
-    final quote = ref.watch(currencyExchangeNotifierProvider);
+    final quote = ref.watch(currencyExchangeProvider);
 
     return Container(
       decoration: BoxDecoration(

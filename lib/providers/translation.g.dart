@@ -6,8 +6,11 @@ part of 'translation.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(TranslationNotifier)
-const translationNotifierProvider = TranslationNotifierProvider._();
+const translationProvider = TranslationNotifierProvider._();
 
 final class TranslationNotifierProvider
     extends $NotifierProvider<TranslationNotifier, Locale> {
@@ -16,7 +19,7 @@ final class TranslationNotifierProvider
         from: null,
         argument: null,
         retry: null,
-        name: r'translationNotifierProvider',
+        name: r'translationProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
@@ -39,7 +42,7 @@ final class TranslationNotifierProvider
 }
 
 String _$translationNotifierHash() =>
-    r'4c873a0de7aa6a71d195138c1f8fac64499cc8af';
+    r'0fe638c7ae0cbeb6dd27f683fca7fd5f8f6aa012';
 
 abstract class _$TranslationNotifier extends $Notifier<Locale> {
   Locale build();
@@ -59,6 +62,3 @@ abstract class _$TranslationNotifier extends $Notifier<Locale> {
     element.handleValue(ref, created);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

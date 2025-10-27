@@ -15,9 +15,9 @@ class CurrentRateInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
 
-    final locale = ref.watch(translationNotifierProvider);
-    final quote = ref.watch(currencyExchangeNotifierProvider);
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
+    final locale = ref.watch(translationProvider);
+    final quote = ref.watch(currencyExchangeProvider);
+    final mainCurrency = ref.watch(mainCurrencyProvider);
 
     final lastUpdate = DateTime.parse(quote.lastUpdateTime)
         .format("EEEE, dd MMM. yyyy", locale.toLanguageTag())

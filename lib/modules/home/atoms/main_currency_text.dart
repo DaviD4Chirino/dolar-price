@@ -8,7 +8,7 @@ class MainCurrencyText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mainCurrency = ref.watch(mainCurrencyNotifierProvider);
+    final mainCurrency = ref.watch(mainCurrencyProvider);
     return Text(
       Currencies.getCurrencyTitle(
         mainCurrency,

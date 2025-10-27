@@ -41,11 +41,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     final ThemeData theme = Theme.of(context);
 
     final dolarPriceNotifier = ref.read(
-      currencyExchangeNotifierProvider.notifier,
+      currencyExchangeProvider.notifier,
     );
-    final dolarPrice = ref.watch(
-      currencyExchangeNotifierProvider,
-    );
+    final dolarPrice = ref.watch(currencyExchangeProvider);
 
     Future fetchDolarPrice({
       bool forceUpdate = false,

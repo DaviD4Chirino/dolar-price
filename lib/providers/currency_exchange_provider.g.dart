@@ -6,8 +6,11 @@ part of 'currency_exchange_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(CurrencyExchangeNotifier)
-const currencyExchangeNotifierProvider = CurrencyExchangeNotifierProvider._();
+const currencyExchangeProvider = CurrencyExchangeNotifierProvider._();
 
 final class CurrencyExchangeNotifierProvider
     extends $NotifierProvider<CurrencyExchangeNotifier, Quotes> {
@@ -16,7 +19,7 @@ final class CurrencyExchangeNotifierProvider
         from: null,
         argument: null,
         retry: null,
-        name: r'currencyExchangeNotifierProvider',
+        name: r'currencyExchangeProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
@@ -39,7 +42,7 @@ final class CurrencyExchangeNotifierProvider
 }
 
 String _$currencyExchangeNotifierHash() =>
-    r'f4de46add3abfe18c99ec53534ac58f525f0dfd4';
+    r'a43600a5ffc1deae606d3da35572238c0176758e';
 
 abstract class _$CurrencyExchangeNotifier extends $Notifier<Quotes> {
   Quotes build();
@@ -59,6 +62,3 @@ abstract class _$CurrencyExchangeNotifier extends $Notifier<Quotes> {
     element.handleValue(ref, created);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

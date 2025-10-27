@@ -8,13 +8,11 @@ class ThemeModeSwitchAtom extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeModeProvider = ref.watch(
-      themeModeNotifierProvider,
-    );
+    final themeMode = ref.watch(themeModeProvider);
     final themeModeNotifier = ref.read(
-      themeModeNotifierProvider.notifier,
+      themeModeProvider.notifier,
     );
-    bool isLight = themeModeProvider == ThemeMode.light;
+    bool isLight = themeMode == ThemeMode.light;
 
     var t = AppLocalizations.of(context);
     return ListTile(

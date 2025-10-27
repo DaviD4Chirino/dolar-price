@@ -10,9 +10,7 @@ class LanguageSwitcherAtom extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Locale currentLocale = ref.watch(
-      translationNotifierProvider,
-    );
+    final Locale currentLocale = ref.watch(translationProvider);
 
     var t = AppLocalizations.of(context);
     return ListTile(

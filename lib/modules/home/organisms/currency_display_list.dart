@@ -12,13 +12,13 @@ class CurrencyDisplayList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dolarPriceProvider = ref.watch(
-      currencyExchangeNotifierProvider,
+      currencyExchangeProvider,
     );
 
     var t = AppLocalizations.of(context);
 
     var mainCurrencyNotifier = ref.read(
-      mainCurrencyNotifierProvider.notifier,
+      mainCurrencyProvider.notifier,
     );
 
     var parallel = dolarPriceProvider.rates.usdParallel;

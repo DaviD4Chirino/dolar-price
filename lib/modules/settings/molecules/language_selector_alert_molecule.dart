@@ -11,9 +11,9 @@ class LanguageSelectorAlertMolecule extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final translationNotifier = ref.read(
-      translationNotifierProvider.notifier,
+      translationProvider.notifier,
     );
-    final currentLocale = ref.watch(translationNotifierProvider);
+    final currentLocale = ref.watch(translationProvider);
 
     return SimpleDialog(
       title: Text(

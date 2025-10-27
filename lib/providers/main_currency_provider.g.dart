@@ -6,10 +6,13 @@ part of 'main_currency_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 /// Use this to change the main currency,
 /// Use [Currencies] to compare the currency
+
 @ProviderFor(MainCurrencyNotifier)
-const mainCurrencyNotifierProvider = MainCurrencyNotifierProvider._();
+const mainCurrencyProvider = MainCurrencyNotifierProvider._();
 
 /// Use this to change the main currency,
 /// Use [Currencies] to compare the currency
@@ -22,7 +25,7 @@ final class MainCurrencyNotifierProvider
         from: null,
         argument: null,
         retry: null,
-        name: r'mainCurrencyNotifierProvider',
+        name: r'mainCurrencyProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
@@ -45,7 +48,10 @@ final class MainCurrencyNotifierProvider
 }
 
 String _$mainCurrencyNotifierHash() =>
-    r'd94ec43f4acff23efd1e00fd8c69025d46f7af2e';
+    r'c8757dd88ea1f0a0b8ee6dd91d42f8f56728924e';
+
+/// Use this to change the main currency,
+/// Use [Currencies] to compare the currency
 
 abstract class _$MainCurrencyNotifier extends $Notifier<String> {
   String build();
@@ -65,6 +71,3 @@ abstract class _$MainCurrencyNotifier extends $Notifier<String> {
     element.handleValue(ref, created);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

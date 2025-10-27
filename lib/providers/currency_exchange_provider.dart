@@ -178,9 +178,9 @@ class CurrencyExchangeNotifier
       lastQuote: getPreviousExchangeValue(),
     );
 
-    final mainCurrency = ref.read(mainCurrencyNotifierProvider);
+    final mainCurrency = ref.read(mainCurrencyProvider);
     final mainCurrencyNotifier = ref.read(
-      mainCurrencyNotifierProvider.notifier,
+      mainCurrencyProvider.notifier,
     );
 
     if (state.rates.getRate(mainCurrency) == 0) {
