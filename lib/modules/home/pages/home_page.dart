@@ -45,7 +45,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
 
     Future fetchDolarPrice({
-      bool forceUpdate = false,
+      bool forceUpdate = true,
       bool manualUpdate = false,
     }) async {
       if (isLoading.value) return;
@@ -86,6 +86,17 @@ class _HomePageState extends ConsumerState<HomePage> {
             duration: Duration(seconds: 5),
           ).show(context);
           // ignore: use_build_context_synchronously
+        } else {
+          Flushbar(
+            flushbarStyle: FlushbarStyle.GROUNDED,
+            icon: Icon(
+              Icons.error_outline_rounded,
+              color: theme.colorScheme.error,
+            ),
+            shouldIconPulse: false,
+            message: e.toString(),
+            duration: Duration(seconds: 5),
+          ).show(context);
         }
       }
       isLoading.value = false;

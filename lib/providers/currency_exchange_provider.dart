@@ -7,7 +7,6 @@ import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'currency_exchange_provider.g.dart';
@@ -89,6 +88,8 @@ class CurrencyExchangeNotifier
       print("fetching new prices");
     }
 
+    var newState = state.copyWith();
+
     try {
       var responses = await Future.wait<Map<String, dynamic>?>([
         ExchangeRateApi.getPairConversion("USD"),
@@ -102,7 +103,16 @@ class CurrencyExchangeNotifier
         rates[res["base_code"]] = res["conversion_rate"]
             .toDouble();
       }
-      final dolarApiPrices = await fetchDolarApiPrices();
+      Quotes? dolarApiPrices;
+
+      try {
+        dolarApiPrices = await fetchDolarApiPrices();
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+          print('Dolar api failed, Using Dolar exchange api');
+        }
+      }
 
       int? lastUpdateTime;
       int? nextUpdateTime;
@@ -114,12 +124,12 @@ class CurrencyExchangeNotifier
             responses.first!["time_next_update_unix"];
       }
 
-      state = state.copyWith(
+      newState = state.copyWith(
         rates: CurrencyRates(
-          usd: rates["USD"] ?? dolarApiPrices.rates.usd,
-          eur: rates["EUR"] ?? 0,
-          usdParallel: dolarApiPrices.rates.usdParallel,
-          btc: dolarApiPrices.rates.btc,
+          usd: rates["USD"] ?? dolarApiPrices?.rates.usd ?? 0,
+          eur: rates["EUR"] ?? dolarApiPrices?.rates.eur ?? 0,
+          usdParallel: dolarApiPrices?.rates.usdParallel ?? 0,
+          btc: dolarApiPrices?.rates.btc ?? 0,
         ),
         nextUpdateTime: nextUpdateTime != null
             ? DateTime.fromMillisecondsSinceEpoch(
@@ -136,14 +146,16 @@ class CurrencyExchangeNotifier
         lastQuote: getPreviousExchangeValue(),
       );
       Utils.log("Dolar exchange api success");
-      return state;
+      _changeMainCurrency(Currencies.usd);
+      return newState;
     } catch (e) {
       if (kDebugMode) {
         print(e);
-        print('Dolar exchange api failed, trying dolar api');
+        print('Both api failed, throwing');
+        throw Exception("Could not fetch dolar prices");
       }
 
-      try {
+      /* try {
         final dolarApiPrices = await fetchDolarApiPrices();
         var prevQuotes = getPreviousExchangeValue();
         state = state.copyWith(
@@ -161,9 +173,9 @@ class CurrencyExchangeNotifier
         }
         // if both fails, better to do nothing
         throw Exception("Could not fetch dolar prices");
-      }
+      } */
     }
-    Utils.log("Dolar exchange api failed, trying dolar api");
+    /* Utils.log("Dolar exchange api failed, trying dolar api");
 
     final now = DateTime.now();
 
@@ -179,14 +191,7 @@ class CurrencyExchangeNotifier
       lastQuote: getPreviousExchangeValue(),
     );
 
-    final mainCurrency = ref.read(mainCurrencyProvider);
-    final mainCurrencyNotifier = ref.read(
-      mainCurrencyProvider.notifier,
-    );
-
-    if (state.rates.getRate(mainCurrency) == 0) {
-      mainCurrencyNotifier.setMainCurrency(Currencies.usd);
-    }
+     */
 
     // var allPrices = await DolarApi.getAllPrices();
 
@@ -209,20 +214,21 @@ class CurrencyExchangeNotifier
     return state;
   }
 
+  void _changeMainCurrency(String newCurrency) {
+    final mainCurrency = ref.read(mainCurrencyProvider);
+
+    final mainCurrencyNotifier = ref.read(
+      mainCurrencyProvider.notifier,
+    );
+
+    if (state.rates.getRate(mainCurrency) == 0) {
+      mainCurrencyNotifier.setMainCurrency(Currencies.usd);
+    }
+  }
+
   Future<Quotes> fetchDolarApiPrices({
     bool getOfficial = true,
   }) async {
-    String formatAsRfc822(DateTime dtUtc) {
-      // Use English short weekday and month names
-      final df = DateFormat(
-        'EEE, dd MMM yyyy HH:mm:ss',
-        'en_US',
-      );
-      // DateFormat doesn't always append timezone in "+0000" form reliably across platforms,
-      // so append the fixed UTC offset string for clarity.
-      return '${df.format(dtUtc.toUtc())} +0000';
-    }
-
     final dolarPrices = await DolarApi.getAllPrices();
 
     return Quotes(
@@ -232,16 +238,15 @@ class CurrencyExchangeNotifier
             : null,
         usdParallel:
             dolarPrices[Prices.parallel.index]["promedio"] ?? 0,
-        btc: dolarPrices[Prices.bitcoin.index]["promedio"] ?? 0,
+        btc: /* dolarPrices[Prices.bitcoin.index]["promedio"] ??
+        ! btc is not available
+         */
+            0,
       ),
       nextUpdateTime: state.nextUpdateTime,
-      lastUpdateTime: formatAsRfc822(
-        DateTime.parse(
-          dolarPrices[Prices
-              .parallel
-              .index]["fechaActualizacion"],
-        ).toUtc(),
-      ),
+      lastUpdateTime: DateTime.parse(
+        dolarPrices[Prices.parallel.index]["fechaActualizacion"],
+      ).toIso8601String(),
     );
   }
 

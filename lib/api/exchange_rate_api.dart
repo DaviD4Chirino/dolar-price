@@ -89,7 +89,7 @@ abstract class ExchangeRateApi {
     bool earlyExit = false,
     int apiKeyIndex = 0,
   }) async {
-    if (apiKeyIndex >= apiKeys.length) {
+    if (apiKeyIndex >= apiKeys.length - 1) {
       if (kDebugMode) {
         print("Api key index out of range");
       }
