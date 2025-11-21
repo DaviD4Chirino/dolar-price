@@ -1,0 +1,5 @@
+package com.davidspace.doya
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
