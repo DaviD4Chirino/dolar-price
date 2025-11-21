@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:doya/api/dolar_api.dart';
 import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/providers/main_currency_provider.dart';
@@ -24,15 +26,18 @@ class CurrencyExchangeNotifier
         );
   }
 
+  //2025-11-22 00:00:01.000Z
   Future<void> updateUsingDolarApi() async {
     Utils.log("Updating with dolar api only");
     final dolarApiPrices = await fetchDolarApiPrices();
+    Utils.log(dolarApiPrices.nextUpdateTime);
     state = state.copyWith(
       rates: state.rates.copyWith(
         usd: dolarApiPrices.rates.usd,
         usdParallel: dolarApiPrices.rates.usdParallel,
         btc: dolarApiPrices.rates.btc,
       ),
+      lastUpdateTime: dolarApiPrices.lastUpdateTime,
     );
   }
 

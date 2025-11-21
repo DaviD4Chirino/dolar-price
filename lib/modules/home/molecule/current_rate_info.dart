@@ -23,7 +23,6 @@ class CurrentRateInfo extends ConsumerWidget {
         .format("EEEE, dd MMM. h:mm a", locale.toLanguageTag())
         .capitalize;
     final nextUpdate = DateTime.parse(quote.nextUpdateTime)
-        .toLocalTime
         .format(
           "EEEE, dd MMM. yyyy h:mm a",
           locale.toLanguageTag(),
