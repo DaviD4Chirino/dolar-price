@@ -62,10 +62,20 @@ abstract class DolarApi {
   ///    "fechaActualizacion": "2025-08-20T14:01:57.904Z",
   ///  }
   /// ```
-  static Future<Map<String, dynamic>> getBitcoinPrice() async {
+  static Future<Map<String, dynamic>> getBitcoinPrice({
+    bool earlyThrow = false,
+  }) async {
+    if (earlyThrow) {
+      throw SocketException("Early throw");
+    }
+    final dio = Dio();
+
     try {
-      final prices = await getAllPrices();
-      return prices[Prices.bitcoin.index];
+      final response = await dio.get("$baseUrl/dolares/bitcoin");
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+      throw SocketException(response.data["error"]);
     } catch (e) {
       throw SocketException("Could not get bitcoin dolar price");
     }
