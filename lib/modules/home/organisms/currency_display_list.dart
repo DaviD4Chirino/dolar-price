@@ -1,4 +1,3 @@
-import 'package:doya/l10n/app_localizations.dart';
 import 'package:doya/modules/home/molecule/currency_display_molecule.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/main_currency_provider.dart';

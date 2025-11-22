@@ -1,7 +1,6 @@
 import 'package:doya/modules/home/atoms/currency_comparison.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/main_currency_provider.dart';
-import 'package:doya/providers/translation.dart';
 import 'package:doya/tokens/models/currencies.dart';
 import 'package:dart_date/dart_date.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -15,19 +14,16 @@ class CurrentRateInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
 
-    final locale = ref.watch(translationProvider);
+    // final locale = ref.watch(translationProvider);
     final quote = ref.watch(currencyExchangeProvider);
     final mainCurrency = ref.watch(mainCurrencyProvider);
 
-    final lastUpdate = DateTime.parse(quote.lastUpdateTime)
-        .format("EEEE, dd MMM. h:mm a", locale.toLanguageTag())
-        .capitalize;
-    final nextUpdate = DateTime.parse(quote.nextUpdateTime)
-        .format(
-          "EEEE, dd MMM. yyyy h:mm a",
-          locale.toLanguageTag(),
-        )
-        .capitalize;
+    final lastUpdate = DateTime.parse(
+      quote.lastUpdateTime,
+    ).format("EEEE, dd MMM. h:mm a", "es").capitalize;
+    final nextUpdate = DateTime.parse(
+      quote.nextUpdateTime,
+    ).format("EEEE, dd MMM. yyyy h:mm a", "es").capitalize;
 
     final currentRate = quote.rates.getRate(mainCurrency);
 

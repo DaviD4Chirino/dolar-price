@@ -1,6 +1,5 @@
-// import 'package:doya/l10n/app_localizations.dart';
+//
 import 'package:doya/providers/theme_mode.dart';
-import 'package:doya/providers/translation.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,6 @@ class _MainAppState extends ConsumerState<MainApp> {
 
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       if (!mounted) return;
-      ref.read(translationProvider.notifier).init();
 
       FlutterNativeSplash.remove();
     });

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
-import 'package:doya/l10n/app_localizations.dart';
+
 import 'package:doya/modules/home/organisms/currency_display.dart';
 import 'package:doya/modules/home/atoms/share_screenshot.dart';
 import 'package:doya/modules/home/organisms/currency_display_list.dart';

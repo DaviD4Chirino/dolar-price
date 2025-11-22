@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
-import 'package:doya/l10n/app_localizations.dart';
+
 import 'package:doya/modules/settings/pages/atoms/check_for_updates_button.dart';
 // import 'package:doya/modules/settings/pages/atoms/language_switcher_atom.dart';
 import 'package:doya/modules/settings/pages/atoms/main_currency_selector.dart';
