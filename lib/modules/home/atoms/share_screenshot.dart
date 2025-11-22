@@ -40,7 +40,7 @@ class ShareScreenshot extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Screenshot copied to clipboard",
+              "Foto copiada al portapapeles",
             ), // Optional: add a sharing error message key to your l10n
             duration: Duration(seconds: 4),
           ),
