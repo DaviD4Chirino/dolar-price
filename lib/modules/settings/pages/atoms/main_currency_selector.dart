@@ -1,4 +1,4 @@
-import 'package:doya/modules/settings/molecules/currency_selector_dialog.dart';
+import 'package:doya/modules/settings/molecules/main_currency_selector_dialog.dart';
 import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class MainCurrencySelector extends ConsumerWidget {
     return ListTile(
       onTap: () => showDialog(
         context: context,
-        builder: (context) => CurrencySelectorDialog(),
+        builder: (context) => MainCurrencySelectorDialog(),
       ),
       leading: Icon(Icons.currency_exchange_rounded),
       title: Text("Moneda principal"),
