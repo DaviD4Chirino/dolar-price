@@ -1,4 +1,3 @@
-import 'package:doya/l10n/app_localizations.dart';
 import 'package:doya/modules/settings/molecules/currency_selector_dialog.dart';
 import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/tokens/models/currencies.dart';
@@ -10,7 +9,7 @@ class MainCurrencySelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
+    // final t = AppLocalizations.of(context);
     final mainCurrency = ref.watch(mainCurrencyProvider);
 
     return ListTile(
@@ -19,11 +18,11 @@ class MainCurrencySelector extends ConsumerWidget {
         builder: (context) => CurrencySelectorDialog(),
       ),
       leading: Icon(Icons.currency_exchange_rounded),
-      title: Text(t.settingsChangeMainCurrencyTitle),
+      title: Text("Moneda principal"),
       subtitle: Text(
         Currencies.getCurrencyTitle(
           mainCurrency,
-          context: context,
+          // context: context,
         ),
       ),
     );

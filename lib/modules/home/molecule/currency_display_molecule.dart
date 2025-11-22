@@ -25,7 +25,7 @@ class CurrencyDisplayMolecule extends StatelessWidget {
         title ??
             Currencies.getCurrencyTitle(
               currency,
-              context: context,
+              // context: context,
             ),
         style: theme.textTheme.bodyLarge,
       ),

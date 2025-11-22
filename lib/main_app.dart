@@ -1,6 +1,5 @@
-import 'package:doya/l10n/app_localizations.dart';
+//
 import 'package:doya/providers/theme_mode.dart';
-import 'package:doya/providers/translation.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +15,9 @@ class MainApp extends ConsumerStatefulWidget {
 }
 
 class _MainAppState extends ConsumerState<MainApp> {
-  Locale get locale => ref.watch(translationProvider);
+  /* Locale get locale => ref.watch(translationProvider);
   TranslationNotifier get translationNotifier =>
-      ref.read(translationProvider.notifier);
+      ref.read(translationProvider.notifier); */
   ThemeMode get themeModeNotifierProvider =>
       ref.watch(themeModeProvider);
 
@@ -28,7 +27,6 @@ class _MainAppState extends ConsumerState<MainApp> {
 
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       if (!mounted) return;
-      ref.read(translationProvider.notifier).init();
 
       FlutterNativeSplash.remove();
     });
@@ -43,11 +41,11 @@ class _MainAppState extends ConsumerState<MainApp> {
             parent: AlwaysScrollableScrollPhysics(),
           ),
         ),
-        localizationsDelegates:
+        /* localizationsDelegates:
             AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: locale,
-        title: "Awesome Dolar Price",
+        supportedLocales: AppLocalizations.supportedLocales, */
+        locale: Locale("es"),
+        title: "Doya! Dólar para yá",
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,

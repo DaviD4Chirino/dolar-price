@@ -12,7 +12,7 @@ class MainCurrencyText extends ConsumerWidget {
     return Text(
       Currencies.getCurrencyTitle(
         mainCurrency,
-        context: context,
+        // context: context,
       ),
       style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,

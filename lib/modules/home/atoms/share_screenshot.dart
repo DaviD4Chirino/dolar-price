@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:doya/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pasteboard/pasteboard.dart';
@@ -41,7 +40,7 @@ class ShareScreenshot extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Screenshot copied to clipboard",
+              "Foto copiada al portapapeles",
             ), // Optional: add a sharing error message key to your l10n
             duration: Duration(seconds: 4),
           ),
@@ -76,10 +75,9 @@ class ShareScreenshot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
     return IconButton(
       onPressed: () => onShare(context),
-      tooltip: t.shareThisPage,
+      tooltip: "Compartir captura de pantalla",
       icon: const Icon(Icons.share_rounded),
     );
   }

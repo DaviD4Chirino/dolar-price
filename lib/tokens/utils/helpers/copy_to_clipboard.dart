@@ -1,4 +1,3 @@
-import 'package:doya/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,11 +6,11 @@ void copyToClipboard(
   required BuildContext context,
 }) {
   setClipboardData(value);
-  final t = AppLocalizations.of(context);
+  // final t = AppLocalizations.of(context);
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(t.utilsCopyToClipboard),
+      content: Text("Copiado al portapapeles"),
       duration: Duration(seconds: 2),
     ),
   );

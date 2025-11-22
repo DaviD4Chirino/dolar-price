@@ -36,7 +36,7 @@ class CurrencyAmountInput extends StatelessWidget {
         label: Text(
           Currencies.getCurrencyTitle(
             currencyCode,
-            context: context,
+            // context: context,
           ),
         ),
 
