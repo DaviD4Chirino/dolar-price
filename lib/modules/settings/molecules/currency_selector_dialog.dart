@@ -13,7 +13,7 @@ class CurrencySelectorDialog extends ConsumerWidget {
     );
 
     return SimpleDialog(
-      title: Text("Select currency"),
+      title: Text("Seleccionar moneda principal"),
       children: Currencies.allCurrencies.map((currency) {
         return ListTile(
           title: Text(
