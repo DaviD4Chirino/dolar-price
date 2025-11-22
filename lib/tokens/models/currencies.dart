@@ -1,6 +1,4 @@
-import 'package:doya/l10n/app_localizations.dart';
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
-import 'package:flutter/material.dart';
 
 abstract class Currencies {
   static String usd = "USD";
@@ -12,7 +10,7 @@ abstract class Currencies {
 
   static String getCurrencyTitle(
     String currency, {
-    BuildContext? context,
+    // BuildContext? context,
     bool withoutSymbol = false,
   }) {
     var symbol = withoutSymbol ? "" : "${getSymbol(currency)} ";
@@ -24,29 +22,29 @@ abstract class Currencies {
         return getSymbol(currency);
 
       case "USD":
-        if (context != null) {
+        /* if (context != null) {
           var t = AppLocalizations.of(context);
           return "$symbol${t.currencyDolar}";
-        }
-        return "${symbol}USD Dolar";
+        } */
+        return "${symbol}Dólar Oficial";
       case "EUR":
         return "${symbol}Euro";
       case "CNY":
         return "${symbol}Yuan";
       case "RUB":
-        if (context != null) {
+        /* if (context != null) {
           var t = AppLocalizations.of(context);
           return "$symbol${t.currencyRuble}";
-        }
-        return "${symbol}Ruble";
+        } */
+        return "${symbol}Rublo";
 
       case "USD_PARALLEL":
-        if (context != null) {
+        /* if (context != null) {
           var t = AppLocalizations.of(context);
           var symbol_ = withoutSymbol ? "" : "\$ ";
           return "$symbol_${t.currencyParallel}";
-        }
-        return "${symbol}Parallel Dolar";
+        } */
+        return "${symbol}Dólar Paralelo";
       case "BTC":
         return "${withoutSymbol ? "" : "₿ "}Bitcoin";
       default:

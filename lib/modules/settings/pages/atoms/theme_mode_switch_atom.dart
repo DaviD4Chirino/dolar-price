@@ -14,11 +14,11 @@ class ThemeModeSwitchAtom extends ConsumerWidget {
     );
     bool isLight = themeMode == ThemeMode.light;
 
-    var t = AppLocalizations.of(context);
+    // var t = AppLocalizations.of(context);
     return ListTile(
-      title: Text(t.themeModeTitle),
+      title: Text("Esquema de colores"),
       subtitle: Text(
-        isLight ? t.changeToDarkMode : t.changeToLightMode,
+        isLight ? "Cambia a modo oscuro" : "Cambia a modo claro",
       ),
       leading: isLight
           ? Icon(Icons.dark_mode_outlined)

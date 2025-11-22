@@ -16,9 +16,7 @@ class LanguageSelectorAlertMolecule extends HookConsumerWidget {
     final currentLocale = ref.watch(translationProvider);
 
     return SimpleDialog(
-      title: Text(
-        AppLocalizations.of(context).languageSelectorTitle,
-      ),
+      title: Text("Cambiar idioma"),
       children: AppLocalizations.supportedLocales.map((locale) {
         void onTap() {
           translationNotifier.translate(locale.toLanguageTag());

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
 import 'package:doya/l10n/app_localizations.dart';
 import 'package:doya/modules/settings/pages/atoms/check_for_updates_button.dart';
-import 'package:doya/modules/settings/pages/atoms/language_switcher_atom.dart';
+// import 'package:doya/modules/settings/pages/atoms/language_switcher_atom.dart';
 import 'package:doya/modules/settings/pages/atoms/main_currency_selector.dart';
 import 'package:doya/modules/settings/pages/atoms/theme_mode_switch_atom.dart';
 import 'package:doya/tokens/app/app_flavors.dart';
@@ -16,10 +16,10 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var t = AppLocalizations.of(context);
+    // var t = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.settingsTitle)),
+      appBar: AppBar(title: Text("Ajustes")),
       body: ListView(
         children: [
           AppSizing.xxl.sizedBoxH,
@@ -27,7 +27,7 @@ class SettingsPage extends StatelessWidget {
           AppSizing.xl.sizedBoxH,
           Divider(),
           ThemeModeSwitchAtom(),
-          LanguageSwitcherAtom(),
+          // LanguageSwitcherAtom(),
           MainCurrencySelector(),
           if (AppFlavor.isGithub && Platform.isAndroid)
             CheckForUpdatesButton(),

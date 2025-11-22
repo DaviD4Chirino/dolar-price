@@ -76,10 +76,9 @@ class ShareScreenshot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
     return IconButton(
       onPressed: () => onShare(context),
-      tooltip: t.shareThisPage,
+      tooltip: "Compartir captura de pantalla",
       icon: const Icon(Icons.share_rounded),
     );
   }

@@ -36,7 +36,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final isLoading = useState(false);
-    final t = AppLocalizations.of(context);
+    // final t = AppLocalizations.of(context);
 
     final ThemeData theme = Theme.of(context);
 
@@ -70,7 +70,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             color: Colors.green,
           ),
           shouldIconPulse: false,
-          message: t.pricesUpdated,
+          message: "Los precios se han actualizado",
           duration: Duration(seconds: 5),
         ).show(context);
       } on Exception catch (e) {
@@ -121,7 +121,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: appBar(
-        t,
         context,
         onRefresh: isLoading.value ? null : fetchDolarPrice,
       ),
@@ -141,7 +140,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   AppBar appBar(
-    AppLocalizations t,
     BuildContext context, {
     void Function()? onRefresh,
   }) {
@@ -152,14 +150,14 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         IconButton(
           onPressed: onRefresh,
-          tooltip: t.refreshPrices,
+          tooltip: "Actualizar precios",
           icon: const Icon(Icons.refresh_rounded),
         ),
         IconButton(
           onPressed: () =>
               Navigator.pushNamed(context, AppRoutes.settings),
           icon: Icon(Icons.settings),
-          tooltip: t.settingsTitle,
+          tooltip: "Ajustes",
         ),
       ],
     );

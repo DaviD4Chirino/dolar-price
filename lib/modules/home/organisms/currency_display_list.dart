@@ -15,7 +15,7 @@ class CurrencyDisplayList extends ConsumerWidget {
       currencyExchangeProvider,
     );
 
-    var t = AppLocalizations.of(context);
+    // var t = AppLocalizations.of(context);
 
     var mainCurrencyNotifier = ref.read(
       mainCurrencyProvider.notifier,
@@ -34,7 +34,7 @@ class CurrencyDisplayList extends ConsumerWidget {
             currency: e.key,
             title: Currencies.getCurrencyTitle(
               e.key,
-              context: context,
+              // context: context,
             ),
             value: e.value > 0.0
                 ? e.value.toStringAsFixed(3)
@@ -48,7 +48,7 @@ class CurrencyDisplayList extends ConsumerWidget {
       children: [
         CurrencyDisplayMolecule(
           currency: Currencies.usd,
-          title: "\$ ${t.currencyDolar}",
+          title: "\$ Dólar BCV",
           value: dolar > 0.0
               ? dolar.toStringAsFixed(3)
               : dolar.toStringAsFixed(0),
@@ -58,7 +58,7 @@ class CurrencyDisplayList extends ConsumerWidget {
         ),
         CurrencyDisplayMolecule(
           currency: Currencies.usd,
-          title: "\$ ${t.currencyParallel}",
+          title: "\$ Dólar Paralelo",
           value: parallel > 0.0
               ? parallel.toStringAsFixed(3)
               : parallel.toStringAsFixed(0),

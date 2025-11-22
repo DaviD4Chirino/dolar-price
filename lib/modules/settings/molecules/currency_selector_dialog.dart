@@ -19,7 +19,7 @@ class CurrencySelectorDialog extends ConsumerWidget {
           title: Text(
             Currencies.getCurrencyTitle(
               currency,
-              context: context,
+              // context: context,
             ),
           ),
           onTap: () {

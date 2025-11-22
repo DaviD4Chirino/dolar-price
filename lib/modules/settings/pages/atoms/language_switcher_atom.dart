@@ -12,12 +12,12 @@ class LanguageSwitcherAtom extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Locale currentLocale = ref.watch(translationProvider);
 
-    var t = AppLocalizations.of(context);
+    // var t = AppLocalizations.of(context);
     return ListTile(
-      title: Text(t.languageSwitcherTitle),
+      title: Text("Cambiar idioma"),
       leading: const Icon(Icons.translate),
       trailing: LocaleCodeAtom(currentLocale.toLanguageTag()),
-      subtitle: Text(t.languageSwitcherSubtitle),
+      subtitle: Text("Elige el idioma que prefieras"),
       onTap: () {
         showDialog(
           context: context,
