@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:doya/api/dolar_api.dart';
 import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/providers/main_currency_provider.dart';

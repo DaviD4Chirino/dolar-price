@@ -7,14 +7,14 @@ Todo:
     ☐ Currency selector (up to 5 currencies)
 
   Translations:
-    ☐ Remove english from the app
+    ☐ Remove english from the app @started(25-11-22 09:56)
 
   Github:
-    ☐ Add Auto Updater @started(25-10-14 13:21)
+    ✔ Add Auto Updater @started(25-10-14 13:21) @done(25-11-22 09:56) @lasted(3d20h35m6s)
     ☐ Add a better readme
-    ☐ Fix the workflows @started(25-10-15 12:41)
-      ☐ Build the .env file in the workflow @started(25-10-15 12:41)
-      ☐ Build for windows
+    ✔ Fix the workflows @started(25-10-15 12:41) @done(25-11-22 09:56) @lasted(6d21h15m26s)
+      ✔ Build the .env file in the workflow @started(25-10-15 12:41) @done(25-11-22 09:55) @lasted(2d21h14m54s)
+      ✘ Build for windows @cancelled(25-11-22 09:56)
 
   ✔ Add github Flavor @done(25-10-12 14:25)
   ✔ Add Play Store Flavor @done(25-10-12 14:25)
