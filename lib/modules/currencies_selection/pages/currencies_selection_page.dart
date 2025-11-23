@@ -1,6 +1,8 @@
+import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:searchable_listview/searchable_listview.dart';
 
 class CurrenciesSelectionPage extends HookWidget {
   const CurrenciesSelectionPage({super.key});
@@ -93,9 +95,13 @@ class CurrenciesSelectionPage extends HookWidget {
           ...selectedCurrencies.value..remove(currency),
         ];
       }
-      selectedAmount.value = selectedCurrencies.value.length;
       Utils.log(selectedCurrencies.value);
     }
+
+    useEffect(() {
+      selectedAmount.value = selectedCurrencies.value.length;
+      return null;
+    }, [selectedCurrencies.value]);
 
     return Scaffold(
       appBar: AppBar(
@@ -106,34 +112,95 @@ class CurrenciesSelectionPage extends HookWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          SearchBar(controller: searchController),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                var dummyCurrency = dummyCurrencies[index];
-                var isSelected = selectedCurrencies.value
-                    .contains(dummyCurrency);
+      body: SearchableList<String>(
+        searchFieldPadding: EdgeInsets.only(
+          left: AppSpacing.md,
+          right: AppSpacing.md,
+          top: AppSpacing.sm,
+        ),
+        searchTextController: searchController,
+        labelText: "Buscar...",
+        initialList: dummyCurrencies,
+        itemBuilder: (currency) {
+          var isSelected = selectedCurrencies.value.contains(
+            currency,
+          );
+          var enabled =
+              selectedAmount.value < maxAmount.value ||
+              isSelected;
 
-                return ListTile(
-                  enabled:
-                      selectedAmount.value < maxAmount.value,
-                  title: Text(dummyCurrency),
-                  onTap: () => onCurrencySelected(dummyCurrency),
-                  trailing: Checkbox(
-                    value: isSelected,
-                    onChanged: (value) {
-                      if (value == null) return;
-                      onCurrencySelected(dummyCurrency);
-                    },
-                  ),
-                );
-              },
-              itemCount: dummyCurrencies.length,
-            ),
-          ),
-        ],
+          return CurrencyOption(
+            enabled: enabled,
+            currency: currency,
+            isSelected: isSelected,
+            onTap: onCurrencySelected,
+          );
+        },
+        filter: (text) => dummyCurrencies
+            .where(
+              (currency) => currency.toUpperCase().contains(
+                text.toUpperCase(),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
+class FilterBar extends StatelessWidget {
+  const FilterBar({super.key, required this.searchController});
+
+  final TextEditingController searchController;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return SearchBar(
+      controller: searchController,
+      leading: SizedBox(
+        width: 48,
+        child: Icon(
+          Icons.search_rounded,
+          color: theme.colorScheme.onSurface.withAlpha(100),
+        ),
+      ),
+    );
+  }
+}
+
+class CurrencyOption extends StatelessWidget {
+  const CurrencyOption({
+    super.key,
+    required this.enabled,
+    required this.currency,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final bool enabled;
+  final String currency;
+  final bool isSelected;
+
+  final void Function(String currency) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      enabled: enabled,
+      title: Text(currency),
+      onTap: enabled ? () => onTap(currency) : null,
+      trailing: Checkbox(
+        value: isSelected,
+        onChanged: enabled
+            ? (value) {
+                if (value == null) return;
+                onTap(currency);
+              }
+            : null,
+      ),
+      titleTextStyle: TextStyle(
+        decoration: enabled ? null : TextDecoration.lineThrough,
       ),
     );
   }
