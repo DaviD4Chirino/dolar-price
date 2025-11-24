@@ -1,10 +1,12 @@
+import 'package:doya/api/exchange_rate_api.dart';
+import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
-import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
-class CurrenciesSelectionPage extends HookWidget {
+class CurrenciesSelectionPage extends HookConsumerWidget {
   const CurrenciesSelectionPage({super.key});
   static final List<String> dummyCurrencies = [
     "USD",
@@ -77,31 +79,32 @@ class CurrenciesSelectionPage extends HookWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCurrencies = ref.watch(
+      selectedCurrenciesProvider,
+    );
+    final selectedCurrenciesNotifier = ref.read(
+      selectedCurrenciesProvider.notifier,
+    );
+
     var searchController = useTextEditingController();
-    var selectedCurrencies = useState<List<String>>([]);
     var maxAmount = useState<int>(5);
     var selectedAmount = useState<int>(0);
 
     void onCurrencySelected(String currency) {
-      if (!selectedCurrencies.value.contains(currency) &&
+      if (!selectedCurrencies.contains(currency) &&
           selectedAmount.value < maxAmount.value) {
-        selectedCurrencies.value = [
-          ...selectedCurrencies.value,
-          currency,
-        ];
+        selectedCurrenciesNotifier.addCurrency(currency);
       } else {
-        selectedCurrencies.value = [
-          ...selectedCurrencies.value..remove(currency),
-        ];
+        selectedCurrenciesNotifier.removeCurrency(currency);
       }
-      Utils.log(selectedCurrencies.value);
     }
 
     useEffect(() {
-      selectedAmount.value = selectedCurrencies.value.length;
+      ExchangeRateApi.getSupportedCurrencies();
+      selectedAmount.value = selectedCurrencies.length;
       return null;
-    }, [selectedCurrencies.value]);
+    }, [selectedCurrencies]);
 
     return Scaffold(
       appBar: AppBar(
@@ -109,6 +112,9 @@ class CurrenciesSelectionPage extends HookWidget {
           title: Text("Seleccionar monedas"),
           subtitle: Text(
             'Has elegido ${selectedAmount.value} de ${maxAmount.value} monedas',
+          ),
+          trailing: ClearButton(
+            notifier: selectedCurrenciesNotifier,
           ),
         ),
       ),
@@ -122,9 +128,7 @@ class CurrenciesSelectionPage extends HookWidget {
         labelText: "Buscar...",
         initialList: dummyCurrencies,
         itemBuilder: (currency) {
-          var isSelected = selectedCurrencies.value.contains(
-            currency,
-          );
+          var isSelected = selectedCurrencies.contains(currency);
           var enabled =
               selectedAmount.value < maxAmount.value ||
               isSelected;
@@ -136,14 +140,34 @@ class CurrenciesSelectionPage extends HookWidget {
             onTap: onCurrencySelected,
           );
         },
-        filter: (text) => dummyCurrencies
-            .where(
-              (currency) => currency.toUpperCase().contains(
-                text.toUpperCase(),
-              ),
-            )
-            .toList(),
+        filter: currencyFilter,
       ),
+    );
+  }
+
+  List<String> currencyFilter(text) {
+    final newList = dummyCurrencies
+        .where(
+          (currency) => currency.toUpperCase().contains(
+            text.toUpperCase(),
+          ),
+        )
+        .toList();
+
+    return newList;
+  }
+}
+
+class ClearButton extends StatelessWidget {
+  const ClearButton({super.key, required this.notifier});
+
+  final SelectedCurrenciesNotifier notifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: notifier.clear,
+      icon: Icon(Icons.delete_sweep_rounded),
     );
   }
 }

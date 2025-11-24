@@ -48,7 +48,7 @@ final class MainCurrencyNotifierProvider
 }
 
 String _$mainCurrencyNotifierHash() =>
-    r'c8757dd88ea1f0a0b8ee6dd91d42f8f56728924e';
+    r'46e3a8c759fc834df351e28f7d4752710d7ed646';
 
 /// Use this to change the main currency,
 /// Use [Currencies] to compare the currency

@@ -144,5 +144,65 @@ abstract class ExchangeRateApi {
     return null;
   }
 
+  /// Example response:
+  /// ```json
+  /// {
+  ///	"result":"success",
+  ///	"documentation":"https://www.exchangerate-api.com/docs",
+  ///	"terms_of_use":"https://www.exchangerate-api.com/terms"
+  ///	"supported_codes":[
+  ///		["AED","UAE Dirham"],
+  ///		etc, etc,
+  ///	]
+  ///}```
+  static Future<Map<String, dynamic>?> getSupportedCurrencies({
+    bool earlyThrow = false,
+    int apiKeyIndex = 0,
+  }) async {
+    final apiKey = apiKeys[apiKeyIndex];
+    final url =
+        "https://v6.exchangerate-api.com/v6/$apiKey/codes";
+    try {
+      if (earlyThrow) {
+        throw Exception(
+          "Early Exit with api key level $apiKeyIndex",
+        );
+      }
+      final response = await dio.get(url);
+      if (response.statusCode == 200) {
+        final json = response.data;
+        if (json["result"] == "error") {
+          if (kDebugMode) {
+            print("Api Error: ${json["error-type"]}");
+          }
+          return null;
+        }
+
+        if (kDebugMode) {
+          print("success at api key level $apiKeyIndex");
+        }
+        return json;
+      }
+      if (response.statusCode == 403) {
+        final json = response.data;
+        if (json["result"] == "error") {
+          if (kDebugMode) {
+            print("Api Error: ${json["error-type"]}");
+          }
+          return null;
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return getSupportedCurrencies(
+        earlyThrow: earlyThrow,
+        apiKeyIndex: apiKeyIndex + 1,
+      );
+    }
+    return null;
+  }
+
   //{"result":"error","documentation":"https://www.exchangerate-api.com/docs","terms-of-use":"https://www.exchangerate-api.com/terms","error-type":"plan-upgrade-required"}
 }
