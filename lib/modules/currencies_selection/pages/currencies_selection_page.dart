@@ -1,5 +1,5 @@
 import 'package:doya/providers/selected_currencies_provider.dart';
-import 'package:doya/services/exchange_rate/exchange_reate_service.dart';
+import 'package:doya/services/exchange_rate/exchange_rate_service.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
