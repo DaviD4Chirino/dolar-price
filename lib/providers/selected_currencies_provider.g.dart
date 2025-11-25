@@ -43,7 +43,7 @@ final class SelectedCurrenciesNotifierProvider
 }
 
 String _$selectedCurrenciesNotifierHash() =>
-    r'44d2b55b72c1d25618787f03d9cb43594d089713';
+    r'59694460a140ba0423fa39826edf732299d8c693';
 
 abstract class _$SelectedCurrenciesNotifier
     extends $Notifier<List<SupportedCurrency>> {

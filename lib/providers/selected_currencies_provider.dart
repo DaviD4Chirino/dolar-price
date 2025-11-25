@@ -26,6 +26,7 @@ class SelectedCurrenciesNotifier
   }
 
   void clear() {
+    state.clear();
     state = [];
     saveCurrencies();
   }
