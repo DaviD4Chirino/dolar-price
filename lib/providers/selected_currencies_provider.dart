@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 import 'package:doya/tokens/utils/utils.dart';
@@ -8,15 +11,15 @@ part 'selected_currencies_provider.g.dart';
 class SelectedCurrenciesNotifier
     extends _$SelectedCurrenciesNotifier {
   @override
-  List<String> build() => [];
+  List<SupportedCurrency> build() => [];
 
-  void addCurrency(String currency) {
+  void addCurrency(SupportedCurrency currency) {
     state = [...state, currency];
     Utils.log(state);
     saveCurrencies();
   }
 
-  void removeCurrency(String currency) {
+  void removeCurrency(SupportedCurrency currency) {
     state = [...state]..remove(currency);
     Utils.log(state);
     saveCurrencies();
@@ -27,7 +30,7 @@ class SelectedCurrenciesNotifier
     saveCurrencies();
   }
 
-  void setCurrencies(List<String> currencies) {
+  void setCurrencies(List<SupportedCurrency> currencies) {
     state = currencies;
     saveCurrencies();
   }
@@ -40,13 +43,17 @@ class SelectedCurrenciesNotifier
       Utils.log("No saved currencies");
       return;
     }
-    state = savedCurrencies;
+    final json = JsonCodec();
+    state = savedCurrencies
+        .map((e) => SupportedCurrency.fromJson(json.decode(e)))
+        .toList();
   }
 
   Future<void> saveCurrencies() async {
+    final json = JsonCodec();
     await LocalStorage.setStringList(
       LocalStoragePaths.selectedCurrencies,
-      state,
+      state.map((e) => json.encode(e.toJson())).toList(),
     );
   }
 }

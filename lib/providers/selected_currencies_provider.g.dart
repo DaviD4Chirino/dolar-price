@@ -13,7 +13,8 @@ part of 'selected_currencies_provider.dart';
 const selectedCurrenciesProvider = SelectedCurrenciesNotifierProvider._();
 
 final class SelectedCurrenciesNotifierProvider
-    extends $NotifierProvider<SelectedCurrenciesNotifier, List<String>> {
+    extends
+        $NotifierProvider<SelectedCurrenciesNotifier, List<SupportedCurrency>> {
   const SelectedCurrenciesNotifierProvider._()
     : super(
         from: null,
@@ -33,29 +34,31 @@ final class SelectedCurrenciesNotifierProvider
   SelectedCurrenciesNotifier create() => SelectedCurrenciesNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<String> value) {
+  Override overrideWithValue(List<SupportedCurrency> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<String>>(value),
+      providerOverride: $SyncValueProvider<List<SupportedCurrency>>(value),
     );
   }
 }
 
 String _$selectedCurrenciesNotifierHash() =>
-    r'4b7a4bd1ee6652272241b000690303c41ef0f3d0';
+    r'44d2b55b72c1d25618787f03d9cb43594d089713';
 
-abstract class _$SelectedCurrenciesNotifier extends $Notifier<List<String>> {
-  List<String> build();
+abstract class _$SelectedCurrenciesNotifier
+    extends $Notifier<List<SupportedCurrency>> {
+  List<SupportedCurrency> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<List<String>, List<String>>;
+    final ref =
+        this.ref as $Ref<List<SupportedCurrency>, List<SupportedCurrency>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<String>, List<String>>,
-              List<String>,
+              AnyNotifier<List<SupportedCurrency>, List<SupportedCurrency>>,
+              List<SupportedCurrency>,
               Object?,
               Object?
             >;

@@ -1,5 +1,6 @@
-import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/providers/selected_currencies_provider.dart';
+import 'package:doya/services/exchange_rate/exchange_reate_service.dart';
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,74 +9,34 @@ import 'package:searchable_listview/searchable_listview.dart';
 
 class CurrenciesSelectionPage extends HookConsumerWidget {
   const CurrenciesSelectionPage({super.key});
-  static final List<String> dummyCurrencies = [
-    "USD",
-    "EUR",
-    "CNY",
-    "RUB",
-    "JPY",
-    "GBP",
-    "INR",
-    "CAD",
-    "AUD",
-    "BRL",
-    "CHF",
-    "HKD",
-    "MXN",
-    "NOK",
-    "NZD",
-    "TRY",
-    "ZAR",
-    "SEK",
-    "DKK",
-    "PLN",
-    "CZK",
-    "HUF",
-    "ILS",
-    "IDR",
-    "MYR",
-    "PHP",
-    "THB",
-    "RON",
-    "SGD",
-    "BGN",
-    "HRK",
-    "KRW",
-    "AED",
-    "ARS",
-    "BOB",
-    "CLP",
-    "COP",
-    "CRC",
-    "CUP",
-    "DOP",
-    "EGP",
-    "GTQ",
-    "HNL",
-    "ISK",
-    "JMD",
-    "KZT",
-    "LAK",
-    "LYD",
-    "MOP",
-    "MXV",
-    "MYT",
-    "NIO",
-    "PAB",
-    "PEN",
-    "PHP",
-    "QAR",
-    "SAR",
-    "SGD",
-    "SRD",
-    "TTD",
-    "TWD",
-    "VEF",
-    "VND",
-    "XAF",
-    "XCD",
-    "XOF",
-    "YER",
+  static final List<SupportedCurrency> dummyCurrencies = [
+    SupportedCurrency(code: "USD", name: "USD"),
+    SupportedCurrency(code: "EUR", name: "EUR"),
+    SupportedCurrency(code: "CNY", name: "CNY"),
+    SupportedCurrency(code: "RUB", name: "RUB"),
+    SupportedCurrency(code: "JPY", name: "JPY"),
+    SupportedCurrency(code: "GBP", name: "GBP"),
+    SupportedCurrency(code: "INR", name: "INR"),
+    SupportedCurrency(code: "CAD", name: "CAD"),
+    SupportedCurrency(code: "AUD", name: "AUD"),
+    SupportedCurrency(code: "BRL", name: "BRL"),
+    SupportedCurrency(code: "CHF", name: "CHF"),
+    SupportedCurrency(code: "HKD", name: "HKD"),
+    SupportedCurrency(code: "MXN", name: "MXN"),
+    SupportedCurrency(code: "NOK", name: "NOK"),
+    SupportedCurrency(code: "NZD", name: "NZD"),
+    SupportedCurrency(code: "TRY", name: "TRY"),
+    SupportedCurrency(code: "ZAR", name: "ZAR"),
+    SupportedCurrency(code: "SEK", name: "SEK"),
+    SupportedCurrency(code: "DKK", name: "DKK"),
+    SupportedCurrency(code: "PLN", name: "PLN"),
+    SupportedCurrency(code: "CZK", name: "CZK"),
+    SupportedCurrency(code: "HUF", name: "HUF"),
+    SupportedCurrency(code: "ILS", name: "ILS"),
+    SupportedCurrency(code: "IDR", name: "IDR"),
+    SupportedCurrency(code: "MYR", name: "MYR"),
+    SupportedCurrency(code: "PHP", name: "PHP"),
+    SupportedCurrency(code: "THB", name: "THB"),
   ];
 
   @override
@@ -91,7 +52,7 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     var maxAmount = useState<int>(5);
     var selectedAmount = useState<int>(0);
 
-    void onCurrencySelected(String currency) {
+    void onCurrencySelected(SupportedCurrency currency) {
       if (!selectedCurrencies.contains(currency) &&
           selectedAmount.value < maxAmount.value) {
         selectedCurrenciesNotifier.addCurrency(currency);
@@ -101,10 +62,20 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     }
 
     useEffect(() {
-      ExchangeRateApi.getSupportedCurrencies();
       selectedAmount.value = selectedCurrencies.length;
       return null;
     }, [selectedCurrencies]);
+
+    useEffect(() {
+      if (selectedCurrencies.isEmpty) {
+        return;
+      }
+      ExchangeRateService.getSupportedCurrencies().then((value) {
+        if (value == null) return;
+        selectedCurrenciesNotifier.setCurrencies(value);
+      });
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -118,7 +89,7 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
           ),
         ),
       ),
-      body: SearchableList<String>(
+      body: SearchableList<SupportedCurrency>(
         searchFieldPadding: EdgeInsets.only(
           left: AppSpacing.md,
           right: AppSpacing.md,
@@ -145,12 +116,17 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     );
   }
 
-  List<String> currencyFilter(text) {
+  List<SupportedCurrency> currencyFilter(text) {
+    final formattedText = text.toUpperCase();
     final newList = dummyCurrencies
         .where(
-          (currency) => currency.toUpperCase().contains(
-            text.toUpperCase(),
-          ),
+          (currency) =>
+              currency.code.toUpperCase().contains(
+                formattedText,
+              ) ||
+              currency.name.toUpperCase().contains(
+                formattedText,
+              ),
         )
         .toList();
 
@@ -203,16 +179,16 @@ class CurrencyOption extends StatelessWidget {
   });
 
   final bool enabled;
-  final String currency;
+  final SupportedCurrency currency;
   final bool isSelected;
 
-  final void Function(String currency) onTap;
+  final void Function(SupportedCurrency currency) onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       enabled: enabled,
-      title: Text(currency),
+      title: Text("${currency.code} - ${currency.name}"),
       onTap: enabled ? () => onTap(currency) : null,
       trailing: Checkbox(
         value: isSelected,
