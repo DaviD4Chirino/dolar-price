@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SupportedCurrency {
 
- String get code; String get name;
+ String get code; String get name; String? get symbol;
 /// Create a copy of SupportedCurrency
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SupportedCurrencyCopyWith<SupportedCurrency> get copyWith => _$SupportedCurrenc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupportedCurrency&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupportedCurrency&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.symbol, symbol) || other.symbol == symbol));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,code,name);
+int get hashCode => Object.hash(runtimeType,code,name,symbol);
 
 @override
 String toString() {
-  return 'SupportedCurrency(code: $code, name: $name)';
+  return 'SupportedCurrency(code: $code, name: $name, symbol: $symbol)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SupportedCurrencyCopyWith<$Res>  {
   factory $SupportedCurrencyCopyWith(SupportedCurrency value, $Res Function(SupportedCurrency) _then) = _$SupportedCurrencyCopyWithImpl;
 @useResult
 $Res call({
- String code, String name
+ String code, String name, String? symbol
 });
 
 
@@ -65,11 +65,12 @@ class _$SupportedCurrencyCopyWithImpl<$Res>
 
 /// Create a copy of SupportedCurrency
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? code = null,Object? name = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? code = null,Object? name = null,Object? symbol = freezed,}) {
   return _then(_self.copyWith(
 code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,symbol: freezed == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String code,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String code,  String name,  String? symbol)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SupportedCurrency() when $default != null:
-return $default(_that.code,_that.name);case _:
+return $default(_that.code,_that.name,_that.symbol);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.code,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String code,  String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String code,  String name,  String? symbol)  $default,) {final _that = this;
 switch (_that) {
 case _SupportedCurrency():
-return $default(_that.code,_that.name);case _:
+return $default(_that.code,_that.name,_that.symbol);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.code,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String code,  String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String code,  String name,  String? symbol)?  $default,) {final _that = this;
 switch (_that) {
 case _SupportedCurrency() when $default != null:
-return $default(_that.code,_that.name);case _:
+return $default(_that.code,_that.name,_that.symbol);case _:
   return null;
 
 }
@@ -210,11 +211,12 @@ return $default(_that.code,_that.name);case _:
 @JsonSerializable()
 
 class _SupportedCurrency extends SupportedCurrency {
-  const _SupportedCurrency({required this.code, required this.name}): super._();
+  const _SupportedCurrency({required this.code, required this.name, this.symbol}): super._();
   factory _SupportedCurrency.fromJson(Map<String, dynamic> json) => _$SupportedCurrencyFromJson(json);
 
 @override final  String code;
 @override final  String name;
+@override final  String? symbol;
 
 /// Create a copy of SupportedCurrency
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupportedCurrency&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupportedCurrency&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.symbol, symbol) || other.symbol == symbol));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,code,name);
+int get hashCode => Object.hash(runtimeType,code,name,symbol);
 
 @override
 String toString() {
-  return 'SupportedCurrency(code: $code, name: $name)';
+  return 'SupportedCurrency(code: $code, name: $name, symbol: $symbol)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$SupportedCurrencyCopyWith<$Res> implements $SupportedCurr
   factory _$SupportedCurrencyCopyWith(_SupportedCurrency value, $Res Function(_SupportedCurrency) _then) = __$SupportedCurrencyCopyWithImpl;
 @override @useResult
 $Res call({
- String code, String name
+ String code, String name, String? symbol
 });
 
 
@@ -266,11 +268,12 @@ class __$SupportedCurrencyCopyWithImpl<$Res>
 
 /// Create a copy of SupportedCurrency
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? code = null,Object? name = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? code = null,Object? name = null,Object? symbol = freezed,}) {
   return _then(_SupportedCurrency(
 code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,symbol: freezed == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -1,3 +1,4 @@
+import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'supported_currency.freezed.dart';
@@ -10,10 +11,17 @@ abstract class SupportedCurrency with _$SupportedCurrency {
   const factory SupportedCurrency({
     required String code,
     required String name,
+    String? symbol,
   }) = _SupportedCurrency;
 
-  factory SupportedCurrency.fromList(List<dynamic> list) {
-    return SupportedCurrency(code: list.first, name: list.last);
+  factory SupportedCurrency.fromExchangeRateApiList(
+    List<dynamic> list,
+  ) {
+    return SupportedCurrency(
+      code: list.first,
+      name: list.last,
+      symbol: getCurrencySymbol(list.first),
+    );
   }
 
   factory SupportedCurrency.fromJson(

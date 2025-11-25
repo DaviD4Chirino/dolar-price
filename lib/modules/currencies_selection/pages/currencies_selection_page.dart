@@ -99,7 +99,11 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
   bool currencyFilter(String text, SupportedCurrency currency) {
     final formattedText = text.toUpperCase();
     return currency.code.toUpperCase().contains(formattedText) ||
-        currency.name.toUpperCase().contains(formattedText);
+        currency.name.toUpperCase().contains(formattedText) ||
+        currency.symbol != null &&
+            currency.symbol!.toUpperCase().contains(
+              formattedText,
+            );
   }
 }
 
@@ -193,13 +197,17 @@ class FilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return SearchBar(
-      controller: searchController,
-      leading: SizedBox(
-        width: 48,
-        child: Icon(
-          Icons.search_rounded,
-          color: theme.colorScheme.onSurface.withAlpha(100),
+    return Scrollbar(
+      trackVisibility: true,
+      child: SearchBar(
+        controller: searchController,
+        scrollPadding: EdgeInsets.all(8),
+        leading: SizedBox(
+          width: 48,
+          child: Icon(
+            Icons.search_rounded,
+            color: theme.colorScheme.onSurface.withAlpha(100),
+          ),
         ),
       ),
     );
@@ -223,8 +231,10 @@ class CurrencyOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return ListTile(
       enabled: enabled,
+      leading: Text(currency.symbol ?? ""),
       title: Text("${currency.code} - ${currency.name}"),
       onTap: enabled ? () => onTap(currency) : null,
       trailing: Checkbox(
@@ -238,6 +248,12 @@ class CurrencyOption extends StatelessWidget {
       ),
       titleTextStyle: TextStyle(
         decoration: enabled ? null : TextDecoration.lineThrough,
+        fontSize: theme.textTheme.bodyMedium?.fontSize,
+      ),
+
+      leadingAndTrailingTextStyle: TextStyle(
+        decoration: enabled ? null : TextDecoration.lineThrough,
+        fontSize: theme.textTheme.bodyMedium?.fontSize,
       ),
     );
   }

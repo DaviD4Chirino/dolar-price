@@ -8,10 +8,11 @@ import 'package:doya/tokens/utils/utils.dart';
 
 abstract class ExchangeRateService {
   static Future<List<SupportedCurrency>?>
-  getSupportedCurrencies() async {
+  getSupportedCurrencies({bool earlyThrow = false}) async {
     Utils.log("Getting supported currencies");
 
     try {
+      if (earlyThrow) throw Exception("Early throw");
       final savedSupportedCurrencies =
           LocalStorage.getStringList(
             LocalStoragePaths.supportedCurrencies,
@@ -38,7 +39,10 @@ abstract class ExchangeRateService {
 
       final List<SupportedCurrency> supportedCurrenciesList =
           supportedCurrencies
-              .map((e) => SupportedCurrency.fromList(e))
+              .map(
+                (e) =>
+                    SupportedCurrency.fromExchangeRateApiList(e),
+              )
               .toList();
       await LocalStorage.setStringList(
         LocalStoragePaths.supportedCurrencies,
