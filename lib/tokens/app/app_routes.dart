@@ -8,7 +8,7 @@ abstract class AppRoutes {
   static final String settings = "/settings";
   static final String currenciesSelection =
       "/currencies-selection";
-  static final String initial = currenciesSelection;
+  static final String initial = home;
 
   static final Map<String, Widget Function(BuildContext)>
   routes = {

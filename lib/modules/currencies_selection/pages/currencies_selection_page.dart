@@ -75,14 +75,30 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
                   );
 
                 default:
-                  return SearchList(
-                    searchController: searchController,
-                    supportedCurrencies: asyncSnapshot.data!,
-                    maxAmount: 5,
-                    selectedAmount: selectedAmount.value,
-                    selectedCurrencies: selectedCurrencies,
-                    onCurrencySelected: onCurrencySelected,
-                    filter: currencyFilter,
+                  return Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: SearchList(
+                          searchController: searchController,
+                          supportedCurrencies:
+                              asyncSnapshot.data!,
+                          maxAmount: maxAmount.value,
+                          selectedAmount: selectedAmount.value,
+                          selectedCurrencies: selectedCurrencies,
+                          onCurrencySelected: onCurrencySelected,
+                          filter: currencyFilter,
+                        ),
+                      ),
+                      if (selectedCurrencies.isNotEmpty)
+                        SelectedCurrenciesChips(
+                          selectedCurrencies: selectedCurrencies,
+                          onDeleted: selectedCurrenciesNotifier
+                              .removeCurrency,
+                        ),
+                    ],
                   );
               }
 
@@ -104,6 +120,41 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
             currency.symbol!.toUpperCase().contains(
               formattedText,
             );
+  }
+}
+
+class SelectedCurrenciesChips extends StatelessWidget {
+  const SelectedCurrenciesChips({
+    super.key,
+    required this.selectedCurrencies,
+    this.onDeleted,
+  });
+  final List<SupportedCurrency> selectedCurrencies;
+  final void Function(SupportedCurrency currency)? onDeleted;
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+      color: theme.colorScheme.surfaceContainerHigh,
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.start,
+        runAlignment: WrapAlignment.start,
+        spacing: AppSpacing.sm,
+        children: selectedCurrencies
+            .map(
+              (currency) => Chip(
+                label: Text(currency.code),
+                deleteIcon: Icon(Icons.close),
+                onDeleted: onDeleted != null
+                    ? () => onDeleted!(currency)
+                    : null,
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 }
 
@@ -142,18 +193,28 @@ class _SearchListState extends State<SearchList> {
         top: AppSpacing.sm,
       ),
       searchTextController: widget.searchController,
-      labelText: "Buscar...",
+      labelText: "Filtre por...",
       initialList: widget.supportedCurrencies,
       loadingWidget: loadingWidget(),
+      emptyWidget: emptyWidget(),
       itemBuilder: itemBuilder,
       filter: currencyFilter,
+      closeKeyboardWhenScrolling: true,
     );
   }
 
-  List<SupportedCurrency> currencyFilter(String text) => widget
-      .supportedCurrencies
-      .where((currency) => widget.filter(text, currency))
-      .toList();
+  List<SupportedCurrency> currencyFilter(String text) {
+    final list =
+        widget.supportedCurrencies
+            .where((currency) => widget.filter(text, currency))
+            .toList()
+          ..sort(
+            (a, b) =>
+                widget.selectedCurrencies.contains(a) ? -1 : 1,
+          );
+
+    return list;
+  }
 
   Widget loadingWidget() {
     return Center(child: CircularProgressIndicator());
@@ -173,6 +234,13 @@ class _SearchListState extends State<SearchList> {
       onTap: widget.onCurrencySelected,
     );
   }
+
+  Widget emptyWidget() {
+    return ListTile(
+      leading: Icon(Icons.search_off_rounded),
+      title: Text("No hay divisas con ese nombre o código"),
+    );
+  }
 }
 
 class ClearButton extends StatelessWidget {
@@ -185,31 +253,6 @@ class ClearButton extends StatelessWidget {
     return IconButton(
       onPressed: notifier.clear,
       icon: Icon(Icons.delete_sweep_rounded),
-    );
-  }
-}
-
-class FilterBar extends StatelessWidget {
-  const FilterBar({super.key, required this.searchController});
-
-  final TextEditingController searchController;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return Scrollbar(
-      trackVisibility: true,
-      child: SearchBar(
-        controller: searchController,
-        scrollPadding: EdgeInsets.all(8),
-        leading: SizedBox(
-          width: 48,
-          child: Icon(
-            Icons.search_rounded,
-            color: theme.colorScheme.onSurface.withAlpha(100),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -237,24 +280,32 @@ class CurrencyOption extends StatelessWidget {
       leading: Text(currency.symbol ?? ""),
       title: Text("${currency.code} - ${currency.name}"),
       onTap: enabled ? () => onTap(currency) : null,
-      trailing: Checkbox(
-        value: isSelected,
-        onChanged: enabled
-            ? (value) {
-                if (value == null) return;
-                onTap(currency);
-              }
-            : null,
-      ),
+      trailing: checkBox(),
       titleTextStyle: TextStyle(
         decoration: enabled ? null : TextDecoration.lineThrough,
         fontSize: theme.textTheme.bodyMedium?.fontSize,
+        // For some reason, the text is blanc on some devices
+        color: theme.colorScheme.onSurface,
       ),
 
       leadingAndTrailingTextStyle: TextStyle(
         decoration: enabled ? null : TextDecoration.lineThrough,
-        fontSize: theme.textTheme.bodyMedium?.fontSize,
+        fontSize: theme.textTheme.bodyLarge?.fontSize,
+        // For some reason, the text is blanc on some devices
+        color: theme.colorScheme.onSurface,
       ),
+    );
+  }
+
+  Checkbox checkBox() {
+    return Checkbox(
+      value: isSelected,
+      onChanged: enabled
+          ? (value) {
+              if (value == null) return;
+              onTap(currency);
+            }
+          : null,
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:doya/modules/home/atoms/share_screenshot.dart';
 import 'package:doya/modules/home/organisms/currency_display_list.dart';
 import 'package:doya/modules/quick_calculator/molecules/quick_calculator.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/github/github_updater.dart';
 import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_routes.dart';
@@ -42,6 +43,9 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     final dolarPriceNotifier = ref.read(
       currencyExchangeProvider.notifier,
+    );
+    final selectedCurrenciesNotifier = ref.read(
+      selectedCurrenciesProvider.notifier,
     );
 
     Future fetchDolarPrice({
@@ -105,6 +109,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     useEffect(() {
       Future.delayed(Duration(milliseconds: 100), () async {
         fetchDolarPrice();
+        selectedCurrenciesNotifier.loadCurrencies();
 
         if (AppFlavor.isGithub && Platform.isAndroid) {
           Utils.log("Checking for updates");
