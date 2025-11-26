@@ -1,4 +1,5 @@
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
+import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'supported_currency.freezed.dart';
@@ -11,6 +12,7 @@ abstract class SupportedCurrency with _$SupportedCurrency {
   const factory SupportedCurrency({
     required String code,
     required String name,
+    required RateSource source,
     String? symbol,
   }) = _SupportedCurrency;
 
@@ -18,6 +20,7 @@ abstract class SupportedCurrency with _$SupportedCurrency {
     List<dynamic> list,
   ) {
     return SupportedCurrency(
+      source: RateSource.exchangeRateApi,
       code: list.first,
       name: list.last,
       symbol: getCurrencySymbol(list.first),

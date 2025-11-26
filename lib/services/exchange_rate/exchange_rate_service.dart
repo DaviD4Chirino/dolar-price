@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
+import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 import 'package:doya/tokens/utils/utils.dart';
@@ -17,6 +19,7 @@ abstract class ExchangeRateService {
           LocalStorage.getStringList(
             LocalStoragePaths.supportedCurrencies,
           );
+
       if (savedSupportedCurrencies != null) {
         final List<SupportedCurrency> supportedCurrenciesList =
             savedSupportedCurrencies
@@ -27,6 +30,7 @@ abstract class ExchangeRateService {
                 .toList();
         return supportedCurrenciesList;
       }
+
       final response =
           await ExchangeRateApi.getSupportedCurrencies();
 
@@ -40,8 +44,12 @@ abstract class ExchangeRateService {
       final List<SupportedCurrency> supportedCurrenciesList =
           supportedCurrencies
               .map(
-                (e) =>
-                    SupportedCurrency.fromExchangeRateApiList(e),
+                (e) => SupportedCurrency(
+                  code: e.first,
+                  name: e.last,
+                  symbol: getCurrencySymbol(e.first),
+                  source: RateSource.exchangeRateApi,
+                ),
               )
               .toList();
       await LocalStorage.setStringList(

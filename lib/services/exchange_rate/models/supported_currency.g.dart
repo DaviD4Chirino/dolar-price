@@ -10,6 +10,7 @@ _SupportedCurrency _$SupportedCurrencyFromJson(Map<String, dynamic> json) =>
     _SupportedCurrency(
       code: json['code'] as String,
       name: json['name'] as String,
+      source: $enumDecode(_$RateSourceEnumMap, json['source']),
       symbol: json['symbol'] as String?,
     );
 
@@ -17,5 +18,11 @@ Map<String, dynamic> _$SupportedCurrencyToJson(_SupportedCurrency instance) =>
     <String, dynamic>{
       'code': instance.code,
       'name': instance.name,
+      'source': _$RateSourceEnumMap[instance.source]!,
       'symbol': instance.symbol,
     };
+
+const _$RateSourceEnumMap = {
+  RateSource.dolarApi: 'dolarApi',
+  RateSource.exchangeRateApi: 'exchangeRateApi',
+};
