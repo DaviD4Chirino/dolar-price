@@ -15,24 +15,11 @@ abstract class ExchangeRateService {
 
     try {
       if (earlyThrow) throw Exception("Early throw");
-      final savedSupportedCurrencies =
-          LocalStorage.getStringList(
-            LocalStoragePaths.supportedCurrencies,
-          );
-
-      if (savedSupportedCurrencies != null) {
-        final List<SupportedCurrency> supportedCurrenciesList =
-            savedSupportedCurrencies
-                .map(
-                  (e) =>
-                      SupportedCurrency.fromJson(jsonDecode(e)),
-                )
-                .toList();
-        return supportedCurrenciesList;
-      }
 
       final response =
-          await ExchangeRateApi.getSupportedCurrencies();
+          await ExchangeRateApi.getSupportedCurrencies(
+            earlyThrow: earlyThrow,
+          );
 
       if (response == null) return null;
 

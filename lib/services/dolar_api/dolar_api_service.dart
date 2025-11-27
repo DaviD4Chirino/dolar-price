@@ -1,4 +1,3 @@
-import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
 
@@ -8,14 +7,14 @@ abstract class DolarApiService {
     return [
       SupportedCurrency(
         code: "USD",
-        name: "Dolar",
+        name: "Dólar",
         symbol: "\$",
         source: RateSource.dolarApi,
       ),
       SupportedCurrency(
         code: "BTC",
-        name: "Dolar",
-        symbol: getCurrencySymbol("BTC"),
+        name: "Dólar Bitcoin",
+        symbol: "₿",
         source: RateSource.dolarApi,
       ),
       SupportedCurrency(

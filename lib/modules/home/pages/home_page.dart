@@ -15,6 +15,7 @@ import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
+import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -110,6 +111,11 @@ class _HomePageState extends ConsumerState<HomePage> {
       Future.delayed(Duration(milliseconds: 100), () async {
         fetchDolarPrice();
         selectedCurrenciesNotifier.loadCurrencies();
+        DolarUtils.getSupportedCurrencies().then(
+          (value) => print(
+            value?.where((element) => element.code == "USD"),
+          ),
+        );
 
         if (AppFlavor.isGithub && Platform.isAndroid) {
           Utils.log("Checking for updates");
