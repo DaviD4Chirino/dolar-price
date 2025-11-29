@@ -97,4 +97,17 @@ abstract class DolarUtils {
 
     return null;
   }
+
+  static List<SupportedCurrency>? getSelectedCurrencies() {
+    var savedSupportedCurrencies = LocalStorage.getStringList(
+      LocalStoragePaths.supportedCurrencies,
+    );
+    if (savedSupportedCurrencies == null) return null;
+
+    var supportedCurrencies = savedSupportedCurrencies
+        .map((e) => SupportedCurrency.fromJson(jsonDecode(e)))
+        .toList();
+
+    return supportedCurrencies;
+  }
 }

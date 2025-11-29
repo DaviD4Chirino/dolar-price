@@ -36,7 +36,7 @@ class CurrencyValueTitle extends ConsumerWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "${quote.rates.getRate(mainCurrency).toStringAsFixed(3)}Bs",
+                "${mainCurrency.rate.toStringAsFixed(3)}Bs",
                 style: theme.textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),

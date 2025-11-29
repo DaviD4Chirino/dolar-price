@@ -19,12 +19,7 @@ class MainCurrencySelector extends ConsumerWidget {
       ),
       leading: Icon(Icons.currency_exchange_rounded),
       title: Text("Moneda principal"),
-      subtitle: Text(
-        Currencies.getCurrencyTitle(
-          mainCurrency,
-          // context: context,
-        ),
-      ),
+      subtitle: Text(mainCurrency.name),
     );
   }
 }

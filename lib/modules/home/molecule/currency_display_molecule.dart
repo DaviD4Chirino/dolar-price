@@ -1,3 +1,4 @@
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 
@@ -5,13 +6,11 @@ class CurrencyDisplayMolecule extends StatelessWidget {
   const CurrencyDisplayMolecule({
     super.key,
     required this.currency,
-    required this.value,
     this.title,
     this.onTap,
   });
 
-  final String currency;
-  final String value;
+  final SupportedCurrency currency;
   final String? title;
   final void Function()? onTap;
 
@@ -22,14 +21,15 @@ class CurrencyDisplayMolecule extends StatelessWidget {
       dense: true,
       onTap: onTap,
       title: Text(
-        title ??
-            Currencies.getCurrencyTitle(
-              currency,
-              // context: context,
-            ),
+        title ?? currency.name,
         style: theme.textTheme.bodyLarge,
       ),
-      trailing: Text(value, style: theme.textTheme.bodyLarge),
+      trailing: Text(
+        currency.rate > 0.0
+            ? currency.rate.toStringAsFixed(3)
+            : currency.rate.toStringAsFixed(0),
+        style: theme.textTheme.bodyLarge,
+      ),
     );
 
     /* Row(

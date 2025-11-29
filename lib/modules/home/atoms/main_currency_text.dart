@@ -10,10 +10,7 @@ class MainCurrencyText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mainCurrency = ref.watch(mainCurrencyProvider);
     return Text(
-      Currencies.getCurrencyTitle(
-        mainCurrency,
-        // context: context,
-      ),
+      mainCurrency.name,
       style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,
     );

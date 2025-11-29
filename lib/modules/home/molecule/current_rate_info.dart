@@ -25,18 +25,20 @@ class CurrentRateInfo extends ConsumerWidget {
       quote.nextUpdateTime,
     ).format("EEEE, dd MMM. yyyy h:mm a", "es").capitalize;
 
-    final currentRate = quote.rates.getRate(mainCurrency);
+    final currentRate = quote.rates.getRate(mainCurrency.code);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (quote.lastQuote != null &&
-                mainCurrency == Currencies.usd ||
-            mainCurrency == Currencies.usdParallel)
+                mainCurrency.code == Currencies.usd ||
+            mainCurrency.code == Currencies.usdParallel)
           CurrencyComparison(
             lastRate:
-                quote.lastQuote?.rates.getRate(mainCurrency) ??
+                quote.lastQuote?.rates.getRate(
+                  mainCurrency.code,
+                ) ??
                 0.0,
             currentRate: currentRate,
           ),

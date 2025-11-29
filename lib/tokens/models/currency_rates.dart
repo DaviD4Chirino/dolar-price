@@ -1,3 +1,6 @@
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
+import 'package:doya/tokens/utils/utils.dart';
+
 class CurrencyRates {
   CurrencyRates({
     this.usd = 0,
@@ -20,7 +23,7 @@ class CurrencyRates {
   double usdParallel;
   double btc;
 
-  Map<String, double> allValues = {};
+  Map<String, SupportedCurrency> allValues = {};
 
   int? lastUpdateTime;
   int? nextUpdateTime;
@@ -35,33 +38,21 @@ class CurrencyRates {
   };
 
   double convertRate(
-    String currency,
+    SupportedCurrency currency,
     double amount, {
     bool reverse = false,
   }) {
     if (reverse) {
-      return amount / getRate(currency);
+      return amount / currency.rate;
     }
-    return amount * getRate(currency);
+    return amount * currency.rate;
   }
 
   double getRate(String currency) {
-    switch (currency) {
-      case "USD":
-        return usd;
-      case "EUR":
-        return eur;
-      case "CNY":
-        return cny;
-      case "RUB":
-        return rub;
-      case "USD_PARALLEL":
-        return usdParallel;
-      case "BTC":
-        return btc;
-      default:
-        throw Exception("Currency not found");
-    }
+    var rate = allValues[currency];
+    if (rate != null) return rate.rate;
+    Utils.log("Currency not found");
+    return 0;
   }
 
   CurrencyRates copyWith({

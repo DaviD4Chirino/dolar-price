@@ -27,19 +27,12 @@ class CurrencyDisplayList extends ConsumerWidget {
     allRates.remove("USD"); */
 
     var entries = allRates.entries
-        .where((e) => e.value != 0)
+        .where((e) => e.value.rate != 0)
         .map(
           (e) => CurrencyDisplayMolecule(
-            currency: e.key,
-            title: Currencies.getCurrencyTitle(
-              e.key,
-              // context: context,
-            ),
-            value: e.value > 0.0
-                ? e.value.toStringAsFixed(3)
-                : e.value.toStringAsFixed(0),
+            currency: e.value,
             onTap: () =>
-                mainCurrencyNotifier.setMainCurrency(e.key),
+                mainCurrencyNotifier.setMainCurrency(e.value),
           ),
         );
     return Column(

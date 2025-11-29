@@ -17,7 +17,7 @@ const mainCurrencyProvider = MainCurrencyNotifierProvider._();
 /// Use this to change the main currency,
 /// Use [Currencies] to compare the currency
 final class MainCurrencyNotifierProvider
-    extends $NotifierProvider<MainCurrencyNotifier, String> {
+    extends $NotifierProvider<MainCurrencyNotifier, SupportedCurrency> {
   /// Use this to change the main currency,
   /// Use [Currencies] to compare the currency
   const MainCurrencyNotifierProvider._()
@@ -39,32 +39,32 @@ final class MainCurrencyNotifierProvider
   MainCurrencyNotifier create() => MainCurrencyNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(String value) {
+  Override overrideWithValue(SupportedCurrency value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<String>(value),
+      providerOverride: $SyncValueProvider<SupportedCurrency>(value),
     );
   }
 }
 
 String _$mainCurrencyNotifierHash() =>
-    r'46e3a8c759fc834df351e28f7d4752710d7ed646';
+    r'0449300149fc0cc3b0051292e1b873faa19ce681';
 
 /// Use this to change the main currency,
 /// Use [Currencies] to compare the currency
 
-abstract class _$MainCurrencyNotifier extends $Notifier<String> {
-  String build();
+abstract class _$MainCurrencyNotifier extends $Notifier<SupportedCurrency> {
+  SupportedCurrency build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<String, String>;
+    final ref = this.ref as $Ref<SupportedCurrency, SupportedCurrency>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
+              AnyNotifier<SupportedCurrency, SupportedCurrency>,
+              SupportedCurrency,
               Object?,
               Object?
             >;

@@ -6,6 +6,7 @@ import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/dolar_api/dolar_api_service.dart';
 import 'package:doya/services/exchange_rate/exchange_rate_service.dart';
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
@@ -119,12 +120,12 @@ class CurrencyExchangeNotifier
         switch (currency.source) {
           case RateSource.dolarApi:
             currencyFutures.add(
-              DolarApiService.getRate(currency.code),
+              DolarApiService.getRate(currency),
             );
             break;
           case RateSource.exchangeRateApi:
             currencyFutures.add(
-              ExchangeRateService.getRate(currency.code),
+              ExchangeRateService.getRate(currency),
             );
             break;
         }
@@ -137,7 +138,7 @@ class CurrencyExchangeNotifier
         throw Exception("Could not fetch any currency");
       }
 
-      Map<String, double> rates = {};
+      Map<String, SupportedCurrency> rates = {};
 
       // Note, there should not be duplicates
       for (var res in responses2) {
@@ -286,15 +287,40 @@ class CurrencyExchangeNotifier
     return state;
   }
 
-  void _changeMainCurrency(String newCurrency) {
-    final mainCurrency = ref.read(mainCurrencyProvider);
+  Future<void> _changeMainCurrency(String newCurrency) async {
+    return;
+    // final mainCurrency = ref.read(mainCurrencyProvider);
 
     final mainCurrencyNotifier = ref.read(
       mainCurrencyProvider.notifier,
     );
 
-    if (state.rates.getRate(mainCurrency) == 0) {
-      mainCurrencyNotifier.setMainCurrency(Currencies.usd);
+    final value = state.rates.allValues[newCurrency] ?? 0;
+
+    final supportedCurrencies =
+        await DolarUtils.getSupportedCurrencies();
+
+    if (supportedCurrencies == null) {
+      throw Exception("Could not fetch supported currencies");
+    }
+
+    var supportedCurrency = supportedCurrencies.where(
+      (element) => element.code == newCurrency,
+    );
+
+    if (supportedCurrency == null) {
+      throw Exception("Currency not found");
+    }
+
+    if (value != 0) {
+      mainCurrencyNotifier.setMainCurrency(
+        SupportedCurrency(
+          code: newCurrency,
+          name: Currencies.getCurrencyTitle(newCurrency),
+          symbol: Currencies.getSymbol(newCurrency),
+          source: RateSource.exchangeRateApi,
+        ),
+      );
     }
   }
 

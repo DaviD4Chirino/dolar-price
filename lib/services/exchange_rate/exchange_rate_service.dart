@@ -10,18 +10,24 @@ import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_pat
 import 'package:doya/tokens/utils/utils.dart';
 
 abstract class ExchangeRateService {
-  static Future<CurrencyRates?> getRate(String code) async {
+  static Future<CurrencyRates?> getRate(
+    SupportedCurrency currency,
+  ) async {
     try {
-      final res = await ExchangeRateApi.getPairConversion(code);
+      final res = await ExchangeRateApi.getPairConversion(
+        currency.code,
+      );
 
       if (res == null) return null;
 
       var conversionRate = res["conversion_rate"];
-      Map<String, double> values = {
-        res["base_code"]:
-            conversionRate != null && conversionRate is num
-            ? conversionRate.toDouble()
-            : 0.0,
+
+      Map<String, SupportedCurrency> values = {
+        res["base_code"]: currency.copyWith(
+          rate: conversionRate != null && conversionRate is num
+              ? conversionRate.toDouble()
+              : 0.0,
+        ),
       };
       return CurrencyRates(allValues: values);
     } on Exception catch (e) {

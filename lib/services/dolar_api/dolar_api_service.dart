@@ -5,19 +5,30 @@ import 'package:doya/tokens/models/currency_rates.dart';
 import 'package:doya/tokens/utils/utils.dart';
 
 abstract class DolarApiService {
-  static Future<CurrencyRates?> getRate(String code) async {
+  static Future<CurrencyRates?> getRate(
+    SupportedCurrency currency,
+  ) async {
     try {
-      final res = await DolarApi.getPairConversion(code);
-      Map<String, double> values = {};
+      final res = await DolarApi.getPairConversion(
+        currency.code,
+      );
+      Map<String, SupportedCurrency> values = {};
 
       if (res != null) {
-        switch (code) {
+        switch (currency.code) {
           case "USD":
-            values["USD"] = res["promedio"] ?? 0;
+            values["USD"] = currency.copyWith(
+              rate: res["promedio"] ?? 0,
+            );
           case "USD_PARALLEL":
-            values["USD_PARALLEL"] = res["promedio"] ?? 0;
+            values["USD_PARALLEL"] = currency.copyWith(
+              rate: res["promedio"] ?? 0,
+            );
+
           case "BTC":
-            values["BTC"] = res["promedio"] ?? 0;
+            values["BTC"] = currency.copyWith(
+              rate: res["promedio"] ?? 0,
+            );
         }
         return CurrencyRates(allValues: values);
       }
