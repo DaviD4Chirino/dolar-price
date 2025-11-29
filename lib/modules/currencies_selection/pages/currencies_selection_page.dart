@@ -1,7 +1,7 @@
 import 'package:doya/providers/selected_currencies_provider.dart';
-import 'package:doya/services/exchange_rate/exchange_rate_service.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
+import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,7 +43,7 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
 
     useEffect(() {
       supportedCurrencies.value =
-          ExchangeRateService.getSupportedCurrencies();
+          DolarUtils.getSupportedCurrencies();
       return null;
     }, []);
 

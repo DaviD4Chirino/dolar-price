@@ -53,6 +53,7 @@ abstract class DolarUtils {
         DolarApiService.getSupportedCurrencies(),
       ];
       List<List<SupportedCurrency>> allProvidersResponse = [];
+      Utils.log(await DolarApiService.getSupportedCurrencies());
 
       for (var provider in providers) {
         try {
