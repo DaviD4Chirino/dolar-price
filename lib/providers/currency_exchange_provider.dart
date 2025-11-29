@@ -1,7 +1,12 @@
+// ignore_for_file: dead_code
+
 import 'package:doya/api/dolar_api.dart';
 import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/providers/main_currency_provider.dart';
+import 'package:doya/providers/selected_currencies_provider.dart';
+import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:doya/tokens/models/currencies.dart';
+import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/helpers/quotes_helper.dart';
 import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
@@ -94,6 +99,42 @@ class CurrencyExchangeNotifier
     var newState = state.copyWith();
 
     try {
+      var supportedCurrencies =
+          await DolarUtils.getSupportedCurrencies();
+
+      if (supportedCurrencies == null) {
+        throw Exception("Could not fetch supported currencies");
+      }
+
+      var selectedCurrencies = ref.read(
+        selectedCurrenciesProvider,
+      );
+
+      List<Future<Map<String, dynamic>?>> currencyFutures = [];
+
+      // Fetching all supported currencies by their provider
+      for (var currency in selectedCurrencies) {
+        switch (currency.source) {
+          case RateSource.dolarApi:
+            currencyFutures.add(
+              DolarApi.getPairConversion(currency.code),
+            );
+            break;
+          case RateSource.exchangeRateApi:
+            currencyFutures.add(
+              ExchangeRateApi.getPairConversion(currency.code),
+            );
+            break;
+        }
+      }
+
+      var responses2 = await Future.wait<Map<String, dynamic>?>(
+        currencyFutures,
+      );
+
+      Utils.log(responses2);
+      return state;
+
       var responses = await Future.wait<Map<String, dynamic>?>([
         ExchangeRateApi.getPairConversion("USD"),
         ExchangeRateApi.getPairConversion("EUR"),

@@ -1,12 +1,37 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:doya/tokens/utils/utils.dart';
 
 enum Prices { official, parallel, bitcoin }
 
 /// https://ve.dolarapi.com
 abstract class DolarApi {
   static String baseUrl = "https://ve.dolarapi.com/v1";
+
+  static Future<Map<String, dynamic>?> getPairConversion(
+    String code, {
+    bool earlyThrow = false,
+  }) async {
+    try {
+      switch (code) {
+        case "USD":
+          final res = await getOfficialPrice();
+          return res;
+        case "USD_PARALLEL":
+          final res = await getParallelPrice();
+          return res;
+        case "BTC":
+          final res = await getBitcoinPrice();
+          return res;
+        default:
+          throw Exception("Unknown currency code");
+      }
+    } catch (e) {
+      Utils.log(e);
+      return null;
+    }
+  }
 
   /// Example response:
   /// ```json

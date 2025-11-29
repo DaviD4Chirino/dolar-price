@@ -6,6 +6,7 @@ class CurrencyRates {
     this.eur = 0,
     this.cny = 0,
     this.rub = 0,
+    this.allValues = const {},
   });
 
   double usd;
@@ -16,6 +17,8 @@ class CurrencyRates {
 
   double usdParallel;
   double btc;
+
+  Map<String, double> allValues = {};
 
   Map<String, double> get allRates => {
     "USD_PARALLEL": usdParallel,

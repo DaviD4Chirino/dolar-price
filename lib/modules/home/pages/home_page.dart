@@ -50,7 +50,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
 
     Future fetchDolarPrice({
-      bool forceUpdate = false,
+      bool forceUpdate = true,
       bool manualUpdate = false,
     }) async {
       if (isLoading.value) return;
