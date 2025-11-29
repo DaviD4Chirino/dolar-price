@@ -7,6 +7,8 @@ class CurrencyRates {
     this.cny = 0,
     this.rub = 0,
     this.allValues = const {},
+    this.lastUpdateTime,
+    this.nextUpdateTime,
   });
 
   double usd;
@@ -19,6 +21,9 @@ class CurrencyRates {
   double btc;
 
   Map<String, double> allValues = {};
+
+  int? lastUpdateTime;
+  int? nextUpdateTime;
 
   Map<String, double> get allRates => {
     "USD_PARALLEL": usdParallel,
@@ -101,6 +106,10 @@ class CurrencyRates {
       btc = json["BTC"] ?? 0;
 
   Map<String, dynamic> toJson() {
-    return allRates;
+    return {
+      ...allRates,
+      "time_last_update": lastUpdateTime,
+      "time_next_update": nextUpdateTime,
+    };
   }
 }

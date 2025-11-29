@@ -20,11 +20,11 @@ class CurrencyDisplayList extends ConsumerWidget {
       mainCurrencyProvider.notifier,
     );
 
-    var parallel = dolarPriceProvider.rates.usdParallel;
-    var dolar = dolarPriceProvider.rates.usd;
-    var allRates = dolarPriceProvider.rates.allRates;
-    allRates.remove("USD_PARALLEL");
-    allRates.remove("USD");
+    // var parallel = dolarPriceProvider.rates.usdParallel;
+    // var dolar = dolarPriceProvider.rates.usd;
+    var allRates = dolarPriceProvider.rates.allValues;
+    /*  allRates.remove("USD_PARALLEL");
+    allRates.remove("USD"); */
 
     var entries = allRates.entries
         .where((e) => e.value != 0)
@@ -45,7 +45,7 @@ class CurrencyDisplayList extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        CurrencyDisplayMolecule(
+        /* CurrencyDisplayMolecule(
           currency: Currencies.usd,
           title: "\$ Dólar BCV",
           value: dolar > 0.0
@@ -66,7 +66,7 @@ class CurrencyDisplayList extends ConsumerWidget {
             Currencies.usdParallel,
           ),
         ),
-        Divider(),
+        Divider(), */
         ...entries,
       ],
     );

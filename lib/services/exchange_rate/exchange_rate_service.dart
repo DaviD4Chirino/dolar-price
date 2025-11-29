@@ -4,11 +4,32 @@ import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbo
 import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
+import 'package:doya/tokens/models/currency_rates.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 import 'package:doya/tokens/utils/utils.dart';
 
 abstract class ExchangeRateService {
+  static Future<CurrencyRates?> getRate(String code) async {
+    try {
+      final res = await ExchangeRateApi.getPairConversion(code);
+
+      if (res == null) return null;
+
+      var conversionRate = res["conversion_rate"];
+      Map<String, double> values = {
+        res["base_code"]:
+            conversionRate != null && conversionRate is num
+            ? conversionRate.toDouble()
+            : 0.0,
+      };
+      return CurrencyRates(allValues: values);
+    } on Exception catch (e) {
+      Utils.log(e);
+    }
+    return null;
+  }
+
   static Future<List<SupportedCurrency>?>
   getSupportedCurrencies({bool earlyThrow = false}) async {
     Utils.log("Getting supported currencies");
