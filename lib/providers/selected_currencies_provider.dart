@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
+import 'package:doya/tokens/constants/rate_source.dart';
+import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 import 'package:doya/tokens/utils/utils.dart';
@@ -10,6 +12,34 @@ part 'selected_currencies_provider.g.dart';
 @Riverpod(keepAlive: true)
 class SelectedCurrenciesNotifier
     extends _$SelectedCurrenciesNotifier {
+  final defaultCurrencies = [
+    SupportedCurrency(
+      code: "USD",
+      name: "United States Dollar",
+      source: RateSource.exchangeRateApi,
+    ),
+    SupportedCurrency(
+      code: "EUR",
+      name: "Euro",
+      source: RateSource.exchangeRateApi,
+    ),
+    SupportedCurrency(
+      code: "CNY",
+      name: "Chinese Yuan",
+      source: RateSource.exchangeRateApi,
+    ),
+    SupportedCurrency(
+      code: "RUB",
+      name: "Russian Ruble",
+      source: RateSource.exchangeRateApi,
+    ),
+    SupportedCurrency(
+      code: "USD_PARALLEL",
+      name: "US Dollar Parallel",
+      source: RateSource.exchangeRateApi,
+    ),
+  ];
+
   @override
   List<SupportedCurrency> build() => [];
 
@@ -42,6 +72,11 @@ class SelectedCurrenciesNotifier
     );
     if (savedCurrencies == null) {
       Utils.log("No saved currencies");
+      Utils.log("Using Default currencies");
+
+      state = defaultCurrencies;
+      await Future.delayed(Duration(milliseconds: 100));
+      saveCurrencies();
       return;
     }
     final json = JsonCodec();

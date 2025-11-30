@@ -1,4 +1,5 @@
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 
 abstract class Currencies {
   static String usd = "USD";
@@ -9,47 +10,11 @@ abstract class Currencies {
   static String btc = "BTC";
 
   static String getCurrencyTitle(
-    String currency, {
+    SupportedCurrency supportedCurrency, {
     // BuildContext? context,
     bool withoutSymbol = false,
   }) {
-    var symbol = withoutSymbol ? "" : "${getSymbol(currency)} ";
-
-    switch (currency) {
-      case "VES":
-
-        /// This is a Venezuelan app, so we don't need to translate it
-        return getSymbol(currency);
-
-      case "USD":
-        /* if (context != null) {
-          var t = AppLocalizations.of(context);
-          return "$symbol${t.currencyDolar}";
-        } */
-        return "${symbol}Dólar Oficial";
-      case "EUR":
-        return "${symbol}Euro";
-      case "CNY":
-        return "${symbol}Yuan";
-      case "RUB":
-        /* if (context != null) {
-          var t = AppLocalizations.of(context);
-          return "$symbol${t.currencyRuble}";
-        } */
-        return "${symbol}Rublo";
-
-      case "USD_PARALLEL":
-        /* if (context != null) {
-          var t = AppLocalizations.of(context);
-          var symbol_ = withoutSymbol ? "" : "\$ ";
-          return "$symbol_${t.currencyParallel}";
-        } */
-        return "${symbol}Dólar Paralelo";
-      case "BTC":
-        return "${withoutSymbol ? "" : "₿ "}Bitcoin";
-      default:
-        throw Exception("Currency not found");
-    }
+    return "${withoutSymbol ? "" : "${supportedCurrency.symbol}} "}${supportedCurrency.name}";
   }
 
   static String getSymbol(String currency) {
@@ -62,7 +27,7 @@ abstract class Currencies {
     }
   }
 
-  static String getCurrency(String currency) {
+  /* static String getCurrency(String currency) {
     switch (currency) {
       case "USD":
         return usd;
@@ -79,7 +44,7 @@ abstract class Currencies {
       default:
         throw Exception("Currency not found");
     }
-  }
+  } */
 
   static bool isCurrency(String currency) {
     return currency == usd ||

@@ -162,7 +162,7 @@ class CurrencyExchangeNotifier
       _changeMainCurrency(Currencies.usd);
 
       Utils.log(responses2);
-      return state;
+      return newState;
 
       /* var responses = await Future.wait<Map<String, dynamic>?>([
         ExchangeRateApi.getPairConversion("USD"),
@@ -304,15 +304,7 @@ class CurrencyExchangeNotifier
       throw Exception("Could not fetch supported currencies");
     }
 
-    var supportedCurrency = supportedCurrencies.where(
-      (element) => element.code == newCurrency,
-    );
-
-    if (supportedCurrency == null) {
-      throw Exception("Currency not found");
-    }
-
-    if (value != 0) {
+    /* if (value != 0) {
       mainCurrencyNotifier.setMainCurrency(
         SupportedCurrency(
           code: newCurrency,
@@ -321,7 +313,7 @@ class CurrencyExchangeNotifier
           source: RateSource.exchangeRateApi,
         ),
       );
-    }
+    } */
   }
 
   Future<Quotes> fetchDolarApiPrices({
@@ -372,17 +364,26 @@ class CurrencyExchangeNotifier
     var filtered = quotes
         .where(
           (q) =>
-              DateTime.parse(q.lastUpdateTime).isBefore(
-                DateTime.parse(quotes.last.lastUpdateTime),
+              DateTime.fromMillisecondsSinceEpoch(
+                int.parse(q.lastUpdateTime),
+              ).isBefore(
+                DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(quotes.last.lastUpdateTime),
+                ),
               ) &&
               q.rates.getRate("USD") !=
                   quotes.last.rates.getRate("USD"),
         )
         .toList();
     filtered.sort(
-      (a, b) => DateTime.parse(
-        b.lastUpdateTime,
-      ).compareTo(DateTime.parse(a.lastUpdateTime)),
+      (a, b) =>
+          DateTime.fromMillisecondsSinceEpoch(
+            int.parse(b.lastUpdateTime),
+          ).compareTo(
+            DateTime.fromMillisecondsSinceEpoch(
+              int.parse(a.lastUpdateTime),
+            ),
+          ),
     );
     if (filtered.isEmpty) {
       return null;

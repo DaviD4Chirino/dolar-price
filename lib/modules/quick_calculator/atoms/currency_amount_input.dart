@@ -33,12 +33,7 @@ class CurrencyAmountInput extends StatelessWidget {
         LeadingZeroInputFormatter(),
       ],
       decoration: InputDecoration(
-        label: Text(
-          Currencies.getCurrencyTitle(
-            currencyCode,
-            // context: context,
-          ),
-        ),
+        label: Text(currencyCode),
 
         suffixIcon: IconButton(
           onPressed: controller != null
