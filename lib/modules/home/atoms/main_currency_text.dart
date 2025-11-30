@@ -8,9 +8,9 @@ class MainCurrencyText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mainCurrency = ref.watch(mainCurrencyProvider);
+    // final mainCurrency = ref.watch(mainCurrencyProvider);
     return Text(
-      mainCurrency.name,
+      "USD",
       style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.center,
     );

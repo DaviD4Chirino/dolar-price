@@ -20,8 +20,9 @@ class CurrencyDisplayMolecule extends StatelessWidget {
     return ListTile(
       dense: true,
       onTap: onTap,
+
       title: Text(
-        title ?? currency.name,
+        title ?? "${currency.symbol} ${currency.name}",
         style: theme.textTheme.bodyLarge,
       ),
       trailing: Text(

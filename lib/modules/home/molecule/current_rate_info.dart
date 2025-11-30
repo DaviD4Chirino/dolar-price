@@ -18,12 +18,12 @@ class CurrentRateInfo extends ConsumerWidget {
     final quote = ref.watch(currencyExchangeProvider);
     final mainCurrency = ref.watch(mainCurrencyProvider);
 
-    final lastUpdate = DateTime.fromMillisecondsSinceEpoch(
-      int.parse(quote.lastUpdateTime),
-    ).format("EEEE, dd MMM. h:mm a", "es").capitalize;
-    final nextUpdate = DateTime.fromMillisecondsSinceEpoch(
-      int.parse(quote.nextUpdateTime),
-    ).format("EEEE, dd MMM. yyyy h:mm a", "es").capitalize;
+    /* final lastUpdate = DateTime.parse(
+      quote.lastUpdateTime,
+    ).format("EEEE, dd MMM. h:mm a", "es").capitalize; */
+    /* final nextUpdate = DateTime.parse(
+      quote.nextUpdateTime,
+    ).format("EEEE, dd MMM. yyyy h:mm a", "es").capitalize; */
 
     final currentRate = quote.rates.getRate(mainCurrency.code);
 
@@ -48,16 +48,16 @@ class CurrentRateInfo extends ConsumerWidget {
                   .toStringAsFixed(3) ??
               "0.0",
         ) */
-        Expanded(
+        /* Expanded(
           child: Tooltip(
             message: 'Siguiente actualización:\n$nextUpdate',
             child: Text(
-              lastUpdate,
+              "lastUpdate",
               textAlign: TextAlign.end,
               style: theme.textTheme.bodySmall,
             ),
           ),
-        ),
+        ), */
       ],
     );
   }

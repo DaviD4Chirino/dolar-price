@@ -14,7 +14,7 @@ class CurrencyValueTitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
-    final mainCurrency = ref.watch(mainCurrencyProvider);
+    // final mainCurrency = ref.watch(mainCurrencyProvider);
 
     final quote = ref.watch(currencyExchangeProvider);
 
@@ -36,7 +36,7 @@ class CurrencyValueTitle extends ConsumerWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "${mainCurrency.rate.toStringAsFixed(3)}Bs",
+                "${ /* mainCurrency.rate.toStringAsFixed(3) */ ""}Bs",
                 style: theme.textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
@@ -47,9 +47,14 @@ class CurrencyValueTitle extends ConsumerWidget {
               alignment: Alignment.centerRight.add(
                 Alignment(-0.05, 0),
               ),
-              child: CopyButton(
-                value: quote.rates.allRates[mainCurrency] ?? 0,
-              ),
+              /* child: CopyButton(
+                value:
+                    quote
+                        .rates
+                        .allValues[mainCurrency.code]
+                        ?.rate ??
+                    0,
+              ), */
             ),
           ),
         ],

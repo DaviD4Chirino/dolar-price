@@ -146,10 +146,11 @@ class CurrencyExchangeNotifier
         rates.addAll(res.allValues);
       }
 
-      int? lastUpdateTime =
-          DateTime.now().toUtc().millisecondsSinceEpoch * 1000;
+      int? lastUpdateTime = DateTime.now()
+          .toUtc()
+          .millisecondsSinceEpoch;
       int? nextUpdateTime =
-          nextMidnightUtc().millisecondsSinceEpoch * 1000;
+          nextMidnightUtc().millisecondsSinceEpoch;
 
       newState = state.copyWith(
         rates: CurrencyRates(allValues: rates),
@@ -364,26 +365,17 @@ class CurrencyExchangeNotifier
     var filtered = quotes
         .where(
           (q) =>
-              DateTime.fromMillisecondsSinceEpoch(
-                int.parse(q.lastUpdateTime),
-              ).isBefore(
-                DateTime.fromMillisecondsSinceEpoch(
-                  int.parse(quotes.last.lastUpdateTime),
-                ),
+              DateTime.parse(q.lastUpdateTime).isBefore(
+                DateTime.parse(quotes.last.lastUpdateTime),
               ) &&
               q.rates.getRate("USD") !=
                   quotes.last.rates.getRate("USD"),
         )
         .toList();
     filtered.sort(
-      (a, b) =>
-          DateTime.fromMillisecondsSinceEpoch(
-            int.parse(b.lastUpdateTime),
-          ).compareTo(
-            DateTime.fromMillisecondsSinceEpoch(
-              int.parse(a.lastUpdateTime),
-            ),
-          ),
+      (a, b) => DateTime.parse(
+        b.lastUpdateTime,
+      ).compareTo(DateTime.parse(a.lastUpdateTime)),
     );
     if (filtered.isEmpty) {
       return null;
