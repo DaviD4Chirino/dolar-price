@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
-import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
 import 'package:doya/tokens/utils/utils.dart';
@@ -16,32 +16,37 @@ class SelectedCurrenciesNotifier
     SupportedCurrency(
       code: "USD",
       name: "United States Dollar",
+      symbol: getCurrencySymbol("USD"),
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "EUR",
       name: "Euro",
+      symbol: getCurrencySymbol("EUR"),
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "CNY",
       name: "Chinese Yuan",
+      symbol: getCurrencySymbol("CNY"),
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "RUB",
       name: "Russian Ruble",
+      symbol: getCurrencySymbol("RUB"),
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "USD_PARALLEL",
       name: "US Dollar Parallel",
-      source: RateSource.exchangeRateApi,
+      symbol: getCurrencySymbol("USD"),
+      source: RateSource.dolarApi,
     ),
   ];
 
   @override
-  List<SupportedCurrency> build() => [];
+  List<SupportedCurrency> build() => loadCurrencies();
 
   void addCurrency(SupportedCurrency currency) {
     state = [...state, currency];
@@ -66,7 +71,15 @@ class SelectedCurrenciesNotifier
     saveCurrencies();
   }
 
-  void loadCurrencies() async {
+  Future<void> saveCurrencies() async {
+    final json = JsonCodec();
+    await LocalStorage.setStringList(
+      LocalStoragePaths.selectedCurrencies,
+      state.map((e) => json.encode(e.toJson())).toList(),
+    );
+  }
+
+  List<SupportedCurrency> loadCurrencies() {
     final savedCurrencies = LocalStorage.getStringList(
       LocalStoragePaths.selectedCurrencies,
     );
@@ -74,22 +87,11 @@ class SelectedCurrenciesNotifier
       Utils.log("No saved currencies");
       Utils.log("Using Default currencies");
 
-      state = defaultCurrencies;
-      await Future.delayed(Duration(milliseconds: 100));
-      saveCurrencies();
-      return;
+      return defaultCurrencies;
     }
-    final json = JsonCodec();
-    state = savedCurrencies
-        .map((e) => SupportedCurrency.fromJson(json.decode(e)))
-        .toList();
-  }
 
-  Future<void> saveCurrencies() async {
-    final json = JsonCodec();
-    await LocalStorage.setStringList(
-      LocalStoragePaths.selectedCurrencies,
-      state.map((e) => json.encode(e.toJson())).toList(),
-    );
+    return savedCurrencies
+        .map((e) => SupportedCurrency.fromJson(jsonDecode(e)))
+        .toList();
   }
 }

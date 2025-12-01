@@ -26,8 +26,12 @@ class CurrencyExchangeNotifier
   Quotes build() {
     return getSavedExchangeValue() ??
         Quotes(
-          lastUpdateTime: DateTime.timestamp().toString(),
-          nextUpdateTime: DateTime.timestamp().toString(),
+          lastUpdateTime: DateTime.timestamp()
+              .millisecondsSinceEpoch
+              .toString(),
+          nextUpdateTime: DateTime.timestamp()
+              .millisecondsSinceEpoch
+              .toString(),
           rates: CurrencyRates(),
         );
   }
@@ -362,21 +366,28 @@ class CurrencyExchangeNotifier
       return null;
     }
 
-    var filtered = quotes
-        .where(
-          (q) =>
-              DateTime.parse(q.lastUpdateTime).isBefore(
-                DateTime.parse(quotes.last.lastUpdateTime),
-              ) &&
-              q.rates.getRate("USD") !=
-                  quotes.last.rates.getRate("USD"),
-        )
-        .toList();
-    filtered.sort(
-      (a, b) => DateTime.parse(
-        b.lastUpdateTime,
-      ).compareTo(DateTime.parse(a.lastUpdateTime)),
-    );
+    var filtered = quotes.where((q) {
+      var lastUpdateTime = DateTime.fromMicrosecondsSinceEpoch(
+        int.parse(q.lastUpdateTime),
+      );
+      var nextUpdateTime = DateTime.fromMicrosecondsSinceEpoch(
+        int.parse(q.nextUpdateTime),
+      );
+
+      return lastUpdateTime.isBefore(nextUpdateTime) &&
+          q.rates.getRate("USD") !=
+              quotes.last.rates.getRate("USD");
+    }).toList();
+    filtered.sort((a, b) {
+      var bLastUpdateTime = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(b.lastUpdateTime),
+      );
+      var aLastUpdateTime = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(a.nextUpdateTime),
+      );
+
+      return bLastUpdateTime.compareTo(aLastUpdateTime);
+    });
     if (filtered.isEmpty) {
       return null;
     }

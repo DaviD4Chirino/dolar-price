@@ -110,8 +110,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     useEffect(() {
       Future.delayed(Duration(milliseconds: 100), () async {
         fetchDolarPrice();
-        selectedCurrenciesNotifier.loadCurrencies();
-        DolarUtils.getSupportedCurrencies();
+        // selectedCurrenciesNotifier.loadCurrencies();
+        // DolarUtils.getSupportedCurrencies();
 
         if (AppFlavor.isGithub && Platform.isAndroid) {
           Utils.log("Checking for updates");

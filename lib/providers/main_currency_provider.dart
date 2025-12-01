@@ -14,15 +14,14 @@ part 'main_currency_provider.g.dart';
 /// Use [Currencies] to compare the currency
 @Riverpod(keepAlive: true)
 class MainCurrencyNotifier extends _$MainCurrencyNotifier {
+  final defaultCurrency = SupportedCurrency(
+    code: "USD",
+    name: "Dólar",
+    source: RateSource.exchangeRateApi,
+  );
+
   @override
-  SupportedCurrency build() {
-    return getMainCurrency() ??
-        SupportedCurrency(
-          code: "USD",
-          name: "United States Dollar",
-          source: RateSource.exchangeRateApi,
-        );
-  }
+  SupportedCurrency build() => getMainCurrency();
 
   void setMainCurrency(SupportedCurrency currency) {
     state = currency;
@@ -39,12 +38,12 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
     );
   }
 
-  SupportedCurrency? getMainCurrency() {
+  SupportedCurrency getMainCurrency() {
     final savedValue = LocalStorage.getString(
       LocalStoragePaths.mainCurrency,
     );
     return savedValue != null
         ? jsonDecode(savedValue) as SupportedCurrency
-        : null;
+        : defaultCurrency;
   }
 }
