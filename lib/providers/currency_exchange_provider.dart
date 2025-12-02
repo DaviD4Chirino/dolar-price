@@ -164,7 +164,7 @@ class CurrencyExchangeNotifier
       );
 
       Utils.log("Dolar exchange api success");
-      _changeMainCurrency(Currencies.usd);
+      _changeMainCurrency(rates.values.first);
 
       Utils.log(responses2);
       return newState;
@@ -292,33 +292,17 @@ class CurrencyExchangeNotifier
     return state;
   }
 
-  Future<void> _changeMainCurrency(String newCurrency) async {
+  Future<void> _changeMainCurrency(
+    SupportedCurrency newCurrency,
+  ) async {
     return;
-    // final mainCurrency = ref.read(mainCurrencyProvider);
-
     final mainCurrencyNotifier = ref.read(
       mainCurrencyProvider.notifier,
     );
 
-    final value = state.rates.allValues[newCurrency] ?? 0;
-
-    final supportedCurrencies =
-        await DolarUtils.getSupportedCurrencies();
-
-    if (supportedCurrencies == null) {
-      throw Exception("Could not fetch supported currencies");
-    }
-
-    /* if (value != 0) {
-      mainCurrencyNotifier.setMainCurrency(
-        SupportedCurrency(
-          code: newCurrency,
-          name: Currencies.getCurrencyTitle(newCurrency),
-          symbol: Currencies.getSymbol(newCurrency),
-          source: RateSource.exchangeRateApi,
-        ),
-      );
-    } */
+    // if (value != 0) {
+    mainCurrencyNotifier.setMainCurrency(newCurrency);
+    // }
   }
 
   Future<Quotes> fetchDolarApiPrices({
