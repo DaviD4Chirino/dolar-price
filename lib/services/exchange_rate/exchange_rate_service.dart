@@ -57,11 +57,6 @@ abstract class ExchangeRateService {
 
       final supportedCurrencies = json.values.toList();
 
-      Utils.log(
-        supportedCurrencies.runtimeType,
-        supportedCurrencies,
-      );
-
       // if (supportedCurrencies == null) return null;
 
       final List<SupportedCurrency> supportedCurrenciesList =
@@ -81,7 +76,6 @@ abstract class ExchangeRateService {
             .map((e) => jsonEncode(e.toJson()))
             .toList(),
       );
-      Utils.log(supportedCurrenciesList);
 
       return supportedCurrenciesList;
     } catch (e) {

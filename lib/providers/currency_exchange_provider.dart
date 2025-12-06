@@ -169,7 +169,7 @@ class CurrencyExchangeNotifier
       Utils.log("Dolar exchange api success");
       _changeMainCurrency(rates.values.first);
 
-      Utils.log(responses2);
+      // Utils.log(responses2);
       return newState;
 
       /* var responses = await Future.wait<Map<String, dynamic>?>([

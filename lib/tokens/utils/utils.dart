@@ -7,7 +7,7 @@ abstract class Utils {
   static Future<dynamic> loadJsonAssets(String path) async {
     final String jsonString = await rootBundle.loadString(path);
     final data = jsonDecode(jsonString);
-    Utils.log(data);
+    // Utils.log(data);
     return data;
   }
 
