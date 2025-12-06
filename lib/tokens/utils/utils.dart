@@ -1,6 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 abstract class Utils {
+  static Future<dynamic> loadJsonAssets(String path) async {
+    final String jsonString = await rootBundle.loadString(path);
+    final data = jsonDecode(jsonString);
+    Utils.log(data);
+    return data;
+  }
+
   /// Logs the given [message] to the console.
   static void log([
     Object? message,

@@ -19,11 +19,11 @@ abstract class DolarUtils {
     final Set<String> seenCodes = {};
     var now = DateTime.now();
 
-    final savedSupportedCurrenciesDate = LocalStorage.getInt(
+    /* final savedSupportedCurrenciesDate = LocalStorage.getInt(
       LocalStoragePaths.supportedCurrenciesDate,
     );
 
-    if (savedSupportedCurrenciesDate != null) {
+    if (savedSupportedCurrenciesDate != null || false) {
       bool isExpired = now.isAfter(
         DateTime.fromMillisecondsSinceEpoch(
           savedSupportedCurrenciesDate,
@@ -44,7 +44,7 @@ abstract class DolarUtils {
                 .toList();
         return supportedCurrenciesList;
       }
-    }
+    } */
 
     try {
       final providers = [

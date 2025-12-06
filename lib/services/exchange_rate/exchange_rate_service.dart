@@ -42,27 +42,36 @@ abstract class ExchangeRateService {
 
     try {
       if (earlyThrow) throw Exception("Early throw");
+      final json =
+          await Utils.loadJsonAssets(
+                "assets/constants/supported_currencies.json",
+              )
+              as Map<String, dynamic>;
 
-      final response =
+      /* final response =
           await ExchangeRateApi.getSupportedCurrencies(
             earlyThrow: earlyThrow,
-          );
+          ); */
 
-      if (response == null) return null;
+      // if (response == null) return null;
 
-      final List<dynamic>? supportedCurrencies =
-          response["supported_codes"];
+      final supportedCurrencies = json.values.toList();
 
-      if (supportedCurrencies == null) return null;
+      Utils.log(
+        supportedCurrencies.runtimeType,
+        supportedCurrencies,
+      );
+
+      // if (supportedCurrencies == null) return null;
 
       final List<SupportedCurrency> supportedCurrenciesList =
           supportedCurrencies
               .map(
-                (e) => SupportedCurrency(
-                  code: e.first,
-                  name: e.last,
-                  symbol: getCurrencySymbol(e.first),
+                (el) => SupportedCurrency(
+                  code: el["code"],
+                  name: el["name"],
                   source: RateSource.exchangeRateApi,
+                  symbol: el["symbol"],
                 ),
               )
               .toList();
@@ -72,6 +81,7 @@ abstract class ExchangeRateService {
             .map((e) => jsonEncode(e.toJson()))
             .toList(),
       );
+      Utils.log(supportedCurrenciesList);
 
       return supportedCurrenciesList;
     } catch (e) {

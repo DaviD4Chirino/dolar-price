@@ -25,6 +25,7 @@ Map<String, dynamic> _$SupportedCurrencyToJson(_SupportedCurrency instance) =>
     };
 
 const _$RateSourceEnumMap = {
+  RateSource.none: 'none',
   RateSource.dolarApi: 'dolarApi',
   RateSource.exchangeRateApi: 'exchangeRateApi',
 };
