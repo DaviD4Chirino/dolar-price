@@ -1,1 +1,1 @@
-enum RateSource { dolarApi, exchangeRateApi }
+enum RateSource { none, dolarApi, exchangeRateApi }

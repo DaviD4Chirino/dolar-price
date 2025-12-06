@@ -71,4 +71,6 @@ flutter:
     - assets/icons/logo/logo-title-with-slogan-dark.png
     - assets/icons/logo/logo-title.png
 
+    - assets/constants/supported_currencies.json
+
     - .env

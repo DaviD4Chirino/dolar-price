@@ -132,6 +132,9 @@ class CurrencyExchangeNotifier
               ExchangeRateService.getRate(currency),
             );
             break;
+          // This means is not defined yet
+          case RateSource.none:
+            break;
         }
       }
 
