@@ -13,14 +13,18 @@
   "AUD": { "code": "AUD", "name": "Dólar Australiano", "symbol": "$" },
   "AWG": { "code": "AWG", "name": "Florín Arubeño", "symbol": "ƒ" },
   "AZN": { "code": "AZN", "name": "Manat Azerbaiyano", "symbol": "₼" },
-  "BAM": { "code": "BAM", "name": "Marco Convertible Bosnio", "symbol": "КМ" },
+  "BAM": {
+    "code": "BAM",
+    "name": "Marco Convertible Bosnio",
+    "symbol": "\u041a\u041c"
+  },
   "BBD": { "code": "BBD", "name": "Dólar Barbadense", "symbol": "$" },
   "BDT": { "code": "BDT", "name": "Taka Bangladesí", "symbol": "৳" },
   "BGN": { "code": "BGN", "name": "Lev Búlgaro", "symbol": "лв" },
   "BHD": { "code": "BHD", "name": "Dinar Bareiní", "symbol": ".د.ب" },
   "BIF": { "code": "BIF", "name": "Franco Burundés", "symbol": "FBu" },
   "BMD": { "code": "BMD", "name": "Dólar Bermudeño", "symbol": "$" },
-  "BND": { "code": "BND", "name": "Dólar Bruneyano", "symbol": "$" },
+  "BND": { "code": "BND", "name": "Dólar Bruneano", "symbol": "$" },
   "BOB": { "code": "BOB", "name": "Boliviano", "symbol": "Bs." },
   "BRL": { "code": "BRL", "name": "Real Brasileño", "symbol": "R$" },
   "BSD": { "code": "BSD", "name": "Dólar Bahameño", "symbol": "$" },
@@ -48,7 +52,7 @@
   "ERN": { "code": "ERN", "name": "Nakfa Eritreo", "symbol": "Nfk" },
   "ETB": { "code": "ETB", "name": "Birr Etíope", "symbol": "Br" },
   "EUR": { "code": "EUR", "name": "Euro", "symbol": "€" },
-  "FJD": { "code": "FJD", "name": "Dólar Fijiano", "symbol": "$" },
+  "FJD": { "code": "FJD", "name": "Dólar Fiyiano", "symbol": "$" },
   "FKP": { "code": "FKP", "name": "Libra Malvinense", "symbol": "£" },
   "FOK": { "code": "FOK", "name": "Corona Feroesa", "symbol": "kr" },
   "GBP": { "code": "GBP", "name": "Libra Esterlina Británica", "symbol": "£" },
@@ -65,7 +69,7 @@
   "HRK": { "code": "HRK", "name": "Kuna Croata", "symbol": "kn" },
   "HTG": { "code": "HTG", "name": "Gourde Haitiano", "symbol": "G" },
   "HUF": { "code": "HUF", "name": "Forint Húngaro", "symbol": "Ft" },
-  "IDR": { "code": "IDR", "name": "Rupia Indonesa", "symbol": "Rp" },
+  "IDR": { "code": "IDR", "name": "Rupia Indonesia", "symbol": "Rp" },
   "ILS": { "code": "ILS", "name": "Nuevo Shekel Israelí", "symbol": "₪" },
   "IMP": { "code": "IMP", "name": "Libra De La Isla De Man", "symbol": "£" },
   "INR": { "code": "INR", "name": "Rupia India", "symbol": "₹" },
@@ -143,7 +147,7 @@
   "TJS": { "code": "TJS", "name": "Somoni Tayiko", "symbol": "ЅM" },
   "TMT": { "code": "TMT", "name": "Manat Turcomano", "symbol": "m" },
   "TND": { "code": "TND", "name": "Dinar Tunecino", "symbol": "د.ت" },
-  "TOP": { "code": "TOP", "name": "Paʻanga Tongano", "symbol": "T$" },
+  "TOP": { "code": "TOP", "name": "Pa\u02bbanga Tongano", "symbol": "T$" },
   "TRY": { "code": "TRY", "name": "Lira Turca", "symbol": "₺" },
   "TTD": { "code": "TTD", "name": "Dólar Trinitense", "symbol": "TT$" },
   "TVD": { "code": "TVD", "name": "Dólar Tuvaluano", "symbol": "$" },
@@ -151,16 +155,16 @@
   "TZS": { "code": "TZS", "name": "Chelín Tanzano", "symbol": "TSh" },
   "UAH": { "code": "UAH", "name": "Grivna Ucraniana", "symbol": "₴" },
   "UGX": { "code": "UGX", "name": "Chelín Ugandés", "symbol": "USh" },
-  "USD": { "code": "USD", "name": "Dólar Estadounidense", "symbol": "$" },
+  "USD": { "code": "USD", "name": "Dólar BCV", "symbol": "$" },
   "UYU": { "code": "UYU", "name": "Peso Uruguayo", "symbol": "$U" },
   "UZS": { "code": "UZS", "name": "Sum Uzbeko", "symbol": "so'm" },
-  "VES": { "code": "VES", "name": "Bolívar Venezolano", "symbol": "Bs.S" },
+  "VES": { "code": "VES", "name": "Bolívar Soberano", "symbol": "Bs.S" },
   "VND": { "code": "VND", "name": "Dong Vietnamita", "symbol": "₫" },
-  "VUV": { "code": "VUV", "name": "Vatu Vanuatense", "symbol": "VT" },
+  "VUV": { "code": "VUV", "name": "Vatu Vanuatuense", "symbol": "VT" },
   "WST": { "code": "WST", "name": "Tala Samoana", "symbol": "WS$" },
   "XAF": {
     "code": "XAF",
-    "name": "Franco CFA De África Central",
+    "name": "Franco CFA",
     "symbol": "FCFA"
   },
   "XCD": { "code": "XCD", "name": "Dólar Del Caribe Oriental", "symbol": "$" },
@@ -172,7 +176,7 @@
   },
   "XOF": {
     "code": "XOF",
-    "name": "Franco CFA De África Occidental",
+    "name": "Franco CFA",
     "symbol": "CFA"
   },
   "XPF": { "code": "XPF", "name": "Franco CFP", "symbol": "₣" },
@@ -181,8 +185,8 @@
   "ZMW": { "code": "ZMW", "name": "Kwacha Zambiano", "symbol": "ZK" },
   "ZWG": {
     "code": "ZWG",
-    "name": "Dólar Zimbabwense (Antiguo)",
+    "name": "Dólar Zimbabuense (Antiguo)",
     "symbol": "Z$"
   },
-  "ZWL": { "code": "ZWL", "name": "Dólar Zimbabwense", "symbol": "Z$" }
+  "ZWL": { "code": "ZWL", "name": "Dólar Zimbabuense", "symbol": "Z$" }
 }
