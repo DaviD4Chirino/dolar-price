@@ -1,5 +1,4 @@
 import 'package:doya/modules/quick_calculator/tokens/formatters/remove_leading_zeroes.dart';
-import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/helpers/copy_to_clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

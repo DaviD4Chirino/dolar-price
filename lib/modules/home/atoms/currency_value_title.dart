@@ -1,7 +1,4 @@
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
-import 'package:doya/modules/home/atoms/copy_button.dart';
-import 'package:doya/providers/currency_exchange_provider.dart';
-import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/tokens/app/app_sizing.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +12,6 @@ class CurrencyValueTitle extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
     // final mainCurrency = ref.watch(mainCurrencyProvider);
-
-    final quote = ref.watch(currencyExchangeProvider);
 
     return Container(
       decoration: BoxDecoration(

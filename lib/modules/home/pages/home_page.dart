@@ -9,13 +9,11 @@ import 'package:doya/modules/home/atoms/share_screenshot.dart';
 import 'package:doya/modules/home/organisms/currency_display_list.dart';
 import 'package:doya/modules/quick_calculator/molecules/quick_calculator.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
-import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/github/github_updater.dart';
 import 'package:doya/tokens/app/app_flavors.dart';
 import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
-import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -45,9 +43,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     final dolarPriceNotifier = ref.read(
       currencyExchangeProvider.notifier,
     );
-    final selectedCurrenciesNotifier = ref.read(
+    /* final selectedCurrenciesNotifier = ref.read(
       selectedCurrenciesProvider.notifier,
-    );
+    ); */
 
     Future fetchDolarPrice({
       bool forceUpdate = true,

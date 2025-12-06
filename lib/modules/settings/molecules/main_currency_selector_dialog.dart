@@ -1,5 +1,4 @@
 import 'package:doya/providers/main_currency_provider.dart';
-import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

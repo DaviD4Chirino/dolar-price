@@ -1,14 +1,12 @@
 // ignore_for_file: dead_code
 
 import 'package:doya/api/dolar_api.dart';
-import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/dolar_api/dolar_api_service.dart';
 import 'package:doya/services/exchange_rate/exchange_rate_service.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
-import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/helpers/quotes_helper.dart';
 import 'package:doya/tokens/models/quotes.dart';

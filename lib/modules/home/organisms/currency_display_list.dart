@@ -1,7 +1,6 @@
 import 'package:doya/modules/home/molecule/currency_display_molecule.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/main_currency_provider.dart';
-import 'package:doya/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
