@@ -19,7 +19,6 @@ Map<String, dynamic> _$SupportedCurrencyToJson(_SupportedCurrency instance) =>
     <String, dynamic>{
       'code': instance.code,
       'name': instance.name,
-      'source': _$RateSourceEnumMap[instance.source]!,
       'rate': instance.rate,
       'symbol': instance.symbol,
     };

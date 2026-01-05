@@ -1,4 +1,6 @@
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
+import 'package:doya/modules/home/atoms/copy_button.dart';
+import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/tokens/app/app_sizing.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ class CurrencyValueTitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
-    // final mainCurrency = ref.watch(mainCurrencyProvider);
+    final mainCurrency = ref.watch(mainCurrencyProvider);
 
     return Container(
       decoration: BoxDecoration(
@@ -31,7 +33,7 @@ class CurrencyValueTitle extends ConsumerWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                "${ /* mainCurrency.rate.toStringAsFixed(3) */ ""}Bs",
+                "${mainCurrency.rate.toStringAsFixed(3)}Bs",
                 style: theme.textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
@@ -42,14 +44,7 @@ class CurrencyValueTitle extends ConsumerWidget {
               alignment: Alignment.centerRight.add(
                 Alignment(-0.05, 0),
               ),
-              /* child: CopyButton(
-                value:
-                    quote
-                        .rates
-                        .allValues[mainCurrency.code]
-                        ?.rate ??
-                    0,
-              ), */
+              child: CopyButton(value: mainCurrency.rate),
             ),
           ),
         ],

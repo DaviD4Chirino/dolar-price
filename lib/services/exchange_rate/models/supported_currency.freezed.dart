@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SupportedCurrency {
 
- String get code; String get name; RateSource get source; double get rate; String? get symbol;
+ String get code; String get name;@JsonKey(includeToJson: false) RateSource get source; double get rate; String? get symbol;
 /// Create a copy of SupportedCurrency
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $SupportedCurrencyCopyWith<$Res>  {
   factory $SupportedCurrencyCopyWith(SupportedCurrency value, $Res Function(SupportedCurrency) _then) = _$SupportedCurrencyCopyWithImpl;
 @useResult
 $Res call({
- String code, String name, RateSource source, double rate, String? symbol
+ String code, String name,@JsonKey(includeToJson: false) RateSource source, double rate, String? symbol
 });
 
 
@@ -157,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String code,  String name,  RateSource source,  double rate,  String? symbol)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String code,  String name, @JsonKey(includeToJson: false)  RateSource source,  double rate,  String? symbol)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SupportedCurrency() when $default != null:
 return $default(_that.code,_that.name,_that.source,_that.rate,_that.symbol);case _:
@@ -178,7 +178,7 @@ return $default(_that.code,_that.name,_that.source,_that.rate,_that.symbol);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String code,  String name,  RateSource source,  double rate,  String? symbol)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String code,  String name, @JsonKey(includeToJson: false)  RateSource source,  double rate,  String? symbol)  $default,) {final _that = this;
 switch (_that) {
 case _SupportedCurrency():
 return $default(_that.code,_that.name,_that.source,_that.rate,_that.symbol);case _:
@@ -198,7 +198,7 @@ return $default(_that.code,_that.name,_that.source,_that.rate,_that.symbol);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String code,  String name,  RateSource source,  double rate,  String? symbol)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String code,  String name, @JsonKey(includeToJson: false)  RateSource source,  double rate,  String? symbol)?  $default,) {final _that = this;
 switch (_that) {
 case _SupportedCurrency() when $default != null:
 return $default(_that.code,_that.name,_that.source,_that.rate,_that.symbol);case _:
@@ -213,12 +213,12 @@ return $default(_that.code,_that.name,_that.source,_that.rate,_that.symbol);case
 @JsonSerializable()
 
 class _SupportedCurrency extends SupportedCurrency {
-  const _SupportedCurrency({required this.code, required this.name, required this.source, this.rate = 0, this.symbol}): super._();
+  const _SupportedCurrency({required this.code, required this.name, @JsonKey(includeToJson: false) required this.source, this.rate = 0, this.symbol}): super._();
   factory _SupportedCurrency.fromJson(Map<String, dynamic> json) => _$SupportedCurrencyFromJson(json);
 
 @override final  String code;
 @override final  String name;
-@override final  RateSource source;
+@override@JsonKey(includeToJson: false) final  RateSource source;
 @override@JsonKey() final  double rate;
 @override final  String? symbol;
 
@@ -255,7 +255,7 @@ abstract mixin class _$SupportedCurrencyCopyWith<$Res> implements $SupportedCurr
   factory _$SupportedCurrencyCopyWith(_SupportedCurrency value, $Res Function(_SupportedCurrency) _then) = __$SupportedCurrencyCopyWithImpl;
 @override @useResult
 $Res call({
- String code, String name, RateSource source, double rate, String? symbol
+ String code, String name,@JsonKey(includeToJson: false) RateSource source, double rate, String? symbol
 });
 
 

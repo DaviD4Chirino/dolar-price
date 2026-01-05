@@ -1,3 +1,4 @@
+import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
@@ -44,7 +45,13 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     useEffect(() {
       supportedCurrencies.value =
           DolarUtils.getSupportedCurrencies();
-      return null;
+      return () {
+        var currencyExchange = ref.read(
+          currencyExchangeProvider.notifier,
+        );
+
+        currencyExchange.fetchPrices();
+      };
     }, []);
 
     return Scaffold(
@@ -104,7 +111,10 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
 
             default:
               return const Center(
-                child: Text("No hay Divisas para mostrar"),
+                child: ListTile(
+                  title: Text("No hay Divisas para mostrar"),
+                  leading: Icon(Icons.search_off_rounded),
+                ),
               );
           }
         },

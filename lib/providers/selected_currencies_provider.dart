@@ -80,18 +80,24 @@ class SelectedCurrenciesNotifier
   }
 
   List<SupportedCurrency> loadCurrencies() {
-    final savedCurrencies = LocalStorage.getStringList(
-      LocalStoragePaths.selectedCurrencies,
-    );
-    if (savedCurrencies == null) {
-      Utils.log("No saved currencies");
-      Utils.log("Using Default currencies");
+    try {
+      final savedCurrencies = LocalStorage.getStringList(
+        LocalStoragePaths.selectedCurrencies,
+      );
+      if (savedCurrencies == null) {
+        Utils.log("No saved currencies");
+        Utils.log("Using Default currencies");
 
+        return defaultCurrencies;
+      }
+
+      return savedCurrencies
+          .map((e) => SupportedCurrency.fromJson(jsonDecode(e)))
+          .toList();
+    } on Exception catch (e) {
+      Utils.log(e);
+      Utils.log("Using Default currencies");
       return defaultCurrencies;
     }
-
-    return savedCurrencies
-        .map((e) => SupportedCurrency.fromJson(jsonDecode(e)))
-        .toList();
   }
 }

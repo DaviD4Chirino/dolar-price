@@ -73,9 +73,27 @@ class CurrencyExchangeNotifier
 
   /// Returns the saved price only if the next update time is after the current time
   Quotes? validateCache() {
+    var selectedCurrencies = ref.read(
+      selectedCurrenciesProvider,
+    );
+
     Quotes? cachePrice = getSavedExchangeValue();
 
     if (cachePrice == null) return null;
+
+    // check if theres a change on the the selected currencies
+    var selectedCurrenciesSet = selectedCurrencies
+        .map((e) => e.code)
+        .toSet();
+
+    var priceSet = state.rates.allRates.keys.toSet();
+
+    var hasChangedSelectedCur = selectedCurrenciesSet.any(
+      priceSet.contains,
+    );
+
+    // if the selected currencies changes, we should not use the cache
+    if (hasChangedSelectedCur) return null;
 
     final now = DateTime.now();
 
