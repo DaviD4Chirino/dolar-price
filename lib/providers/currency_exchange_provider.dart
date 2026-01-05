@@ -73,6 +73,7 @@ class CurrencyExchangeNotifier
 
   /// Returns the saved price only if the next update time is after the current time
   Quotes? validateCache() {
+    Utils.log("Validating cache");
     var selectedCurrencies = ref.read(
       selectedCurrenciesProvider,
     );
@@ -86,26 +87,27 @@ class CurrencyExchangeNotifier
         .map((e) => e.code)
         .toSet();
 
-    var priceSet = state.rates.allRates.keys.toSet();
+    var priceSet = state.rates.allValues.keys.toSet();
 
-    var hasChangedSelectedCur = selectedCurrenciesSet.any(
-      priceSet.contains,
+    var isCurrencySelectionUpdated = !setEquals(
+      selectedCurrenciesSet,
+      priceSet,
     );
 
     // if the selected currencies changes, we should not use the cache
-    if (hasChangedSelectedCur) return null;
+    if (isCurrencySelectionUpdated) return null;
 
     final now = DateTime.now();
 
-    var nextUpdateTimeParsed = DateTime.parse(
+    var nextUpdateTimeParsed = DateTime.tryParse(
       cachePrice.nextUpdateTime,
     );
+    if (nextUpdateTimeParsed == null) return null;
 
     var isAfter = now.isAfter(nextUpdateTimeParsed);
 
-    if (isAfter) {
-      return null;
-    }
+    if (isAfter) return null;
+
     if (kDebugMode) {
       print(
         "Next prices update time is before the current time",

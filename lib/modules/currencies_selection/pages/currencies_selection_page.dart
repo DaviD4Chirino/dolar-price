@@ -1,4 +1,3 @@
-import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
@@ -15,9 +14,13 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     final selectedCurrencies = ref.watch(
       selectedCurrenciesProvider,
     );
-    final selectedCurrenciesNotifier = ref.read(
+    /* final selectedCurrenciesNotifier = ref.read(
       selectedCurrenciesProvider.notifier,
-    );
+    ); */
+
+    var chosenCurrencies = useState<List<SupportedCurrency>>([
+      ...selectedCurrencies,
+    ]);
 
     var supportedCurrencies =
         useState<Future<List<SupportedCurrency>?>>(
@@ -27,44 +30,51 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     var maxAmount = useState<int>(5);
     var selectedAmount = useState<int>(0);
 
+    void onClear() {
+      chosenCurrencies.value.clear();
+      selectedAmount.value = 0;
+    }
+
     void onCurrencySelected(SupportedCurrency currency) {
-      if (!selectedCurrencies.contains(currency) &&
+      if (!chosenCurrencies.value.contains(currency) &&
           selectedAmount.value < maxAmount.value) {
-        selectedCurrenciesNotifier.addCurrency(currency);
+        chosenCurrencies.value.add(currency);
+        // selectedCurrenciesNotifier.addCurrency(currency);
       } else {
-        selectedCurrenciesNotifier.removeCurrency(currency);
+        chosenCurrencies.value.remove(currency);
+        // selectedCurrenciesNotifier.removeCurrency(currency);
       }
-      selectedAmount.value = selectedCurrencies.length;
+      selectedAmount.value = chosenCurrencies.value.length;
     }
 
     useEffect(() {
-      selectedAmount.value = selectedCurrencies.length;
+      selectedAmount.value = chosenCurrencies.value.length;
       return null;
-    }, [selectedCurrencies.length]);
+    }, [chosenCurrencies.value.length]);
 
     useEffect(() {
       supportedCurrencies.value =
           DolarUtils.getSupportedCurrencies();
-      return () {
-        var currencyExchange = ref.read(
-          currencyExchangeProvider.notifier,
-        );
-
-        currencyExchange.fetchPrices();
-      };
+      return () {};
     }, []);
 
     return Scaffold(
       appBar: AppBar(
-        title: ListTile(
-          title: Text("Seleccionar divisas"),
-          subtitle: Text(
-            'Has elegido ${selectedAmount.value} de ${maxAmount.value} monedas',
-          ),
-          trailing: ClearButton(
-            notifier: selectedCurrenciesNotifier,
-          ),
+        title: appBarTitle(
+          onPressed: onClear,
+          selectedAmount: selectedAmount,
+          maxAmount: maxAmount,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref
+              .read(selectedCurrenciesProvider.notifier)
+              .setCurrencies(chosenCurrencies.value);
+          Navigator.of(context).pop();
+        },
+        tooltip: 'Guardar divisas',
+        child: const Icon(Icons.done_all_rounded),
       ),
       body: FutureBuilder(
         future: supportedCurrencies.value,
@@ -94,16 +104,18 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
                               asyncSnapshot.data!,
                           maxAmount: maxAmount.value,
                           selectedAmount: selectedAmount.value,
-                          selectedCurrencies: selectedCurrencies,
+                          selectedCurrencies:
+                              chosenCurrencies.value,
                           onCurrencySelected: onCurrencySelected,
                           filter: currencyFilter,
                         ),
                       ),
-                      if (selectedCurrencies.isNotEmpty)
+                      if (chosenCurrencies.value.isNotEmpty)
                         SelectedCurrenciesChips(
-                          selectedCurrencies: selectedCurrencies,
-                          onDeleted: selectedCurrenciesNotifier
-                              .removeCurrency,
+                          selectedCurrencies:
+                              chosenCurrencies.value,
+                          onDeleted:
+                              chosenCurrencies.value.remove,
                         ),
                     ],
                   );
@@ -119,6 +131,20 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
           }
         },
       ),
+    );
+  }
+
+  ListTile appBarTitle({
+    required ValueNotifier<int> selectedAmount,
+    required ValueNotifier<int> maxAmount,
+    required void Function()? onPressed,
+  }) {
+    return ListTile(
+      title: Text("Seleccionar divisas"),
+      subtitle: Text(
+        '${selectedAmount.value} de ${maxAmount.value} monedas seleccionadas',
+      ),
+      trailing: ClearButton(onPressed: onPressed),
     );
   }
 
@@ -254,14 +280,14 @@ class _SearchListState extends State<SearchList> {
 }
 
 class ClearButton extends StatelessWidget {
-  const ClearButton({super.key, required this.notifier});
+  const ClearButton({super.key, required this.onPressed});
 
-  final SelectedCurrenciesNotifier notifier;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: notifier.clear,
+      onPressed: onPressed,
       icon: Icon(Icons.delete_sweep_rounded),
     );
   }

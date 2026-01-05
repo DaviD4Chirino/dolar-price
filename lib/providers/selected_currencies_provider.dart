@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
+import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
@@ -77,6 +78,7 @@ class SelectedCurrenciesNotifier
       LocalStoragePaths.selectedCurrencies,
       state.map((e) => json.encode(e.toJson())).toList(),
     );
+    ref.read(currencyExchangeProvider.notifier).fetchPrices();
   }
 
   List<SupportedCurrency> loadCurrencies() {

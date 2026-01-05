@@ -83,7 +83,10 @@ class CurrencyRates {
           btc == other.btc &&
           eur == other.eur &&
           cny == other.cny &&
-          rub == other.rub;
+          rub == other.rub &&
+          allValues == other.allValues &&
+          lastUpdateTime == other.lastUpdateTime &&
+          nextUpdateTime == other.nextUpdateTime;
   @override
   int get hashCode =>
       Object.hash(usd, usdParallel, btc, eur, cny, rub);
@@ -94,11 +97,28 @@ class CurrencyRates {
       cny = json["CNY"] ?? 0,
       rub = json["RUB"] ?? 0,
       usdParallel = json["USD_PARALLEL"] ?? 0,
-      btc = json["BTC"] ?? 0;
+      btc = json["BTC"] ?? 0,
+      allValues = json["allValues"] != null
+          ? json["allValues"].map(
+              (key, value) => MapEntry(
+                key,
+                SupportedCurrency.fromJson(value),
+              ),
+            )
+          : {},
+      lastUpdateTime = json["time_last_update"] != null
+          ? int.parse(json["time_last_update"])
+          : null,
+      nextUpdateTime = json["time_next_update"] != null
+          ? int.parse(json["time_next_update"])
+          : null;
 
   Map<String, dynamic> toJson() {
     return {
       ...allRates,
+      "allValues": allValues.map(
+        (key, value) => MapEntry(key, value.toJson()),
+      ),
       "time_last_update": lastUpdateTime,
       "time_next_update": nextUpdateTime,
     };

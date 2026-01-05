@@ -12,7 +12,8 @@ abstract class SupportedCurrency with _$SupportedCurrency {
   const factory SupportedCurrency({
     required String code,
     required String name,
-    @JsonKey(includeToJson: false) required RateSource source,
+    @JsonKey(defaultValue: RateSource.none)
+    required RateSource source,
     @Default(0) double rate,
     String? symbol,
   }) = _SupportedCurrency;
