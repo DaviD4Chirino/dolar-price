@@ -67,6 +67,14 @@ class CurrencyExchangeNotifier
           await saveExchangeValue();
         }
     }
+
+    // If the main currency is not set, set it to the first currency
+    if (ref.read(mainCurrencyProvider.notifier).state.rate <=
+        0) {
+      ref
+          .read(mainCurrencyProvider.notifier)
+          .setMainCurrency(state.rates.rates.values.first);
+    }
   }
 
   /// Returns the saved price only if the next update time is after the current time

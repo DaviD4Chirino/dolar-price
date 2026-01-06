@@ -43,20 +43,14 @@ abstract class DolarApiService {
     return [
       SupportedCurrency(
         code: "USD",
-        name: "Dólar",
+        name: "Dólar BCV",
         symbol: "\$",
         source: RateSource.dolarApi,
       ),
       SupportedCurrency(
         code: "BTC",
-        name: "Dólar Bitcoin",
+        name: "Bitcoin",
         symbol: "₿",
-        source: RateSource.dolarApi,
-      ),
-      SupportedCurrency(
-        code: "USD_PARALLEL",
-        name: "Dólar Paralelo",
-        symbol: "\$",
         source: RateSource.dolarApi,
       ),
     ];

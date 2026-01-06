@@ -16,33 +16,27 @@ class SelectedCurrenciesNotifier
   final defaultCurrencies = [
     SupportedCurrency(
       code: "USD",
-      name: "United States Dollar",
+      name: "Dólar BCV",
       symbol: getCurrencySymbol("USD"),
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "EUR",
       name: "Euro",
-      symbol: getCurrencySymbol("EUR"),
+      symbol: "€",
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "CNY",
-      name: "Chinese Yuan",
-      symbol: getCurrencySymbol("CNY"),
+      name: "Yuan Chino",
+      symbol: "¥",
       source: RateSource.exchangeRateApi,
     ),
     SupportedCurrency(
       code: "RUB",
-      name: "Russian Ruble",
+      name: "Rublo Ruso",
       symbol: getCurrencySymbol("RUB"),
       source: RateSource.exchangeRateApi,
-    ),
-    SupportedCurrency(
-      code: "USD_PARALLEL",
-      name: "US Dollar Parallel",
-      symbol: getCurrencySymbol("USD"),
-      source: RateSource.dolarApi,
     ),
   ];
 
