@@ -21,7 +21,7 @@ class CurrencyDisplayList extends ConsumerWidget {
 
     // var parallel = dolarPriceProvider.rates.usdParallel;
     // var dolar = dolarPriceProvider.rates.usd;
-    var allRates = dolarPriceProvider.rates.allValues;
+    var allRates = dolarPriceProvider.rates.rates;
     /*  allRates.remove("USD_PARALLEL");
     allRates.remove("USD"); */
 

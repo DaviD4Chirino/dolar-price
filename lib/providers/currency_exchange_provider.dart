@@ -24,18 +24,16 @@ class CurrencyExchangeNotifier
   Quotes build() {
     return getSavedExchangeValue() ??
         Quotes(
-          lastUpdateTime: DateTime.timestamp()
-              .millisecondsSinceEpoch
-              .toString(),
-          nextUpdateTime: DateTime.timestamp()
-              .millisecondsSinceEpoch
-              .toString(),
-          rates: CurrencyRates(),
+          lastUpdateTime:
+              DateTime.timestamp().millisecondsSinceEpoch,
+          nextUpdateTime:
+              DateTime.timestamp().millisecondsSinceEpoch,
+          rates: CurrencyRates(rates: {}),
         );
   }
 
   //2025-11-22 00:00:01.000Z
-  Future<void> updateUsingDolarApi() async {
+  /*  Future<void> updateUsingDolarApi() async {
     Utils.log("Updating with dolar api only");
     final dolarApiPrices = await fetchDolarApiPrices();
     Utils.log(dolarApiPrices.nextUpdateTime);
@@ -48,7 +46,7 @@ class CurrencyExchangeNotifier
       lastUpdateTime: dolarApiPrices.lastUpdateTime,
     );
   }
-
+ */
   Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
@@ -87,7 +85,7 @@ class CurrencyExchangeNotifier
         .map((e) => e.code)
         .toSet();
 
-    var priceSet = state.rates.allValues.keys.toSet();
+    var priceSet = state.rates.rates.keys.toSet();
 
     var isCurrencySelectionUpdated = !setEquals(
       selectedCurrenciesSet,
@@ -99,10 +97,10 @@ class CurrencyExchangeNotifier
 
     final now = DateTime.now();
 
-    var nextUpdateTimeParsed = DateTime.tryParse(
-      cachePrice.nextUpdateTime,
-    );
-    if (nextUpdateTimeParsed == null) return null;
+    var nextUpdateTimeParsed =
+        DateTime.fromMillisecondsSinceEpoch(
+          cachePrice.nextUpdateTime,
+        );
 
     var isAfter = now.isAfter(nextUpdateTimeParsed);
 
@@ -168,7 +166,7 @@ class CurrencyExchangeNotifier
       // Note, there should not be duplicates
       for (var res in responses2) {
         if (res == null) continue;
-        rates.addAll(res.allValues);
+        rates.addAll(res.rates);
       }
 
       int? lastUpdateTime = DateTime.now()
@@ -178,9 +176,9 @@ class CurrencyExchangeNotifier
           nextMidnightUtc().millisecondsSinceEpoch;
 
       newState = state.copyWith(
-        rates: CurrencyRates(allValues: rates),
-        nextUpdateTime: nextUpdateTime.toString(),
-        lastUpdateTime: lastUpdateTime.toString(),
+        rates: CurrencyRates(rates: rates),
+        nextUpdateTime: nextUpdateTime,
+        lastUpdateTime: lastUpdateTime,
         lastQuote: getPreviousExchangeValue(),
       );
 
@@ -333,20 +331,20 @@ class CurrencyExchangeNotifier
 
     return Quotes(
       rates: CurrencyRates(
-        usd: getOfficial
-            ? dolarPrices[Prices.official.index]["promedio"] ?? 0
-            : null,
-        usdParallel:
-            dolarPrices[Prices.parallel.index]["promedio"] ?? 0,
-        btc: /* dolarPrices[Prices.bitcoin.index]["promedio"] ??
-        ! btc is not available
-         */
-            0,
+        rates: {
+          "USD": getOfficial
+              ? dolarPrices[Prices.official.index]["promedio"] ??
+                    0
+              : null,
+          "USD_PARALLEL":
+              dolarPrices[Prices.parallel.index]["promedio"] ??
+              0,
+        },
       ),
       nextUpdateTime: state.nextUpdateTime,
       lastUpdateTime: DateTime.parse(
         dolarPrices[Prices.parallel.index]["fechaActualizacion"],
-      ).toIso8601String(),
+      ).millisecondsSinceEpoch,
     );
   }
 
@@ -371,12 +369,14 @@ class CurrencyExchangeNotifier
       return null;
     }
 
+    //! Posible bug, maybe its from milliseconds instead of microseconds
+
     var filtered = quotes.where((q) {
       var lastUpdateTime = DateTime.fromMicrosecondsSinceEpoch(
-        int.parse(q.lastUpdateTime),
+        q.lastUpdateTime,
       );
       var nextUpdateTime = DateTime.fromMicrosecondsSinceEpoch(
-        int.parse(q.nextUpdateTime),
+        q.nextUpdateTime,
       );
 
       return lastUpdateTime.isBefore(nextUpdateTime) &&
@@ -385,10 +385,10 @@ class CurrencyExchangeNotifier
     }).toList();
     filtered.sort((a, b) {
       var bLastUpdateTime = DateTime.fromMillisecondsSinceEpoch(
-        int.parse(b.lastUpdateTime),
+        b.lastUpdateTime,
       );
       var aLastUpdateTime = DateTime.fromMillisecondsSinceEpoch(
-        int.parse(a.nextUpdateTime),
+        a.nextUpdateTime,
       );
 
       return bLastUpdateTime.compareTo(aLastUpdateTime);

@@ -30,7 +30,7 @@ abstract class DolarApiService {
               rate: res["promedio"] ?? 0,
             );
         }
-        return CurrencyRates(allValues: values);
+        return CurrencyRates(rates: values);
       }
     } on Exception catch (e) {
       Utils.log(e);

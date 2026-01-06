@@ -55,11 +55,11 @@ class _HomePageState extends ConsumerState<HomePage> {
 
       try {
         isLoading.value = true;
-        if (manualUpdate) {
+        /* if (manualUpdate) {
           await dolarPriceNotifier.updateUsingDolarApi();
           isLoading.value = false;
           return;
-        }
+        } */
         await dolarPriceNotifier.fetchPrices(
           forceUpdate: forceUpdate,
         );
