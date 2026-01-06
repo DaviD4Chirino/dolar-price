@@ -42,8 +42,9 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
     final savedValue = LocalStorage.getString(
       LocalStoragePaths.mainCurrency,
     );
+
     return savedValue != null
-        ? jsonDecode(savedValue) as SupportedCurrency
+        ? SupportedCurrency.fromJson(jsonDecode(savedValue))
         : defaultCurrency;
   }
 }
