@@ -1,7 +1,13 @@
+// ignore_for_file: dead_code
+
 import 'package:doya/api/dolar_api.dart';
-import 'package:doya/api/exchange_rate_api.dart';
 import 'package:doya/providers/main_currency_provider.dart';
-import 'package:doya/tokens/models/currencies.dart';
+import 'package:doya/providers/selected_currencies_provider.dart';
+import 'package:doya/services/dolar_api/dolar_api_service.dart';
+import 'package:doya/services/exchange_rate/exchange_rate_service.dart';
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
+import 'package:doya/tokens/constants/rate_source.dart';
+import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:doya/tokens/utils/helpers/quotes_helper.dart';
 import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
@@ -18,8 +24,12 @@ class CurrencyExchangeNotifier
   Quotes build() {
     return getSavedExchangeValue() ??
         Quotes(
-          lastUpdateTime: DateTime.timestamp().toString(),
-          nextUpdateTime: DateTime.timestamp().toString(),
+          lastUpdateTime: DateTime.timestamp()
+              .millisecondsSinceEpoch
+              .toString(),
+          nextUpdateTime: DateTime.timestamp()
+              .millisecondsSinceEpoch
+              .toString(),
           rates: CurrencyRates(),
         );
   }
@@ -63,21 +73,41 @@ class CurrencyExchangeNotifier
 
   /// Returns the saved price only if the next update time is after the current time
   Quotes? validateCache() {
+    Utils.log("Validating cache");
+    var selectedCurrencies = ref.read(
+      selectedCurrenciesProvider,
+    );
+
     Quotes? cachePrice = getSavedExchangeValue();
 
     if (cachePrice == null) return null;
 
+    // check if theres a change on the the selected currencies
+    var selectedCurrenciesSet = selectedCurrencies
+        .map((e) => e.code)
+        .toSet();
+
+    var priceSet = state.rates.allValues.keys.toSet();
+
+    var isCurrencySelectionUpdated = !setEquals(
+      selectedCurrenciesSet,
+      priceSet,
+    );
+
+    // if the selected currencies changes, we should not use the cache
+    if (isCurrencySelectionUpdated) return null;
+
     final now = DateTime.now();
 
-    var nextUpdateTimeParsed = DateTime.parse(
+    var nextUpdateTimeParsed = DateTime.tryParse(
       cachePrice.nextUpdateTime,
     );
+    if (nextUpdateTimeParsed == null) return null;
 
     var isAfter = now.isAfter(nextUpdateTimeParsed);
 
-    if (isAfter) {
-      return null;
-    }
+    if (isAfter) return null;
+
     if (kDebugMode) {
       print(
         "Next prices update time is before the current time",
@@ -94,16 +124,82 @@ class CurrencyExchangeNotifier
     var newState = state.copyWith();
 
     try {
-      var responses = await Future.wait<Map<String, dynamic>?>([
+      var supportedCurrencies =
+          await DolarUtils.getSupportedCurrencies();
+
+      if (supportedCurrencies == null) {
+        throw Exception("Could not fetch supported currencies");
+      }
+
+      var selectedCurrencies = ref.read(
+        selectedCurrenciesProvider,
+      );
+
+      List<Future<CurrencyRates?>> currencyFutures = [];
+
+      // Fetching all supported currencies by their provider
+      for (var currency in selectedCurrencies) {
+        switch (currency.source) {
+          case RateSource.dolarApi:
+            currencyFutures.add(
+              DolarApiService.getRate(currency),
+            );
+            break;
+          case RateSource.exchangeRateApi:
+            currencyFutures.add(
+              ExchangeRateService.getRate(currency),
+            );
+            break;
+          // This means is not defined yet
+          case RateSource.none:
+            break;
+        }
+      }
+
+      var responses2 = await Future.wait<CurrencyRates?>(
+        currencyFutures,
+      );
+      if (responses2.isEmpty) {
+        throw Exception("Could not fetch any currency");
+      }
+
+      Map<String, SupportedCurrency> rates = {};
+
+      // Note, there should not be duplicates
+      for (var res in responses2) {
+        if (res == null) continue;
+        rates.addAll(res.allValues);
+      }
+
+      int? lastUpdateTime = DateTime.now()
+          .toUtc()
+          .millisecondsSinceEpoch;
+      int? nextUpdateTime =
+          nextMidnightUtc().millisecondsSinceEpoch;
+
+      newState = state.copyWith(
+        rates: CurrencyRates(allValues: rates),
+        nextUpdateTime: nextUpdateTime.toString(),
+        lastUpdateTime: lastUpdateTime.toString(),
+        lastQuote: getPreviousExchangeValue(),
+      );
+
+      Utils.log("Dolar exchange api success");
+      _changeMainCurrency(rates.values.first);
+
+      // Utils.log(responses2);
+      return newState;
+
+      /* var responses = await Future.wait<Map<String, dynamic>?>([
         ExchangeRateApi.getPairConversion("USD"),
         ExchangeRateApi.getPairConversion("EUR"),
       ]);
 
-      Map<String, double> rates = {};
+      Map<String, double> newRates = {};
 
       for (var res in responses) {
         if (res == null) continue;
-        rates[res["base_code"]] = res["conversion_rate"]
+        newRates[res["base_code"]] = res["conversion_rate"]
             .toDouble();
       }
       Quotes? dolarApiPrices;
@@ -150,7 +246,7 @@ class CurrencyExchangeNotifier
       );
       Utils.log("Dolar exchange api success");
       _changeMainCurrency(Currencies.usd);
-      return newState;
+      return newState; */
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -217,16 +313,17 @@ class CurrencyExchangeNotifier
     return state;
   }
 
-  void _changeMainCurrency(String newCurrency) {
-    final mainCurrency = ref.read(mainCurrencyProvider);
-
+  Future<void> _changeMainCurrency(
+    SupportedCurrency newCurrency,
+  ) async {
+    return;
     final mainCurrencyNotifier = ref.read(
       mainCurrencyProvider.notifier,
     );
 
-    if (state.rates.getRate(mainCurrency) == 0) {
-      mainCurrencyNotifier.setMainCurrency(Currencies.usd);
-    }
+    // if (value != 0) {
+    mainCurrencyNotifier.setMainCurrency(newCurrency);
+    // }
   }
 
   Future<Quotes> fetchDolarApiPrices({
@@ -274,21 +371,28 @@ class CurrencyExchangeNotifier
       return null;
     }
 
-    var filtered = quotes
-        .where(
-          (q) =>
-              DateTime.parse(q.lastUpdateTime).isBefore(
-                DateTime.parse(quotes.last.lastUpdateTime),
-              ) &&
-              q.rates.getRate("USD") !=
-                  quotes.last.rates.getRate("USD"),
-        )
-        .toList();
-    filtered.sort(
-      (a, b) => DateTime.parse(
-        b.lastUpdateTime,
-      ).compareTo(DateTime.parse(a.lastUpdateTime)),
-    );
+    var filtered = quotes.where((q) {
+      var lastUpdateTime = DateTime.fromMicrosecondsSinceEpoch(
+        int.parse(q.lastUpdateTime),
+      );
+      var nextUpdateTime = DateTime.fromMicrosecondsSinceEpoch(
+        int.parse(q.nextUpdateTime),
+      );
+
+      return lastUpdateTime.isBefore(nextUpdateTime) &&
+          q.rates.getRate("USD") !=
+              quotes.last.rates.getRate("USD");
+    }).toList();
+    filtered.sort((a, b) {
+      var bLastUpdateTime = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(b.lastUpdateTime),
+      );
+      var aLastUpdateTime = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(a.nextUpdateTime),
+      );
+
+      return bLastUpdateTime.compareTo(aLastUpdateTime);
+    });
     if (filtered.isEmpty) {
       return null;
     }
@@ -308,4 +412,14 @@ class CurrencyExchangeNotifier
     );
     state = newState;
   }
+}
+
+DateTime nextMidnightUtc() {
+  final nowUtc = DateTime.now().toUtc();
+  // midnight for today in UTC, then +1 day -> next day's 00:00:00.000 UTC
+  return DateTime.utc(
+    nowUtc.year,
+    nowUtc.month,
+    nowUtc.day,
+  ).add(const Duration(days: 1));
 }

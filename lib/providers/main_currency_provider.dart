@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:doya/providers/currency_exchange_provider.dart';
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
+import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:doya/tokens/models/currencies.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
@@ -10,20 +14,18 @@ part 'main_currency_provider.g.dart';
 /// Use [Currencies] to compare the currency
 @Riverpod(keepAlive: true)
 class MainCurrencyNotifier extends _$MainCurrencyNotifier {
-  @override
-  String build() {
-    return getMainCurrency() ?? Currencies.usd;
-  }
+  final defaultCurrency = SupportedCurrency(
+    code: "USD",
+    name: "Dólar",
+    source: RateSource.exchangeRateApi,
+  );
 
-  void setMainCurrency(String currency) {
-    if (!Currencies.isCurrency(currency)) {
-      throw Exception("$currency Is not a valid currency");
-    }
+  @override
+  SupportedCurrency build() => getMainCurrency();
+
+  void setMainCurrency(SupportedCurrency currency) {
     state = currency;
     saveMainCurrency();
-    if (ref.read(currencyExchangeProvider) == currency) {
-      return;
-    }
     ref
         .read(currencyExchangeProvider.notifier)
         .updatePreviousExchangeValue();
@@ -32,13 +34,16 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
   Future<void> saveMainCurrency() async {
     return LocalStorage.setString(
       LocalStoragePaths.mainCurrency,
-      state,
+      jsonEncode(state.toJson()),
     );
   }
 
-  String? getMainCurrency() {
-    return LocalStorage.getString(
+  SupportedCurrency getMainCurrency() {
+    final savedValue = LocalStorage.getString(
       LocalStoragePaths.mainCurrency,
     );
+    return savedValue != null
+        ? jsonDecode(savedValue) as SupportedCurrency
+        : defaultCurrency;
   }
 }

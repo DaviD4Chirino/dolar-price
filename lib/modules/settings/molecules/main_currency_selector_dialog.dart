@@ -1,27 +1,29 @@
 import 'package:doya/providers/main_currency_provider.dart';
-import 'package:doya/tokens/models/currencies.dart';
+import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CurrencySelectorDialog extends ConsumerWidget {
-  const CurrencySelectorDialog({super.key});
+class MainCurrencySelectorDialog extends ConsumerWidget {
+  const MainCurrencySelectorDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final allCurrencies = DolarUtils.getSelectedCurrencies();
     final mainCurrencyNotifier = ref.read(
       mainCurrencyProvider.notifier,
     );
 
+    if (allCurrencies == null) {
+      return SimpleDialog(
+        title: Text("No hay monedas seleccionadas"),
+      );
+    }
+
     return SimpleDialog(
       title: Text("Seleccionar moneda principal"),
-      children: Currencies.allCurrencies.map((currency) {
+      children: allCurrencies.map((currency) {
         return ListTile(
-          title: Text(
-            Currencies.getCurrencyTitle(
-              currency,
-              // context: context,
-            ),
-          ),
+          title: Text(currency.name),
           onTap: () {
             mainCurrencyNotifier.setMainCurrency(currency);
             Navigator.of(context).pop();

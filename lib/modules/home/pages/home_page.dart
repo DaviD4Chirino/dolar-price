@@ -43,6 +43,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     final dolarPriceNotifier = ref.read(
       currencyExchangeProvider.notifier,
     );
+    /* final selectedCurrenciesNotifier = ref.read(
+      selectedCurrenciesProvider.notifier,
+    ); */
 
     Future fetchDolarPrice({
       bool forceUpdate = false,
@@ -105,6 +108,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     useEffect(() {
       Future.delayed(Duration(milliseconds: 100), () async {
         fetchDolarPrice();
+        // selectedCurrenciesNotifier.loadCurrencies();
+        // DolarUtils.getSupportedCurrencies();
 
         if (AppFlavor.isGithub && Platform.isAndroid) {
           Utils.log("Checking for updates");

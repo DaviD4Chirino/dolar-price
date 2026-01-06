@@ -2,6 +2,7 @@ import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
 import 'package:doya/modules/quick_calculator/atoms/currency_amount_input.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/main_currency_provider.dart';
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/models/quotes.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class _QuickCalculatorState
 
   Quotes get dolarPriceProvider =>
       ref.read(currencyExchangeProvider);
-  String get mainCurrency => ref.watch(mainCurrencyProvider);
+  SupportedCurrency get mainCurrency =>
+      ref.watch(mainCurrencyProvider);
 
   bool _isUpdating = false;
 
@@ -91,7 +93,7 @@ class _QuickCalculatorState
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<String>(mainCurrencyProvider, (prev, next) {
+    ref.listen(mainCurrencyProvider, (prev, next) {
       // When mainCurrency changes, update fields
       currencyTextController.text = "1";
       onCurrencyChanged("1");
@@ -102,7 +104,7 @@ class _QuickCalculatorState
       children: [
         Expanded(
           child: CurrencyAmountInput(
-            currencyCode: mainCurrency,
+            currencyCode: mainCurrency.code,
             controller: currencyTextController,
             onChanged: onCurrencyChanged,
           ),

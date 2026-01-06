@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
+import 'package:doya/modules/currencies_selection/atoms/currency_selection_button.dart';
 
 import 'package:doya/modules/settings/pages/atoms/check_for_updates_button.dart';
 // import 'package:doya/modules/settings/pages/atoms/language_switcher_atom.dart';
@@ -27,7 +28,7 @@ class SettingsPage extends StatelessWidget {
           AppSizing.xl.sizedBoxH,
           Divider(),
           ThemeModeSwitchAtom(),
-          // LanguageSwitcherAtom(),
+          CurrencySelectionButton(),
           MainCurrencySelector(),
           if (AppFlavor.isGithub && Platform.isAndroid)
             CheckForUpdatesButton(),

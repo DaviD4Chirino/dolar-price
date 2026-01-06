@@ -67,7 +67,7 @@ abstract class GithubUpdater {
         }
       } */
     }
-    Utils.log(downloadUrl);
+    // Utils.log(downloadUrl);
     if (downloadUrl == null) {
       Utils.log("Could not find apk for this device");
     }

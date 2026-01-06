@@ -41,6 +41,7 @@ dependencies:
   markdown: ^7.3.0
   flutter_html: ^3.0.0
   another_flushbar: ^1.12.32
+  searchable_listview: ^2.19.3
 
 dev_dependencies:
   flutter_test:
@@ -69,5 +70,7 @@ flutter:
     - assets/icons/logo/logo-title-with-slogan.png
     - assets/icons/logo/logo-title-with-slogan-dark.png
     - assets/icons/logo/logo-title.png
+
+    - assets/constants/supported_currencies.json
 
     - .env

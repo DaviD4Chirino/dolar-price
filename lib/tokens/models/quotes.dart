@@ -1,3 +1,4 @@
+import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/models/currency_rates.dart';
 
 class Quotes {
@@ -60,6 +61,14 @@ class Quotes {
         rub: json["rates"]["RUB"] ?? 0,
         usdParallel: json["rates"]["USD_PARALLEL"] ?? 0,
         btc: json["rates"]["BTC"] ?? 0,
+        allValues: json["rates"]["allValues"] != null
+            ? json["rates"]["allValues"].map(
+                (key, value) => MapEntry(
+                  key,
+                  SupportedCurrency.fromJson(value),
+                ),
+              )
+            : {},
       ),
       lastQuote = json["last_quote"] != null
           ? Quotes.fromJson(json["last_quote"])
@@ -70,6 +79,9 @@ class Quotes {
       "time_last_update": lastUpdateTime,
       "time_next_update": nextUpdateTime,
       "rates": rates.allRates,
+      "allValues": rates.allValues.map(
+        (key, value) => MapEntry(key, value.toJson()),
+      ),
       "last_quote": lastQuote?.toJson(),
     };
   }
