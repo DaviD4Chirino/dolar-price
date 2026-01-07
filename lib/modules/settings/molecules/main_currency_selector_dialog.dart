@@ -1,5 +1,6 @@
+import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/main_currency_provider.dart';
-import 'package:doya/tokens/utils/dolar/dolar_utils.dart';
+import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,26 +9,47 @@ class MainCurrencySelectorDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final allCurrencies = DolarUtils.getSelectedCurrencies();
+    final allCurrencies = ref.watch(selectedCurrenciesProvider);
     final mainCurrencyNotifier = ref.read(
       mainCurrencyProvider.notifier,
     );
+    final mainCurrency = ref.watch(mainCurrencyProvider);
 
-    if (allCurrencies == null) {
+    if (allCurrencies.isEmpty) {
       return SimpleDialog(
         title: Text("No hay monedas seleccionadas"),
       );
     }
 
+    final ThemeData theme = Theme.of(context);
+
     return SimpleDialog(
       title: Text("Seleccionar moneda principal"),
       children: allCurrencies.map((currency) {
         return ListTile(
-          title: Text(currency.name),
+          selected: currency.code == mainCurrency.code,
+          leading: Text(currency.symbol ?? ""),
+          title: Text("${currency.code} - ${currency.name}"),
           onTap: () {
-            mainCurrencyNotifier.setMainCurrency(currency);
+            final selected = ref
+                .read(currencyExchangeProvider)
+                .rates
+                .rates[currency.code];
+            if (selected == null) {
+              Navigator.of(context).pop();
+              return;
+            }
+            mainCurrencyNotifier.setMainCurrency(selected);
             Navigator.of(context).pop();
           },
+          titleTextStyle: TextStyle(
+            fontSize: theme.textTheme.bodyMedium?.fontSize,
+            color: theme.colorScheme.onSurface,
+          ),
+          leadingAndTrailingTextStyle: TextStyle(
+            fontSize: theme.textTheme.bodyLarge?.fontSize,
+            color: theme.colorScheme.onSurface,
+          ),
         );
       }).toList(),
 
