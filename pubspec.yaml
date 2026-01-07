@@ -43,6 +43,7 @@ dependencies:
   another_flushbar: ^1.12.32
   searchable_listview: ^2.19.3
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

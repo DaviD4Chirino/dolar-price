@@ -6,4 +6,6 @@ abstract class LocalStoragePaths {
       "supported-currencies";
   static const String supportedCurrenciesDate =
       "supported-currencies-date";
+
+  static const String previousVersion = "previous-version";
 }
