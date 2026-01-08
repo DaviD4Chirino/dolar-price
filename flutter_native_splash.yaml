@@ -5,9 +5,6 @@ flutter_native_splash:
   image_dark: assets/icons/logo/logo-branding-dark-512x512.png
 
   android_12:
-    image: assets/icons/logo/logo-256x256.png
-    color: "#FDFDFD"
-    icon_background_color: "#FDFDFD"
-    image_dark: assets/icons/logo/logo-256x256.png
-    color_dark: "#FDFDFD"
+    image: assets/icons/logo/logo-960x960.png
     icon_background_color_dark: "#FDFDFD"
+    branding: assets/icons/logo/logo-title-800x320.png
