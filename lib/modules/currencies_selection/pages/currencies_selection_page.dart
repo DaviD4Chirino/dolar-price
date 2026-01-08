@@ -66,6 +66,12 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
           maxAmount: maxAmount,
         ),
       ),
+      bottomNavigationBar: chosenCurrencies.value.isNotEmpty
+          ? SelectedCurrenciesChips(
+              selectedCurrencies: chosenCurrencies.value,
+              onDeleted: chosenCurrencies.value.remove,
+            )
+          : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ref
@@ -73,6 +79,7 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
               .setCurrencies(chosenCurrencies.value);
           Navigator.of(context).pop();
         },
+
         tooltip: 'Guardar divisas',
         child: const Icon(Icons.done_all_rounded),
       ),
@@ -92,32 +99,14 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
                   );
 
                 default:
-                  return Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: SearchList(
-                          searchController: searchController,
-                          supportedCurrencies:
-                              asyncSnapshot.data!,
-                          maxAmount: maxAmount.value,
-                          selectedAmount: selectedAmount.value,
-                          selectedCurrencies:
-                              chosenCurrencies.value,
-                          onCurrencySelected: onCurrencySelected,
-                          filter: currencyFilter,
-                        ),
-                      ),
-                      if (chosenCurrencies.value.isNotEmpty)
-                        SelectedCurrenciesChips(
-                          selectedCurrencies:
-                              chosenCurrencies.value,
-                          onDeleted:
-                              chosenCurrencies.value.remove,
-                        ),
-                    ],
+                  return SearchList(
+                    searchController: searchController,
+                    supportedCurrencies: asyncSnapshot.data!,
+                    maxAmount: maxAmount.value,
+                    selectedAmount: selectedAmount.value,
+                    selectedCurrencies: chosenCurrencies.value,
+                    onCurrencySelected: onCurrencySelected,
+                    filter: currencyFilter,
                   );
               }
 
