@@ -1,7 +1,6 @@
 # DOYA! Dólar para ya
 
-![logo](assets/icons/logo/logo-branding-dark-512x512.png)
-[![Build Status](https://travis-ci.org/dolar-price/dolar-price.svg?branch=master)](https://travis-ci.org/dolar-price/dolar-price)
+![logo](https://raw.githubusercontent.com/DaviD4Chirino/dolar-price/refs/heads/main/assets/icons/logo/logo-branding-dark-512x512.png)
 
 ## ¿Qué es DOYA?
 
@@ -9,7 +8,7 @@ DOYA es una aplicación venezolana para Android que te permite tener siempre a l
 
 Con DOYA puedes calcular fácilmente el valor de cualquier moneda en bolivares.
 
-|                        Modo oscuro                        |                  Modo claro                   |
-| :-------------------------------------------------------: | :-------------------------------------------: |
-| ![Screenshot 1 oscuro](docs/assets/screenshot-1-dark.png) | ![Screenshot 1](docs/assets/screenshot-2.png) |
-| ![Screenshot 2 oscuro](docs/assets/screenshot-2-dark.png) | ![Screenshot 2](docs/assets/screenshot-2.png) |
+|                                                              Modo oscuro                                                              |                                                        Modo claro                                                         |
+| :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------: |
+| ![Screenshot 1 oscuro](https://raw.githubusercontent.com/DaviD4Chirino/dolar-price/refs/heads/main/docs/assets/screenshot-1-dark.png) | ![Screenshot 1](https://raw.githubusercontent.com/DaviD4Chirino/dolar-price/refs/heads/main/docs/assets/screenshot-1.png) |
+| ![Screenshot 2 oscuro](https://raw.githubusercontent.com/DaviD4Chirino/dolar-price/refs/heads/main/docs/assets/screenshot-2-dark.png) | ![Screenshot 2](https://raw.githubusercontent.com/DaviD4Chirino/dolar-price/refs/heads/main/docs/assets/screenshot-1.png) |
