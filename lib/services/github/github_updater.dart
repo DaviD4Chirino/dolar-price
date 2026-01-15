@@ -30,57 +30,62 @@ abstract class GithubUpdater {
 
   /// This compares the local and remote versions and returns [UpdateData] if there is a new version,
   static Future<UpdateData?> compareVersionsAndroid() async {
-    final latestRelease = await getLatestRelease();
-    // final androidSupportedAbis = await getSupportedAbis();
+    try {
+      final latestRelease = await getLatestRelease();
+      // final androidSupportedAbis = await getSupportedAbis();
 
-    final packageInfo = await PackageInfo.fromPlatform();
-    final appVersion = Utils.versionStringToInt(
-      packageInfo.version,
-    );
-    final remoteVersion = Utils.versionStringToInt(
-      latestRelease["tag_name"] as String,
-    );
+      final packageInfo = await PackageInfo.fromPlatform();
+      final appVersion = Utils.versionStringToInt(
+        packageInfo.version,
+      );
+      final remoteVersion = Utils.versionStringToInt(
+        latestRelease["tag_name"] as String,
+      );
 
-    if (appVersion >= remoteVersion) {
-      Utils.log("Already up to date");
-      return null;
-    }
-
-    final assets = latestRelease["assets"] as List<dynamic>;
-
-    String? downloadUrl;
-
-    // outerLoop:
-    for (final asset in assets) {
-      final fileName = asset["name"] as String;
-      if (!fileName.endsWith(".apk")) continue;
-      //NOTE: The name schema is: {name}_{abi}_v{version}.apk
-      //So it would be doya_arm64_v1.0.0.apk
-      if (fileName.contains("universal")) {
-        downloadUrl = asset["browser_download_url"] as String;
+      if (appVersion >= remoteVersion) {
+        Utils.log("Already up to date");
+        return null;
       }
 
-      /* for (final abi in androidSupportedAbis) {
+      final assets = latestRelease["assets"] as List<dynamic>;
+
+      String? downloadUrl;
+
+      // outerLoop:
+      for (final asset in assets) {
+        final fileName = asset["name"] as String;
+        if (!fileName.endsWith(".apk")) continue;
+        //NOTE: The name schema is: {name}_{abi}_v{version}.apk
+        //So it would be doya_arm64_v1.0.0.apk
+        if (fileName.contains("universal")) {
+          downloadUrl = asset["browser_download_url"] as String;
+        }
+
+        /* for (final abi in androidSupportedAbis) {
         if (fileName.endsWith("$abi-release.apk")) {
           downloadUrl = asset["browser_download_url"] as String;
           break outerLoop;
         }
       } */
-    }
-    // Utils.log(downloadUrl);
-    if (downloadUrl == null) {
-      Utils.log("Could not find apk for this device");
-    }
+      }
+      // Utils.log(downloadUrl);
+      if (downloadUrl == null) {
+        Utils.log("Could not find apk for this device");
+      }
 
-    return UpdateData(
-      body: latestRelease["body"] as String,
-      pageUrl: latestRelease["html_url"] as String,
-      version: remoteVersion,
-      downloadUrl: downloadUrl ?? "",
-      releaseDateUnix: DateTime.parse(
-        latestRelease["published_at"] as String,
-      ).millisecondsSinceEpoch,
-    );
+      return UpdateData(
+        body: latestRelease["body"] as String,
+        pageUrl: latestRelease["html_url"] as String,
+        version: remoteVersion,
+        downloadUrl: downloadUrl ?? "",
+        releaseDateUnix: DateTime.parse(
+          latestRelease["published_at"] as String,
+        ).millisecondsSinceEpoch,
+      );
+    } catch (e) {
+      Utils.log(e);
+      return null;
+    }
   }
 
   static Future<Map<String, dynamic>> getLatestRelease() async {

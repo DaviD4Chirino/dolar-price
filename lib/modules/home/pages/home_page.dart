@@ -15,6 +15,7 @@ import 'package:doya/tokens/app/app_routes.dart';
 import 'package:doya/tokens/app/app_spacing.dart';
 import 'package:doya/tokens/atoms/app_logo.dart';
 import 'package:doya/tokens/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -128,6 +129,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: appBar(
         context,
         onRefresh: isLoading.value ? null : fetchDolarPrice,
+        onRefreshDebug: () => fetchDolarPrice(forceUpdate: true),
       ),
 
       body: context.breakpoint > LayoutBreakpoint.xs
@@ -147,6 +149,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   AppBar appBar(
     BuildContext context, {
     void Function()? onRefresh,
+    void Function()? onRefreshDebug,
   }) {
     return AppBar(
       actions: [
@@ -154,7 +157,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           screenshotController: screenshotController,
         ),
         IconButton(
-          onPressed: onRefresh,
+          onPressed: kDebugMode ? onRefreshDebug : onRefresh,
           tooltip: "Actualizar precios",
           icon: const Icon(Icons.refresh_rounded),
         ),

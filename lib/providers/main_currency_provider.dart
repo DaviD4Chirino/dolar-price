@@ -4,8 +4,10 @@ import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/services/exchange_rate/models/supported_currency.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
 import 'package:doya/tokens/models/currencies.dart';
+import 'package:doya/tokens/models/quotes.dart';
 import 'package:doya/tokens/utils/modules/local_storage/local_storage.dart';
 import 'package:doya/tokens/utils/modules/local_storage/models/local_storage_paths.dart';
+import 'package:doya/tokens/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'main_currency_provider.g.dart';
@@ -21,7 +23,11 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
   );
 
   @override
-  SupportedCurrency build() => getMainCurrency();
+  SupportedCurrency build() {
+    ref.listen(currencyExchangeProvider, updateMainCurrency);
+
+    return getMainCurrency();
+  }
 
   void setMainCurrency(SupportedCurrency currency) {
     state = currency;
@@ -46,5 +52,18 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
     return savedValue != null
         ? SupportedCurrency.fromJson(jsonDecode(savedValue))
         : defaultCurrency;
+  }
+
+  void updateMainCurrency(
+    Quotes? previousState,
+    Quotes currentState,
+  ) {
+    Utils.log("Listening for currency Exchange changes");
+    var updatedValue = currentState.rates.rates[state.code];
+
+    if (updatedValue == null) return;
+
+    Utils.log("Main currency updated");
+    state = updatedValue;
   }
 }

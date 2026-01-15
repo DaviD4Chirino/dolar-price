@@ -1,7 +1,6 @@
 // ignore_for_file: dead_code
 
 import 'package:doya/api/dolar_api.dart';
-import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/providers/selected_currencies_provider.dart';
 import 'package:doya/services/dolar_api/dolar_api_service.dart';
 import 'package:doya/services/exchange_rate/exchange_rate_service.dart';
@@ -32,21 +31,6 @@ class CurrencyExchangeNotifier
         );
   }
 
-  //2025-11-22 00:00:01.000Z
-  /*  Future<void> updateUsingDolarApi() async {
-    Utils.log("Updating with dolar api only");
-    final dolarApiPrices = await fetchDolarApiPrices();
-    Utils.log(dolarApiPrices.nextUpdateTime);
-    state = state.copyWith(
-      rates: state.rates.copyWith(
-        usd: dolarApiPrices.rates.usd,
-        usdParallel: dolarApiPrices.rates.usdParallel,
-        btc: dolarApiPrices.rates.btc,
-      ),
-      lastUpdateTime: dolarApiPrices.lastUpdateTime,
-    );
-  }
- */
   Future<void> fetchPrices({bool forceUpdate = false}) async {
     /// Check if the saved price exist and
     /// the next update time is after the current date,
@@ -66,14 +50,8 @@ class CurrencyExchangeNotifier
           state = await fetchNewPrices();
           await saveExchangeValue();
         }
-    }
 
-    // If the main currency is not set, set it to the first currency
-    if (ref.read(mainCurrencyProvider.notifier).state.rate <=
-        0) {
-      ref
-          .read(mainCurrencyProvider.notifier)
-          .setMainCurrency(state.rates.rates.values.first);
+      // _updateMainCurrency();
     }
   }
 
@@ -191,145 +169,18 @@ class CurrencyExchangeNotifier
       );
 
       Utils.log("Dolar exchange api success");
-      _changeMainCurrency(rates.values.first);
+      // _updateMainCurrency();
 
-      // Utils.log(responses2);
       return newState;
-
-      /* var responses = await Future.wait<Map<String, dynamic>?>([
-        ExchangeRateApi.getPairConversion("USD"),
-        ExchangeRateApi.getPairConversion("EUR"),
-      ]);
-
-      Map<String, double> newRates = {};
-
-      for (var res in responses) {
-        if (res == null) continue;
-        newRates[res["base_code"]] = res["conversion_rate"]
-            .toDouble();
-      }
-      Quotes? dolarApiPrices;
-
-      try {
-        dolarApiPrices = await fetchDolarApiPrices();
-      } catch (e) {
-        if (kDebugMode) {
-          print(e);
-          print('Dolar api failed, Using Dolar exchange api');
-        }
-      }
-
-      int? lastUpdateTime;
-      int? nextUpdateTime;
-
-      if (responses.isNotEmpty && responses.first != null) {
-        lastUpdateTime =
-            responses.first!["time_last_update_unix"];
-        nextUpdateTime =
-            responses.first!["time_next_update_unix"];
-      }
-
-      newState = state.copyWith(
-        rates: CurrencyRates(
-          usd: rates["USD"] ?? dolarApiPrices?.rates.usd ?? 0,
-          eur: rates["EUR"] ?? dolarApiPrices?.rates.eur ?? 0,
-          usdParallel: dolarApiPrices?.rates.usdParallel ?? 0,
-          btc: dolarApiPrices?.rates.btc ?? 0,
-        ),
-        nextUpdateTime: nextUpdateTime != null
-            ? DateTime.fromMillisecondsSinceEpoch(
-                nextUpdateTime * 1000,
-                isUtc: true,
-              ).toString()
-            : null,
-        lastUpdateTime: lastUpdateTime != null
-            ? DateTime.fromMillisecondsSinceEpoch(
-                lastUpdateTime * 1000,
-                isUtc: true,
-              ).toString()
-            : null,
-        lastQuote: getPreviousExchangeValue(),
-      );
-      Utils.log("Dolar exchange api success");
-      _changeMainCurrency(Currencies.usd);
-      return newState; */
     } catch (e) {
       if (kDebugMode) {
         print(e);
         print('Both api failed, throwing');
         throw Exception("Could not fetch dolar prices");
       }
-
-      /* try {
-        final dolarApiPrices = await fetchDolarApiPrices();
-        var prevQuotes = getPreviousExchangeValue();
-        state = state.copyWith(
-          rates: CurrencyRates(
-            usd: dolarApiPrices.rates.usd,
-            usdParallel: dolarApiPrices.rates.usdParallel,
-            btc: dolarApiPrices.rates.btc,
-            eur: prevQuotes?.rates.eur ?? 0,
-          ),
-        );
-      } catch (e) {
-        if (kDebugMode) {
-          print(e);
-          print('Dolar api failed, Throwing');
-        }
-        // if both fails, better to do nothing
-        throw Exception("Could not fetch dolar prices");
-      } */
     }
-    /* Utils.log("Dolar exchange api failed, trying dolar api");
-
-    final now = DateTime.now();
-
-    final lastUpdateTime = DateTime.timestamp().toString();
-
-    final nextUpdateTime = now
-        .add(Duration(hours: 1))
-        .toString();
-
-    state = state.copyWith(
-      lastUpdateTime: lastUpdateTime,
-      nextUpdateTime: nextUpdateTime,
-      lastQuote: getPreviousExchangeValue(),
-    );
-
-     */
-
-    // var allPrices = await DolarApi.getAllPrices();
-
-    // var result = state.copyWith(
-    //   rates: CurrencyRates(
-    //     usdParallel:
-    //         allPrices[Prices.parallel.index]["promedio"] ?? 0,
-    //     btc: allPrices[Prices.bitcoin.index]["promedio"] ?? 0,
-    //   ),
-
-    //   /// So we can compare the current value with the previous one
-    //   lastQuote: getPreviousExchangeValue(),
-
-    //   /// The api has its own time, but i decided to
-    //   /// use custom caching
-    //   lastUpdateTime: lastUpdateTime,
-    //   nextUpdateTime: nextUpdateTime,
-    // );
 
     return state;
-  }
-
-  Future<void> _changeMainCurrency(
-    SupportedCurrency newCurrency,
-  ) async {
-    return;
-    final mainCurrencyNotifier = ref.read(
-      mainCurrencyProvider.notifier,
-    );
-
-    // if (value != 0) {
-    mainCurrencyNotifier.setMainCurrency(newCurrency);
-    // }
   }
 
   Future<Quotes> fetchDolarApiPrices({
