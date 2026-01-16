@@ -30,6 +30,8 @@ class CurrencyAmountInput extends StatelessWidget {
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
         LeadingZeroInputFormatter(),
+
+        // TextCurrencyFormatter(),
       ],
       decoration: InputDecoration(
         label: Text(currencyCode),

@@ -65,5 +65,6 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
 
     Utils.log("Main currency updated");
     state = updatedValue;
+    saveMainCurrency();
   }
 }

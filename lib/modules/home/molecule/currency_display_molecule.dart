@@ -26,7 +26,7 @@ class CurrencyDisplayMolecule extends StatelessWidget {
       ),
       trailing: Text(
         currency.rate > 0.0
-            ? currency.rate.toStringAsFixed(3)
+            ? currency.rate.toStringAsFixed(2)
             : currency.rate.toStringAsFixed(0),
         style: theme.textTheme.bodyLarge,
       ),

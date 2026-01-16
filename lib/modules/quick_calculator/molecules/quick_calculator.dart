@@ -1,3 +1,4 @@
+import 'package:currency_textfield/currency_textfield.dart';
 import 'package:doya/extensions/double_extensions/sized_box_extension.dart';
 import 'package:doya/modules/quick_calculator/atoms/currency_amount_input.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
@@ -19,7 +20,11 @@ class QuickCalculator extends ConsumerStatefulWidget {
 class _QuickCalculatorState
     extends ConsumerState<QuickCalculator> {
   final currencyTextController = TextEditingController();
-  final bsTextController = TextEditingController();
+  final bsTextController = CurrencyTextFieldController(
+    thousandSymbol: ".",
+    decimalSymbol: ",",
+    removeSymbol: true,
+  );
 
   Quotes get dolarPriceProvider =>
       ref.read(currencyExchangeProvider);
@@ -39,8 +44,8 @@ class _QuickCalculatorState
     );
 
     // Update the other controller if needed
-    if (bsTextController.text != bsValue.toStringAsFixed(3)) {
-      bsTextController.text = bsValue.toStringAsFixed(3);
+    if (bsTextController.text != bsValue.toStringAsFixed(2)) {
+      bsTextController.text = bsValue.toStringAsFixed(2);
     }
 
     _isUpdating = false;
@@ -74,7 +79,11 @@ class _QuickCalculatorState
     if (_isUpdating) return;
     _isUpdating = true;
 
-    final bsAmount = double.tryParse(value) ?? 0;
+    final bsAmount =
+        double.tryParse(
+          value.replaceAll(".", "").replaceAll(",", "."),
+        ) ??
+        0;
     final currencyValue = dolarPriceProvider.rates.convertRate(
       mainCurrency,
       bsAmount,
@@ -83,9 +92,9 @@ class _QuickCalculatorState
 
     // Update the other controller if needed
     if (currencyTextController.text !=
-        currencyValue.toStringAsFixed(3)) {
+        currencyValue.toStringAsFixed(2)) {
       currencyTextController.text = currencyValue
-          .toStringAsFixed(3);
+          .toStringAsFixed(2);
     }
 
     _isUpdating = false;
