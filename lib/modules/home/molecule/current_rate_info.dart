@@ -1,9 +1,7 @@
 import 'package:dart_date/dart_date.dart';
-import 'package:doya/modules/home/atoms/currency_comparison.dart';
 import 'package:doya/providers/currency_exchange_provider.dart';
 import 'package:doya/providers/main_currency_provider.dart';
 import 'package:doya/tokens/extensions/string/capitalize.dart';
-import 'package:doya/tokens/models/currencies.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,13 +20,17 @@ class CurrentRateInfo extends ConsumerWidget {
 
     final nextUpdate = handleDate(quote.nextUpdateTime);
 
-    final currentRate = quote.rates.getRate(mainCurrency.code);
+    final currentRate = quote.rates.rates[mainCurrency.code];
+
+    if (currentRate == null) {
+      return Container();
+    }
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        if (quote.lastQuote != null &&
+        /*   if (quote.lastQuote != null &&
                 mainCurrency.code == Currencies.usd ||
             mainCurrency.code == Currencies.usdParallel)
           CurrencyComparison(
@@ -37,8 +39,8 @@ class CurrentRateInfo extends ConsumerWidget {
                   mainCurrency.code,
                 ) ??
                 0.0,
-            currentRate: currentRate,
-          ),
+            currentRate: currentRate.rate,
+          ), */
         /* Text(
           quote.lastQuote?.rates
                   .getRate(mainCurrency.code)
