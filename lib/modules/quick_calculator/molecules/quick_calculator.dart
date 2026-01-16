@@ -113,7 +113,8 @@ class _QuickCalculatorState
       children: [
         Expanded(
           child: CurrencyAmountInput(
-            currencyCode: mainCurrency.code,
+            currencyCode:
+                '${mainCurrency.symbol ?? ""} (${mainCurrency.code})',
             controller: currencyTextController,
             onChanged: onCurrencyChanged,
           ),
@@ -123,7 +124,7 @@ class _QuickCalculatorState
         AppSpacing.sm.sizedBoxW,
         Expanded(
           child: CurrencyAmountInput(
-            currencyCode: "VES",
+            currencyCode: "Bs.",
             controller: bsTextController,
             onChanged: onBsChanged,
           ),
