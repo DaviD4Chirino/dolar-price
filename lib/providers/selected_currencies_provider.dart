@@ -80,8 +80,8 @@ class SelectedCurrenciesNotifier
       final savedCurrencies = LocalStorage.getStringList(
         LocalStoragePaths.selectedCurrencies,
       );
-      if (savedCurrencies == null) {
-        Utils.log("No saved currencies");
+      if (savedCurrencies == null || savedCurrencies.isEmpty) {
+        Utils.log("No saved currencies or its empty");
         Utils.log("Using Default currencies");
 
         return defaultCurrencies;

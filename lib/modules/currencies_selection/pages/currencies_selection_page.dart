@@ -11,6 +11,7 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
   const CurrenciesSelectionPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeData theme = Theme.of(context);
     final selectedCurrencies = ref.watch(
       selectedCurrenciesProvider,
     );
@@ -47,6 +48,14 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
       selectedAmount.value = chosenCurrencies.value.length;
     }
 
+    void removeCurrency(SupportedCurrency currency) {
+      if (chosenCurrencies.value.contains(currency)) {
+        chosenCurrencies.value.remove(currency);
+        // selectedCurrenciesNotifier.removeCurrency(currency);
+      }
+      selectedAmount.value = chosenCurrencies.value.length;
+    }
+
     useEffect(() {
       selectedAmount.value = chosenCurrencies.value.length;
       return null;
@@ -64,22 +73,27 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
           onPressed: onClear,
           selectedAmount: selectedAmount,
           maxAmount: maxAmount,
+          theme: theme,
         ),
       ),
       bottomNavigationBar: chosenCurrencies.value.isNotEmpty
           ? SelectedCurrenciesChips(
               selectedCurrencies: chosenCurrencies.value,
-              onDeleted: chosenCurrencies.value.remove,
+              onDeleted: removeCurrency,
             )
           : null,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref
-              .read(selectedCurrenciesProvider.notifier)
-              .setCurrencies(chosenCurrencies.value);
-          Navigator.of(context).pop();
-        },
-
+        onPressed: selectedAmount.value <= 0
+            ? null
+            : () {
+                ref
+                    .read(selectedCurrenciesProvider.notifier)
+                    .setCurrencies(chosenCurrencies.value);
+                Navigator.of(context).pop();
+              },
+        backgroundColor: selectedAmount.value <= 0
+            ? theme.colorScheme.outline
+            : null,
         tooltip: 'Guardar divisas',
         child: const Icon(Icons.done_all_rounded),
       ),
@@ -127,13 +141,22 @@ class CurrenciesSelectionPage extends HookConsumerWidget {
     required ValueNotifier<int> selectedAmount,
     required ValueNotifier<int> maxAmount,
     required void Function()? onPressed,
+    required ThemeData theme,
   }) {
     return ListTile(
       title: Text("Seleccionar divisas"),
       subtitle: Text(
-        '${selectedAmount.value} de ${maxAmount.value} monedas seleccionadas',
+        selectedAmount.value > 0
+            ? '${selectedAmount.value} de ${maxAmount.value} monedas seleccionadas'
+            : 'Debes seleccionar al menos una moneda!',
       ),
       trailing: ClearButton(onPressed: onPressed),
+
+      subtitleTextStyle: TextStyle(
+        color: selectedAmount.value > 0
+            ? theme.colorScheme.onSurface
+            : theme.colorScheme.error,
+      ),
     );
   }
 
@@ -303,7 +326,8 @@ class CurrencyOption extends StatelessWidget {
     return ListTile(
       enabled: enabled,
       leading: Text(currency.symbol ?? ""),
-      title: Text("${currency.code} - ${currency.name}"),
+      title: Text(currency.name),
+      subtitle: Text(currency.code),
       onTap: enabled ? () => onTap(currency) : null,
       trailing: checkBox(),
       titleTextStyle: TextStyle(
@@ -312,7 +336,12 @@ class CurrencyOption extends StatelessWidget {
         // For some reason, the text is blanc on some devices
         color: theme.colorScheme.onSurface,
       ),
-
+      subtitleTextStyle: TextStyle(
+        decoration: enabled ? null : TextDecoration.lineThrough,
+        fontSize: theme.textTheme.bodySmall?.fontSize,
+        // For some reason, the text is blanc on some devices
+        color: theme.colorScheme.onSurface,
+      ),
       leadingAndTrailingTextStyle: TextStyle(
         decoration: enabled ? null : TextDecoration.lineThrough,
         fontSize: theme.textTheme.bodyLarge?.fontSize,
