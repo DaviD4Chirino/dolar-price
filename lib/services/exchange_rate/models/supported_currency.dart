@@ -1,7 +1,7 @@
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
-import 'package:doya/tokens/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:money2/money2.dart';
 
 part 'supported_currency.freezed.dart';
 part 'supported_currency.g.dart';
@@ -19,8 +19,8 @@ abstract class SupportedCurrency with _$SupportedCurrency {
     String? symbol,
   }) = _SupportedCurrency;
 
-  String formattedRate(double rate) {
-    return rate.toStringAsFixed(2);
+  String formattedRate() {
+    return Money.fromNum(rate, isoCode: "VES").format(r'0.00 S');
   }
 
   factory SupportedCurrency.fromExchangeRateApiList(
