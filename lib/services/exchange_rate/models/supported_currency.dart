@@ -19,8 +19,11 @@ abstract class SupportedCurrency with _$SupportedCurrency {
     String? symbol,
   }) = _SupportedCurrency;
 
-  String formattedRate() {
-    return Money.fromNum(rate, isoCode: "VES").format(r'0.00 S');
+  String formattedRate({bool withSymbol = true}) {
+    return Money.fromNum(
+      rate,
+      isoCode: "VES",
+    ).format(withSymbol ? r'0.00 S' : r'0.00');
   }
 
   factory SupportedCurrency.fromExchangeRateApiList(
