@@ -1,5 +1,6 @@
 import 'package:currency_code_to_currency_symbol/currency_code_to_currency_symbol.dart';
 import 'package:doya/tokens/constants/rate_source.dart';
+import 'package:doya/tokens/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'supported_currency.freezed.dart';
@@ -17,6 +18,10 @@ abstract class SupportedCurrency with _$SupportedCurrency {
     @Default(0) double rate,
     String? symbol,
   }) = _SupportedCurrency;
+
+  String formattedRate(double rate) {
+    return rate.toStringAsFixed(2);
+  }
 
   factory SupportedCurrency.fromExchangeRateApiList(
     List<dynamic> list,
