@@ -61,7 +61,8 @@ class MainCurrencyNotifier extends _$MainCurrencyNotifier {
     Utils.log("Listening for currency Exchange changes");
     var updatedValue = currentState.rates.rates[state.code];
 
-    if (updatedValue == null) return;
+    updatedValue ??=
+        currentState.rates.rates.entries.first.value;
 
     Utils.log("Main currency updated");
     state = updatedValue;
